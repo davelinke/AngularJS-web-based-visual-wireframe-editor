@@ -1,0 +1,50 @@
+<div id="toolOptions"></div>
+<div id="wrapper">
+	<div id="mainTools">
+		<div id="toolbox" x-toolbox="toolbar"></div>
+		<div id="colorPicker">
+			<div x-size="small" x-model="data.colorPickers.background" x-which="background-color" color-picker title="Set Fill Color" class="margin-bottom-sm"></div>
+			<div x-size="small" x-model="data.colorPickers.border" x-which="border-color" color-picker title="Set Border Color" class="margin-bottom-sm"></div>
+			<input type="text" class="input-xs w-full" ng-model="data.drawStyle['border-width']" title="Set Border Width" />
+		</div>
+	</div>
+	<div id="workarea" x-track-mouse-position x-track-mouse-events>
+		<div id="rulers" style="width:calc({{data.screen.width}} + 10px);height:calc({{data.screen.height}} + 10px)">
+			<div id="horizontalRuler"><div id="rulerHGuide" style="margin-left:{{data.screen.mouse.x}}px"></div></div>
+			<div id="verticalRuler"><div id="rulerVGuide" style="margin-top:{{data.screen.mouse.y}}px"></div></div>
+			<div id="screen" class="tr-sq">
+				<div id="guides" class="work-layer"></div>
+				<div id="canvas" class="work-layer"></div>
+				<div ng-class="{selected:child.selected}" id="screen_{{child.id}}" tree="child in data.tree.root.children at none" ng-style="child.style" ob-id="{{child.id}}" ob-type="{{child.type}}"></div>
+			</div>
+		</div>
+		<div id="actions" style="width:calc({{data.screen.width}} + 10px);" tool-actions></div>
+	</div>
+	<div id="sidebar" class="{{data.config.sidebarClass}}">
+		<!-- <div id="sidebarHamburger"><button class="btn btn-default btn-sm" x-ng-click="fn.toggleSidebar()"><i class="fa fa-bars"></i></button></div> -->
+		<div class="toolset">
+			<h3>Layers</h3>
+			<ul class="tree-list">
+				<li tree="child in data.tree.root.children at ul" ng-class="{minimized:child.minimized}">
+					<div ng-class="{selected:child.selected}" ng-click="tree.toggleSelected(child)" ng-dblclick="tree.properties(child)">
+						<button class="btn btn-link btn-xs toggle" ng-click="tree.toggleMinimized(child)" ng-switch on="child.minimized">
+							<span ng-switch-when="true">
+								<i class="fa fa-caret-right"></i>
+							</span>
+							<span ng-switch-default>
+								<i class="fa fa-caret-down"></i>
+							</span>
+						</button>
+						{{child.id | nicename}}
+					</div>
+					<ul ng-class="{pregnant:child.children.length}"></ul>
+				</li>
+			</ul>
+			<div class="text-right chrome-menu">
+				<button class="btn btn-xs btn-link" ng-click="tree.addChild(data.tree.root)" title="new layer"><i class="fa fa-file-o"></i></button>
+				<button class="btn btn-xs btn-link" ng-click="tree.removeSelected(data.tree.root)" title="Remove Selected Layer"><i class="fa fa-trash-o"></i></button>
+			</div>
+		</div>
+	</div>
+</div>
+<modal title="hi" visible="modal.showModal">{{modal.content}}</modal>

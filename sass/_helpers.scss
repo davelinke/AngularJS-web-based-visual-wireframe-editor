@@ -1,0 +1,107 @@
+.margin-no{
+	margin:0 !important;
+}
+.margin-bottom-sm{
+    margin-bottom: 0.5em !important;
+}
+.margin-left-no{
+	margin-left:0 !important;
+}
+.margin-right{
+	margin-right:1em !important;
+}
+.margin-right-no{
+	margin-right:0 !important;
+}
+.tr-sq{
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAAHdElNRQffCh8PKzLYjbDmAAAAHWlUWHRDb21tZW50AAAAAABDcmVhdGVkIHdpdGggR0lNUGQuZQcAAAA9SURBVDhPY/wPBAxEgDNnzkBZ+AETlKYaGDWQcjBqIOWA8fTp00TlFBMTEygLPxiNFMrBqIGUAyobyMAAAObqCoP0uRPJAAAAAElFTkSuQmCC);
+}
+.border-top-thin{
+	border-top:1px solid #ccc !important;
+}
+.border-bottom-thin{
+	border-bottom:1px solid #ccc !important;
+}
+.w-full{
+	width: 100%;
+}
+.w-half{
+	width:50%;
+}
+.w-one-quarter{
+	width:25%
+}
+.w-one-octave{
+	width:12.5%;
+}
+.w-one-sixteenth{
+	width:6.25%;
+}
+.w-50-px{
+	width:50px;
+}
+.w-75-px{
+	width:75px;
+}
+.w-100-px{
+	width:100px;
+}
+.rotate-90 {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+.mi{
+	font-family:'Material Icons';
+	font-feature-settings: "liga";
+	display: inline-block;
+    font-feature-settings: normal;
+    font-kerning: auto;
+    font-language-override: normal;
+    font-size: inherit;
+    font-size-adjust: none;
+    font-stretch: normal;
+    font-style: normal;
+    font-synthesis: weight style;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    text-rendering: auto;
+	&.select::before{
+		content:"crop_free";
+	}
+}
+.ci{
+	&.select{
+		border: 2px dotted #A6A6A6;
+		border-radius: 2px;
+		display: inline-block;
+		height: 10px;
+		width: 10px;
+	}
+}
+.input-group-xs{
+	> .form-control,
+	> .input-group-addon,
+	> .input-group-btn > .btn {
+		border-radius: 3px;
+		font-size: 10px;
+		height: 23px;
+		line-height: 1.5;
+		padding: 3px 10px;
+	}
+	.input-group-addon:first-child{
+		border-bottom-right-radius: 0;
+		border-top-right-radius: 0;
+	}
+}
+.input-xs {
+    border-radius: 3px;
+    border-width: 2px;
+    font-size: 11px;
+    height: 20px;
+    line-height: 1;
+    padding: 0 3px;
+}
