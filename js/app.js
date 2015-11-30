@@ -19,10 +19,6 @@ config(['$routeProvider', function ($routeProvider) {
 				templateUrl : "partials/main.html",
 				controller : "main"
 			}).
-			when("/drivers/:id", {
-				templateUrl : "partials/driver.html",
-				controller : "driverController"
-			}).
 			otherwise({
 				redirectTo : '/main'
 			});
