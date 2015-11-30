@@ -1,20 +1,13 @@
 /*
-* Pinocchio Editor
+* Web based visual wireframe editor
 * by David Linke Cesami
 * licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
-* For more information visit pinocchio.us
+* For more information visit davelinke.com/editor
 */
 
 angular.module('gui.controllers', []).
 controller('main', ['$scope','$compile',function ($scope, projectData, $compile) {
 	$scope.data = $.extend({},config);
-	//config = null;
-	/*
-	$scope.data = null;
-	projectData.getConfig().success(function (response) {
-		$scope.data = response;
-	});
-	*/
 	$scope.fn = {
 		toggleSidebar:function () {
 			if ($scope.data.config.sidebarClass === '') {
@@ -66,9 +59,6 @@ controller('main', ['$scope','$compile',function ($scope, projectData, $compile)
 					i = children.length;
 					while (i--) {
 						if (children[i].selected){
-							/*$scope.$apply(function () {
-								children[i].selected = false;
-							});*/
 							children[i].selected = false;
 							break;
 						}
@@ -85,7 +75,6 @@ controller('main', ['$scope','$compile',function ($scope, projectData, $compile)
 					for (var j=0;j<so.length; j++) {
 						var io = so[j];
 						if (io.type=="layer"){
-							//console.log(io);
 							couldBe = io;
 						}
 						if (io.selected===true){

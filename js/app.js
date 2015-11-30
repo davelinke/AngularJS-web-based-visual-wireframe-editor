@@ -1,8 +1,8 @@
 /*
-* Pinocchio Editor
+* Web based visual wireframe editor
 * by David Linke Cesami
 * licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
-* For more information visit pinocchio.us
+* For more information visit davelinke.com/editor
 */
 
 angular.module('gui', [

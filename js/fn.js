@@ -1,8 +1,8 @@
 /*
-* Pinocchio Editor
+* Web based visual wireframe editor
 * by David Linke Cesami
 * licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
-* For more information visit pinocchio.us
+* For more information visit davelinke.com/editor
 */
 $.pxNum = function(x){
 	if (x!==0) return parseInt(x.replace(/[^-\d\.]/g, ''));
