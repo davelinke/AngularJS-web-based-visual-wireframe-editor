@@ -3,9 +3,9 @@
 	<div id="mainTools">
 		<div id="toolbox" x-toolbox="toolbar"></div>
 		<div id="colorPicker">
-			<div x-size="small" x-model="data.colorPickers.background" x-which="background-color" color-picker title="Set Fill Color" class="margin-bottom-sm"></div>
-			<div x-size="small" x-model="data.colorPickers.border" x-which="border-color" color-picker title="Set Border Color" class="margin-bottom-sm"></div>
-			<input type="text" class="input-xs w-full" ng-model="data.drawStyle['border-width']" title="Set Border Width" />
+			<div x-size="small" x-model="data.stylePickers['background-color']" x-which="background-color" color-picker title="Set Fill Color" class="margin-bottom-sm"></div>
+			<div x-size="small" x-model="data.stylePickers['border-color']" x-which="border-color" color-picker title="Set Border Color" class="margin-bottom-sm"></div>
+			<input type="text" ng-model="data.stylePickers['border-width']" x-which="border-width" title="Set Border Width" class="input-xs w-full" drawstyle-selection-modifier x-key-increment />
 		</div>
 	</div>
 	<div id="workarea" x-track-mouse-position x-track-mouse-events>

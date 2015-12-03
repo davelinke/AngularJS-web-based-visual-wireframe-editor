@@ -1,8 +1,8 @@
 /*
-* Web based visual wireframe editor
+* Pinocchio Editor
 * by David Linke Cesami
 * licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
-* For more information visit davelinke.com/editor
+* For more information visit pinocchio.us
 */
 
 angular.module('gui', [
@@ -18,6 +18,10 @@ config(['$routeProvider', function ($routeProvider) {
 			when("/main", {
 				templateUrl : "partials/main.html",
 				controller : "main"
+			}).
+			when("/drivers/:id", {
+				templateUrl : "partials/driver.html",
+				controller : "driverController"
 			}).
 			otherwise({
 				redirectTo : '/main'

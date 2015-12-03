@@ -1,8 +1,8 @@
 /*
-* Web based visual wireframe editor
+* Pinocchio Editor
 * by David Linke Cesami
 * licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
-* For more information visit davelinke.com/editor
+* For more information visit pinocchio.us
 */
 
 (function () {
@@ -309,19 +309,33 @@ directive('colorPicker',['$compile','$parse',function($compile,$parse){
 			return function link(s, t, atts) {
 				var picker = $compile('<div class="tr-sq"><input type="text" class="swatch" style="background-color:'+$parse(atts.model)(s)+'" ng-model="'+atts.model+'" colorpicker="rgba"  colorpicker-position="value" colorpicker-position-value="0,40" colorpicker-parent colorpicker-with-input="true" /></div>')(s);
                 t.append(picker);
-                s.$watch(atts.model,function(a){
+                s.$watch('data.stylePickers["'+atts.which+'"]',function(a){
                     picker.children().css('background-color',a);
-                    //console.log(s.data.selection.active);
                     if(s.data.selection.active.type=="layer"){
                         s.data.drawStyle[atts.which] = a;
                     } else {
-                        console.log(s.data.selection);
                         s.data.selection.active.style[atts.which] = a;
                     }
                 });
 			};
 		}
 	};
+}]).
+directive('drawstyleSelectionModifier',['$compile','$parse',function($compile, $parse){
+    return {
+            compile: function(obj, attrs){
+                return function link(s,t,atts){
+                    var cssProp = atts.which;
+                    s.$watch('data.stylePickers["'+cssProp+'"]',function(a){
+                        if(s.data.selection.active.type=="layer"){
+                            s.data.drawStyle[cssProp] = a;
+                        } else {
+                            s.data.selection.active.style[cssProp] = a;
+                        }
+                    });
+                };
+            }
+    };
 }]).
 directive('listenKeystrokes',['$compile',function($compile){
     return function($scope,t,attrs){

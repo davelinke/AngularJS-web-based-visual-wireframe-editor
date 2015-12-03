@@ -1,10 +1,9 @@
 /*
-* Web based visual wireframe editor
+* Pinocchio Editor
 * by David Linke Cesami
 * licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
-* For more information visit davelinke.com/editor
+* For more information visit pinocchio.us
 */
-
 var config = {
 	templates:{
 		properties:'<strong>properties</strong>'
@@ -87,15 +86,17 @@ var config = {
 		'background-color':'#fff',
 		'border-color':'#000',
 		'border-style':'solid',
-		'border-width':'0',
+		'border-width':'1px',
 		bwPx:0
+	},
+	stylePickers:{
+		'background-color':'',
+		'border-color':'',
+		'border-width':'',
+		'border-style':''
 	},
 	snap:{
 		canvas:true,
 		element:true
-	},
-	colorPickers:{
-		background:'#fff',
-		border:'#000'
 	}
 };

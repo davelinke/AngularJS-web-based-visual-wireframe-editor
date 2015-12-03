@@ -1,13 +1,20 @@
 /*
-* Web based visual wireframe editor
+* Pinocchio Editor
 * by David Linke Cesami
 * licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
-* For more information visit davelinke.com/editor
+* For more information visit pinocchio.us
 */
 
 angular.module('gui.controllers', []).
 controller('main', ['$scope','$compile',function ($scope, projectData, $compile) {
 	$scope.data = $.extend({},config);
+	//config = null;
+	/*
+	$scope.data = null;
+	projectData.getConfig().success(function (response) {
+		$scope.data = response;
+	});
+	*/
 	$scope.fn = {
 		toggleSidebar:function () {
 			if ($scope.data.config.sidebarClass === '') {
@@ -59,6 +66,9 @@ controller('main', ['$scope','$compile',function ($scope, projectData, $compile)
 					i = children.length;
 					while (i--) {
 						if (children[i].selected){
+							/*$scope.$apply(function () {
+								children[i].selected = false;
+							});*/
 							children[i].selected = false;
 							break;
 						}
@@ -75,6 +85,7 @@ controller('main', ['$scope','$compile',function ($scope, projectData, $compile)
 					for (var j=0;j<so.length; j++) {
 						var io = so[j];
 						if (io.type=="layer"){
+							//console.log(io);
 							couldBe = io;
 						}
 						if (io.selected===true){
@@ -106,12 +117,9 @@ controller('main', ['$scope','$compile',function ($scope, projectData, $compile)
 				child.selected = true;
 				$scope.tree.logSelection(child);
 				// change swatches
-				if (child.type=="layer"){
-					$scope.data.colorPickers.background = $scope.data.drawStyle['background-color'];
-					$scope.data.colorPickers.border =  $scope.data.drawStyle['border-color'];
-				} else {
-					$scope.data.colorPickers.background = child.style['background-color'];
-					$scope.data.colorPickers.border =  child.style['border-color'];
+				var obtochange = (child.type=="layer"?$scope.data.drawStyle:child.style);
+				for (var key in $scope.data.stylePickers) {
+					$scope.data.stylePickers[key] = obtochange[key];
 				}
 			}
 		},
@@ -171,7 +179,7 @@ controller('main', ['$scope','$compile',function ($scope, projectData, $compile)
 					height:'0',
 					hPx:0,
 					overflow:'visible',
-					'border-width':'0',
+					'border-width':'0px',
 					bwPx:0
 				},
 				type:(child.type=='root'?'layer':'element')

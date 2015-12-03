@@ -1,8 +1,8 @@
 /*
-* Web based visual wireframe editor
+* Pinocchio Editor
 * by David Linke Cesami
 * licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
-* For more information visit davelinke.com/editor
+* For more information visit pinocchio.us
 */
 
 config.tree.root={
@@ -21,7 +21,7 @@ config.tree.root={
 			height:'0',
 			hPx:0,
 			overflow:'visible',
-			'border-width':'0',
+			'border-width':'0px',
 			bwPx:0
 		},
 		children : []

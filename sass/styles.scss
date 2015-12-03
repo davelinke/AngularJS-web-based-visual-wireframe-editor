@@ -226,16 +226,22 @@ html,body,#mainWrapper{
 					}
 				}
 				.selected{
-					border:1px solid #00ff00 !important;
+					border-color: #0000ff !important;
+					border-style: solid;
+					border-width: 1px;
 					/*div{
 						border:1px solid #00ff00 !important;
 					}*/
 				}
 				[ob-type="element"]:hover{
-					border:1px solid #0000FF !important;
+					border-color: #00ff00 !important;
+					border-style: solid;
+					border-width: 1px;
 				}
 				[ob-type="element"]:active{
-					border:1px solid #00ff00 !important;
+					border-color: #0000ff !important;
+					border-style: solid;
+					border-width: 1px;
 				}
 			}
 		}
