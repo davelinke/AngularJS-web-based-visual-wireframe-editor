@@ -9,7 +9,7 @@ angular.module('gui.services', [])
 	return {
 		getConfig:function () {
 			return $http({
-				method : 'JSONP',
+				method : 'JSON',
 				url : 'js/config.json?callback=JSON_CALLBACK'
 			});
 		}

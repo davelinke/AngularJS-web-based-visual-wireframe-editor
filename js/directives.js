@@ -5,11 +5,6 @@
 * For more information visit pinocchio.us
 */
 
-(function () {
-   'use strict';
-   // this function is strict...
-}());
-
 /* Directives */
 
 angular.

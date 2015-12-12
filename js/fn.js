@@ -80,5 +80,220 @@ config.fn = {
         ts[scope.data.tool].isActive = true;
         scope.data.toolActions.actions = ts[scope.data.tool].toolActions;
         $('#canvas').addClass(scope.data.tool);
-    }
+    },
+	tree:{
+		/*getJson:function (args) {
+			$scope.tree.json = angular.toJson($scope.data.tree.root);
+		},*/
+		removeSelected:function(obj,data){
+			data.fn.tree.remove(data.fn.tree.returnSelected(obj.children), data);
+		},
+		remove:function (child, data) {
+			function walk(target) {
+				var
+					children = target.children,
+					i
+				;
+				if (children) {
+					i = children.length;
+					while (i--) {
+						if (children[i] === child) {
+							return children.splice(i, 1);
+						} else {
+							walk(children[i]);
+						}
+					}
+				}
+			}
+			walk(data.tree.root);
+
+			// select something after deleting
+			data.fn.tree.toggleSelected({
+				child:(data.selection.prev?data.selection.prev:(data.selection.next?data.selection.next:(data.selection.parent?data.selection.parent:null))),
+				data:data
+			});
+
+		},
+		returnSelected:function(target){
+			var
+				checkSelected = function(so){
+					for (var j=0;j<so.length; j++) {
+						var io = so[j];
+						if (io.selected===true){
+							return io;
+						} else {
+							var c = checkSelected(io.children);
+							if ((io.children.length > 0) && (c)) return c;
+						}
+					}
+					return false;
+				}
+			;
+			return checkSelected(target);
+		},
+		addChild:function (child, data) {
+			//$scope.tree.unSelect();
+			child.children.push({
+				id : data.fn.tree.newLayerName({pre:null,data:data}),
+				children : [],
+				selected:false,
+				style:{
+					top:'0',
+					tPx:0,
+					left:'0',
+					lPx:0,
+					width:'0',
+					wPx:0,
+					height:'0',
+					hPx:0,
+					overflow:'visible',
+					'border-width':'0px',
+					bwPx:0
+				},
+				type:(child.type=='root'?'layer':'element')
+			});
+			data.fn.tree.toggleSelected({child:child.children[child.children.length-1],data:data});
+		},
+		selectParentLayer:function(where){
+			var
+				couldBe = null,
+				checkSelected = function(so){
+					for (var j=0;j<so.length; j++) {
+						var io = so[j];
+						if (io.type=="layer"){
+							//console.log(io);
+							couldBe = io;
+						}
+						if (io.selected===true){
+							return couldBe;
+						} else {
+							if (io.children.length > 0) {
+								if (checkSelected(io.children))  return couldBe;
+							}
+						}
+					}
+					return false;
+				}
+			;
+			return checkSelected(where);
+		},
+		searchElementById:function(id,where){
+			var
+				searchTree = function(so){
+					for (var j=0;j<so.length; j++) {
+						var io = so[j];
+						if (io.id===id){
+							return io;
+						} else {
+							var c = searchTree(io.children);
+							if ((io.children.length > 0) && (c)) return c;
+						}
+					}
+					return false;
+				}
+			;
+			return searchTree(where);
+		},
+		toggleSelected : function (args) {
+			var
+				child = args.child,
+				data = args.data
+			;
+			if(child){
+				data.fn.tree.unSelect(data);
+				child.selected = true;
+				data.fn.tree.logSelection({child:child, data:data});
+				// change swatches
+				console.log(child.type)
+				var obtochange = (child.type=="layer"?data.drawStyle:child.style);
+				for (var key in data.stylePickers) {
+					data.stylePickers[key] = obtochange[key];
+				}
+			}
+		},
+		logSelection: function(args){
+			var
+				child = args.child,
+				data = args.data,
+				couldBe = null,
+				checkSelected = function(so){
+					for (var j=0;j<so.length; j++) {
+						var io = so[j];
+						if (io.type=="layer"){
+							//console.log(io);
+							couldBe = io;
+						}
+						if (io.selected===true){
+							return {
+								active:child,
+								next:((j+1)<so.length?so[j+1]:null),
+								prev:((j-1)>-1?so[j-1]:null),
+								parent:null
+							};
+						} else {
+							if (io.children.length > 0) {
+								var subs = checkSelected(io.children);
+								if (subs){
+									subs.parent = couldBe;
+								}
+								return subs;
+							}
+						}
+					}
+					return false;
+				}
+			;
+			data.selection = checkSelected(data.tree.root.children);
+		},
+		unSelect:function(data){
+			function walk(target) {
+				var
+					children = target.children,
+					i
+				;
+				if (children) {
+					i = children.length;
+					while (i--) {
+						if (children[i].selected){
+							/*$scope.$apply(function () {
+								children[i].selected = false;
+							});*/
+							children[i].selected = false;
+							break;
+						}
+						walk(children[i]);
+					}
+				}
+			}
+			walk(data.tree.root);
+		},
+		toggleMinimized:function (child) {
+			child.minimized = !child.minimized;
+		},
+		newLayerName:function(args){
+			var
+				data = args.data,
+				pre = ((typeof(args.pre)=='undefined'|| !args.pre)?data.lang[data.lang.act].layer:args.pre),
+				i = 1,
+				finalname,
+				checkLayerName = function(name,so){
+					for (var j=0;j<so.length; j++) {
+						var io = so[j];
+						if (io.id==name){
+							return true;
+						} else {
+							if ((io.children.length > 0) && (checkLayerName(name,io.children))) return true;
+						}
+					}
+					return false;
+				}
+			;
+			//if (typeof(pre)=='undefined') pre = $scope.data.lang[$scope.data.lang.act].layer;
+			while (i) {
+				finalname = pre + '_' + i;
+				if (!checkLayerName(finalname,data.tree.root.children)) return finalname;
+				i++;
+			}
+		}
+	}
 };

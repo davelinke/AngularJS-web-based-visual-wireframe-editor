@@ -387,10 +387,10 @@ config.tools={
 				if(d.isDrawing){
 					// go draw the box
 					if ((d.config.areaStyle.wPx >0)&&(d.config.areaStyle.hPx >0)){
-						var selectedLayer = args.scope.tree.returnSelected(s.tree.root.children);
+						var selectedLayer = args.scope.data.fn.tree.returnSelected(s.tree.root.children);
 						if(!s.config.allowNestedElements){
-							selectedLayer = (selectedLayer.type=='layer'?selectedLayer:args.scope.tree.selectParentLayer(selectedLayer));
-							args.scope.tree.toggleSelected(selectedLayer);
+							selectedLayer = (selectedLayer.type=='layer'?selectedLayer:args.scope.data.fn.tree.selectParentLayer(args.scope.data.tree.root.children));
+							args.scope.data.fn.tree.toggleSelected({child:selectedLayer, data:args.scope.data});
 						}
 						var
 							//determine the position relative to the parent
@@ -401,7 +401,7 @@ config.tools={
 							nlOffset = $.calculateOffset(s,selectedLayer,d.config.areaStyle)
 						;
 						selectedLayer.children.push({
-							id:args.scope.tree.newLayerName(args.scope.data.lang[args.scope.data.lang.act].element),
+							id:s.fn.tree.newLayerName({pre:args.scope.data.lang[args.scope.data.lang.act].element,data:args.scope.data}),
 							type:'element',
 							children:[],
 							style:$.extend({
@@ -504,16 +504,16 @@ config.tools={
 				c = args.compile,
 				t = s.data.tools.selection
 			;
-			t.element = s.tree.searchElementById($(e.target).attr('ob-id'));
+			t.element = s.data.fn.tree.searchElementById($(e.target).attr('ob-id'), s.data.tree.root.children);
 			t.initPos = {
 				lPx:e.offsetX,
 				tPx:e.offsetY
 			};
 			if (!t.element) {
-				var selectedLayer = s.tree.selectParentLayer();
-				s.tree.toggleSelected(selectedLayer);
+				var selectedLayer = s.data.fn.tree.selectParentLayer(s.data.tree.root.children);
+				s.data.fn.tree.toggleSelected({child:selectedLayer,data:s.data});
 			} else {
-				s.tree.toggleSelected(t.element);
+				s.data.fn.tree.toggleSelected({child:t.element,data:s.data});
 			}
 	    },
 	    mouseup:function(args){
