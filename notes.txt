@@ -8,5 +8,3 @@
 // custom cursors
 
 // when starting the draw on top of the rulers, it breaks everything
-
-// fix the color picking in layers other than layer 1

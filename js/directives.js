@@ -302,9 +302,26 @@ directive('colorPicker',['$compile','$parse',function($compile,$parse){
     return {
 		compile: function (obj, attrs) {
 			return function link(s, t, atts) {
-				var picker = $compile('<div class="tr-sq"><input type="text" class="swatch" style="background-color:'+$parse(atts.model)(s)+'" ng-model="'+atts.model+'" colorpicker="rgba"  colorpicker-position="value" colorpicker-position-value="0,40" colorpicker-parent colorpicker-with-input="true" /></div>')(s);
+				//console.log(s);
+				if (typeof(s.data.stylePickers)=='undefined') s.stylePickers = {};
+				s.data.stylePickers[atts.which] = s.data.drawStyle[atts.which];
+				var setSwatch = function(){
+					var selection = s.data.selection.active;
+					if (selection.type == 'layer') {
+						s.data.stylePickers[atts.which] = s.data.drawStyle[atts.which];
+					} else {
+						s.data.stylePickers[atts.which] = selection.style[atts.which];
+					}
+				};
+				setSwatch();
+				var picker = $compile('<div class="tr-sq"><input type="text" class="swatch" style="background-color:'+s.data.stylePickers[atts.which]+'" ng-model="data.stylePickers[\''+atts.which+'\']" colorpicker="rgba"  colorpicker-position="value" colorpicker-position-value="0,40" colorpicker-parent colorpicker-with-input="true" /></div>')(s);
                 t.append(picker);
+				s.$watch('data.selection',function(a){
+					setSwatch();
+				});
+
                 s.$watch('data.stylePickers["'+atts.which+'"]',function(a){
+					//console.log('changed');
                     picker.children().css('background-color',a);
                     if(s.data.selection.active.type=="layer"){
                         s.data.drawStyle[atts.which] = a;
@@ -312,6 +329,7 @@ directive('colorPicker',['$compile','$parse',function($compile,$parse){
                         s.data.selection.active.style[atts.which] = a;
                     }
                 });
+
 			};
 		}
 	};
@@ -321,6 +339,7 @@ directive('drawstyleSelectionModifier',['$compile','$parse',function($compile, $
             compile: function(obj, attrs){
                 return function link(s,t,atts){
                     var cssProp = atts.which;
+					/*
                     s.$watch('data.stylePickers["'+cssProp+'"]',function(a){
                         if(s.data.selection.active.type=="layer"){
                             s.data.drawStyle[cssProp] = a;
@@ -328,6 +347,7 @@ directive('drawstyleSelectionModifier',['$compile','$parse',function($compile, $
                             s.data.selection.active.style[cssProp] = a;
                         }
                     });
+					*/
                 };
             }
     };

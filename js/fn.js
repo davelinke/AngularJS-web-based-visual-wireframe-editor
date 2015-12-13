@@ -203,12 +203,6 @@ config.fn = {
 				data.fn.tree.unSelect(data);
 				child.selected = true;
 				data.fn.tree.logSelection({child:child, data:data});
-				// change swatches
-				console.log(child.type)
-				var obtochange = (child.type=="layer"?data.drawStyle:child.style);
-				for (var key in data.stylePickers) {
-					data.stylePickers[key] = obtochange[key];
-				}
 			}
 		},
 		logSelection: function(args){
@@ -220,23 +214,21 @@ config.fn = {
 					for (var j=0;j<so.length; j++) {
 						var io = so[j];
 						if (io.type=="layer"){
-							//console.log(io);
 							couldBe = io;
 						}
 						if (io.selected===true){
 							return {
-								active:child,
+								active:io,
 								next:((j+1)<so.length?so[j+1]:null),
 								prev:((j-1)>-1?so[j-1]:null),
-								parent:null
+								parent:(io.type=="layer"?null:couldBe)
 							};
 						} else {
 							if (io.children.length > 0) {
 								var subs = checkSelected(io.children);
 								if (subs){
-									subs.parent = couldBe;
+									return subs;
 								}
-								return subs;
 							}
 						}
 					}
