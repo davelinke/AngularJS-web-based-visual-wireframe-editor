@@ -5,7 +5,7 @@
 		<div id="colorPicker">
 			<div x-size="small" x-which="background-color" color-picker title="Set Fill Color" class="margin-bottom-sm"></div>
 			<div x-size="small" x-which="border-color" color-picker title="Set Border Color" class="margin-bottom-sm"></div>
-			<input type="text" ng-model="data.stylePickers['border-width']" x-which="border-width" title="Set Border Width" class="input-xs w-full" drawstyle-selection-modifier x-key-increment />
+			<div x-which="border-width" ng-model="data.stylePickers['border-width']" input-type="text" input-class="input-xs w-full" title="Set Border Width" class="input-xs w-full" drawstyle-selection-modifier></div>
 		</div>
 	</div>
 	<div id="workarea" x-track-mouse-position x-track-mouse-events>

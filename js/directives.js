@@ -298,7 +298,7 @@ directive('tree', function () {
 		}
 	};
 }).
-directive('colorPicker',['$compile','$parse',function($compile,$parse){
+directive('colorPicker',['$compile',function($compile){
     return {
 		compile: function (obj, attrs) {
 			return function link(s, t, atts) {
@@ -334,23 +334,75 @@ directive('colorPicker',['$compile','$parse',function($compile,$parse){
 		}
 	};
 }]).
-directive('drawstyleSelectionModifier',['$compile','$parse',function($compile, $parse){
+/*directive('drawstyleSelectionModifier',['$compile',function($compile){
     return {
             compile: function(obj, attrs){
                 return function link(s,t,atts){
-                    var cssProp = atts.which;
-					/*
-                    s.$watch('data.stylePickers["'+cssProp+'"]',function(a){
-                        if(s.data.selection.active.type=="layer"){
-                            s.data.drawStyle[cssProp] = a;
-                        } else {
-                            s.data.selection.active.style[cssProp] = a;
-                        }
-                    });
-					*/
+					if (typeof(s.data.stylePickers)=='undefined') s.stylePickers = {};
+					s.data.stylePickers[atts.which] = s.data.drawStyle[atts.which];
+					var setStyle = function(){
+						var selection = s.data.selection.active;
+						if (selection.type == 'layer') {
+							s.data.stylePickers[atts.which] = s.data.drawStyle[atts.which];
+						} else {
+							s.data.stylePickers[atts.which] = selection.style[atts.which];
+						}
+					};
+					setStyle();
+					console.log(atts);
+					var picker = $compile('<input type="'+atts.inputType+'" class="'+atts.inputClass+'" ng-model="data.stylePickers[\''+atts.which+'\']" x-key-increment />')(s);
+	                t.append(picker);
+					s.$watch('data.selection',function(a){
+						setStyle();
+					});
+					s.$watch('data.stylePickers["'+atts.which+'"]',function(a){
+	                    if(s.data.selection.active.type=="layer"){
+	                        s.data.drawStyle[atts.which] = a;
+	                    } else {
+	                        s.data.selection.active.style[atts.which] = a;
+	                    }
+	                });
                 };
             }
     };
+}]).*/
+directive('drawstyleSelectionModifier', ['$compile',function ($compile) {
+	return {
+		scope:{
+			inputType : "@inputType",
+			inputClass : "@inputClass",
+			which: "@which",
+			theModel: "=ngModel"
+		},
+		template:'<input type="{{inputType}}" class="{{inputClass}}" ng-model="theModel" x-key-increment />',
+		link : function (scope,t,atts) {
+			s = scope.$parent;
+			if (typeof(s.data.stylePickers)=='undefined') s.data.stylePickers = {};
+			s.data.stylePickers[atts.which] = s.data.drawStyle[atts.which];
+			var setStyle = function(){
+				var selection = s.data.selection.active;
+				if (selection.type == 'layer') {
+					s.data.stylePickers[atts.which] = s.data.drawStyle[atts.which];
+				} else {
+					s.data.stylePickers[atts.which] = selection.style[atts.which];
+				}
+			};
+			setStyle();
+			//console.log(atts);
+			//var picker = $compile('<input type="'+atts.inputType+'" class="'+atts.inputClass+'" ng-model="data.stylePickers[\''+atts.which+'\']" x-key-increment />')(s);
+			//t.append(picker);
+			s.$watch('data.selection',function(a){
+				setStyle();
+			});
+			s.$watch('data.stylePickers["'+atts.which+'"]',function(a){
+				if(s.data.selection.active.type=="layer"){
+					s.data.drawStyle[atts.which] = a;
+				} else {
+					s.data.selection.active.style[atts.which] = a;
+				}
+			});
+		}
+	};
 }]).
 directive('listenKeystrokes',['$compile',function($compile){
     return function($scope,t,attrs){
