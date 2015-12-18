@@ -56,21 +56,6 @@ var config = {
 	},
 	tool:'drawBox',
 	toolPrev:null,
-	toolActions:{
-		output:'hola ke ase',
-		actions:[
-			{
-				name:'hello',
-				iconClass:'fa fa-hand-spock-o',
-				fn:function(){console.log('hello');}
-			},
-			{
-				name:'goodbye',
-				iconClass:'fa fa-hand-peace-o',
-				fn:function(){console.log('goodbye');}
-			}
-		]
-	},
 	config:{
 		sidebarClass:'',
 		allowNestedElements:false

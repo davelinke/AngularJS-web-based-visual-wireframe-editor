@@ -78,7 +78,6 @@ config.fn = {
         scope.data.tool = attrs.setTool;
         ts[scope.data.tool].init($compile, scope);
         ts[scope.data.tool].isActive = true;
-        scope.data.toolActions.actions = ts[scope.data.tool].toolActions;
         $('#canvas').addClass(scope.data.tool);
     },
 	tree:{

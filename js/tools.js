@@ -45,22 +45,6 @@ config.tools={
 		launcher:'toolbar',
 		label:'Draw Area',
 		iconClass:'ci select',
-		toolActions:[
-			{
-				name:'convert to div',
-				iconClass:'fa fa-square',
-				fn:function(){
-					console.log('convert to div');
-				}
-			},
-			{
-				name:'convert to hotspot',
-				iconClass:'fa fa-link',
-				fn:function(){
-					console.log('convert to hotspot');
-				}
-			}
-		],
 		isMoving:false,
 		optionsTemplate:''+
 			'<div id="drawAreaOptions" class="options-panel form-inline">'+
@@ -266,7 +250,6 @@ config.tools={
 		launcher:'toolbar',
 		label:'Draw Box',
 		iconClass:'fa fa-square-o',
-		toolActions:[],
 		isMoving:false,
 		isDrawing:false,
 		optionsTemplate:''+
@@ -469,7 +452,6 @@ config.tools={
 	    launcher:'toolbar',
 	    label:'Select Element',
 	    iconClass:'fa fa-mouse-pointer',
-	    toolActions:[],
 		optionsTemplate:''+
 		    '<div id="selectionOptions" class="options-panel form-inline">'+
 		    '<div class="form-group"><label for="selectionTop">Top</label>'+
