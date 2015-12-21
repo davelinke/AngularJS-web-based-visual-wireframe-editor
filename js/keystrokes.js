@@ -32,5 +32,14 @@ config.keystrokes = {
             a.s.data.toolPrev = null;
             a.s.data.fn.initTool(a.s, {setTool:backto}, a.c);
         }
+    },
+    '46':{
+        'keydown':function(a){
+            if (a.s.data.selection.active.typeNum==2){
+                a.s.data.fn.tree.remove(a.s.data.selection.active,a.s.data);
+                a.s.$digest();
+            }
+        },
+        'keyup':function(a){}
     }
 };

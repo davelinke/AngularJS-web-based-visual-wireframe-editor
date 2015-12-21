@@ -4,53 +4,48 @@
 * licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
 * For more information visit pinocchio.us
 */
-$.pxNum = function(x){
-	if (x!==0) return parseInt(x.replace(/[^-\d\.]/g, ''));
-	return 0;
-};
-$.calculateOffset = function(s,pl,nl){
-	// create an array where you will shove in all the parents to iterate after
-	var oa = [];
-	var walk = function(o,level){
-		for (var i=0;i<o.length;i++){
-			var so = o[i];
-			if (so===pl) {
-				//this is the object, sum the ofset
-				oa[level] = so;
-				return true;
-			}
-			if (so.children.length){
-				oa[level] = so;
-				walk(so.children,level + 1);
-			}
-		}
-		return false;
-	};
-	walk(s.tree.root.children, 0);
-	var ol = 0, ot = 0;
-	for (i=0;i<oa.length;i++){
-		//ol += $.pxNum(oa[i].style.left) + $.pxNum(oa[i].style['border-width']);
-        ol += oa[i].style.lPx + oa[i].style.bwPx;
-		//ot += $.pxNum(oa[i].style.top) + $.pxNum(oa[i].style['border-width']);
-        ot += oa[i].style.tPx + oa[i].style.bwPx;
-	}
-	//console.log(oa);
-	//var nll = $.pxNum(nl.left);
-	//var nlt = $.pxNum(nl.top);
-    var
-        nll = nl.lPx,
-        nlt = nl.tPx,
-        lVal = (nll-ol),
-        tVal = (nlt-ot)
-    ;
-	return {
-		left: lVal + 'px',
-        lPx: lVal,
-		top: tVal + 'px',
-        tPx: tVal
-	};
-};
 config.fn = {
+	calculateOffset:function(s,pl,nl){
+		// create an array where you will shove in all the parents to iterate after
+		var oa = [];
+		var walk = function(o,level){
+			for (var i=0;i<o.length;i++){
+				var so = o[i];
+				if (so===pl) {
+					//this is the object, sum the ofset
+					oa[level] = so;
+					return true;
+				}
+				if (so.children.length){
+					oa[level] = so;
+					walk(so.children,level + 1);
+				}
+			}
+			return false;
+		};
+		walk(s.tree.root.children, 0);
+		var ol = 0, ot = 0;
+		for (i=0;i<oa.length;i++){
+	        ol += oa[i].style.lPx + oa[i].style.bwPx;
+	        ot += oa[i].style.tPx + oa[i].style.bwPx;
+		}
+	    var
+	        nll = nl.lPx,
+	        nlt = nl.tPx,
+	        lVal = (nll-ol),
+	        tVal = (nlt-ot)
+	    ;
+		return {
+			left: lVal + 'px',
+	        lPx: lVal,
+			top: tVal + 'px',
+	        tPx: tVal
+		};
+	},
+	pxNum : function(x){
+		if (x!==0) return parseInt(x.replace(/[^-\d\.]/g, ''));
+		return 0;
+	},
     fireModal:function(scope,$compile){
         var
             body = $('body'),
@@ -80,14 +75,22 @@ config.fn = {
         ts[scope.data.tool].isActive = true;
         $('#canvas').addClass(scope.data.tool);
     },
+	varHider:function(value){
+		console.log(value);
+		value = false;
+	},
 	tree:{
-		/*getJson:function (args) {
-			$scope.tree.json = angular.toJson($scope.data.tree.root);
-		},*/
+		reset : function(data){
+			data.tree.root = angular.merge({},data.baseObject);
+		},
+		set:function(data,value){
+			data = angular.merge({},value);
+		},
 		removeSelected:function(obj,data){
 			data.fn.tree.remove(data.fn.tree.returnSelected(obj.children), data);
 		},
 		remove:function (child, data) {
+			// set the undo here
 			function walk(target) {
 				var
 					children = target.children,
@@ -132,6 +135,7 @@ config.fn = {
 		},
 		addChild:function (child, data) {
 			//$scope.tree.unSelect();
+			// set an undo here
 			child.children.push({
 				id : data.fn.tree.newLayerName({pre:null,data:data}),
 				children : [],
@@ -149,7 +153,8 @@ config.fn = {
 					'border-width':'0px',
 					bwPx:0
 				},
-				type:(child.type=='root'?'layer':'element')
+				type:(child.type=='root'?'layer':'element'),
+				typeNum:(child.typeNum===0?1:2)
 			});
 			data.fn.tree.toggleSelected({child:child.children[child.children.length-1],data:data});
 		},
@@ -285,6 +290,68 @@ config.fn = {
 				if (!checkLayerName(finalname,data.tree.root.children)) return finalname;
 				i++;
 			}
+		}
+	},
+	storage:{
+		getEverything:function(){
+			return window.localStorage;
+		},
+		filterData:function(data,type){
+			var returnArray = [];
+			for (var key in data){
+				if (key.indexOf('pinocchio_'+type+'__')===0){
+					returnArray.push(angular.fromJson(data[key]));
+				}
+			}
+			return returnArray;
+		},
+		getDocuments:function(){
+			return config.fn.storage.filterData(config.fn.storage.getEverything(),'document');
+		},
+		getDocumentNames:function(){
+			var documents = config.fn.storage.getDocuments();
+			var returnArray = [];
+			for (var i = 0; i< documents.length;i++){
+				returnArray.push({
+					id:documents[i].tree.root.id,
+					name:documents[i].tree.root.name
+				});
+			}
+			return returnArray;
+		},
+		checkName:function(name){
+			var documents = config.fn.storage.getDocuments();
+			console.log(documents);
+			for (var i = 0; i< documents.length;i++){
+				if(documents[i].tree.root.name==name) return true;
+			}
+			return false;
+		},
+		sanitizeName:function(string){
+			return string.toLowerCase().replace(/\s/g, "_");
+		},
+		saveDocument:function(scope){
+			config.fn.storage.storeDocument(scope);
+		},
+		storeDocument:function(scope){
+			var docName = scope.data.tree.root.name;
+			var storeObject = {
+				screen:angular.merge({},scope.data.screen),
+				tree:angular.merge({},scope.data.tree)
+			};
+			var obJson = angular.toJson(storeObject);
+			config.fn.storage.store('document',obJson, config.fn.storage.sanitizeName(docName));
+		},
+		retrieveDocument:function(id){
+			console.log(id);
+			return localStorage[id];
+		},
+		getDocumentObjectById:function(id){
+			console.log(id);
+			return angular.fromJson(config.fn.storage.retrieveDocument('pinocchio_'+id));
+		},
+		store:function(type,data,name){
+			localStorage.setItem('pinocchio_'+type+'__'+name, data);
 		}
 	}
 };

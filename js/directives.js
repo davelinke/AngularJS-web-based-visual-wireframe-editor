@@ -185,8 +185,19 @@ directive('tree', function () {
 							grandchildren
 						;
 
-
-
+						// we define this function outside the loop for lint to pass
+						var lf = function (clone, childScope) {
+							childScope[childExpr] = child;
+							cached = {
+								scope : childScope,
+								parentScope : parentScope,
+								element : clone[0],
+								branch : branchExpr=='none'?clone[0]:clone.find(branchExpr)[0]
+							};
+							// This had to happen during transclusion so inherited
+							// controllers, among other things, work properly
+							parentNode.insertBefore(cached.element, cursor);
+						};
 						// Iterate the children at the current level
 						for (; i < n; ++i) {
 
@@ -213,22 +224,7 @@ directive('tree', function () {
 							// We also cache a reference to its branch node which will
 							// be used as the parentNode in the next level of recursion
 							if (!cached) {
-								transclude(parentScope.$new(), function (clone, childScope) {
-
-									childScope[childExpr] = child;
-
-									cached = {
-										scope : childScope,
-										parentScope : parentScope,
-										element : clone[0],
-										branch : branchExpr=='none'?clone[0]:clone.find(branchExpr)[0]
-									};
-
-									// This had to happen during transclusion so inherited
-									// controllers, among other things, work properly
-									parentNode.insertBefore(cached.element, cursor);
-
-								});
+								transclude(parentScope.$new(), lf);
 							} else if (cached.element !== cursor) {
 								parentNode.insertBefore(cached.element, cursor);
 							}
@@ -286,7 +282,7 @@ directive('colorPicker',['$compile',function($compile){
 		scope:{
 			which:'@which'
 		},
-		template:'<div class="tr-sq"><input type="text" class="swatch" style="background-color:{{$parent.data.stylePickers[which]}}" ng-model="$parent.data.stylePickers[which]" colorpicker="rgba"  colorpicker-position="value" colorpicker-position-value="0,40" colorpicker-parent colorpicker-with-input="true" /></div>',
+		template:'<div class="tr-sq"><input type="text" class="swatch" style="background-color:{{$parent.data.stylePickers[which]}}" ng-model="$parent.data.stylePickers[which]" colorpicker="rgba"  colorpicker-position="value" colorpicker-position-value="-100,40" colorpicker-parent colorpicker-with-input="true" /></div>',
 		link: function (scope,t, atts) {
 			var s = scope.$parent;
 			if (typeof(s.data.stylePickers)=='undefined') s.stylePickers = {};
@@ -358,4 +354,13 @@ directive('listenKeystrokes',['$compile',function($compile){
             });
         });
     };
+}]).
+directive('flyoutMenu',[function(){
+	return {
+		restrict:'A',
+		scope:{
+			menu:'=flyoutMenu'
+		},
+		template:'<span ng-class="menu.iconClass" ng-attr-title="menu.label" ng-click="menu.visible = !menu.visible"></span><div class="flyout" ng-show="menu.visible"><button ng-repeat="action in menu.actions" ng-click="action.fn($parent)" ng-disabled="action.disabled">{{action.label}}</button></div>'
+	};
 }]);

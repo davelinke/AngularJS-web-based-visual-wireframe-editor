@@ -21,9 +21,6 @@ config.tools={
 				console.log('hor mu');
 				var s = a.scope.data;
 				s.tools.addGuide.isActive = false;
-
-				var elementToFill = s.tree.getSelectedElement(s.tree.root.children);
-
 			}
 		},
 		vertical:{
@@ -42,7 +39,7 @@ config.tools={
 		id:'drawArea',
 		isDefault:false,
 		isActive:false,
-		launcher:'toolbar',
+		launcher:'none',
 		label:'Draw Area',
 		iconClass:'ci select',
 		isMoving:false,
@@ -254,7 +251,6 @@ config.tools={
 		isDrawing:false,
 		optionsTemplate:''+
 			'<div id="drawBoxOptions" class="options-panel form-inline">'+
-			'<div class="separator-v margin-right"></div>'+
 			'<div class="form-group"><label for="canvasOverflow">Canvas overflow</label>'+
 			'<input  type="checkbox" class="margin-no" ng-model="data.screen.overflow" /></div>'+
 			'</div>',
@@ -326,7 +322,6 @@ config.tools={
 					var o = canvas.offset();
 					var x = e.pageX - o.left;
 					var y = e.pageY - o.top;
-					console.log(x);
 					var dw = s.screen.wPx;
 					var dh = s.screen.hPx;
 					var xVal = (s.screen.overflow?x:(x>0?x:0));
@@ -375,17 +370,19 @@ config.tools={
 							selectedLayer = (selectedLayer.type=='layer'?selectedLayer:args.scope.data.fn.tree.selectParentLayer(args.scope.data.tree.root.children));
 							args.scope.data.fn.tree.toggleSelected({child:selectedLayer, data:args.scope.data});
 						}
+						console.log(d);
 						var
 							//determine the position relative to the parent
 							plTop = selectedLayer.style.tPx; //$.pxNum(selectedLayer.style.top),
 							plLeft = selectedLayer.style.lPx; //$.pxNum(selectedLayer.style.left),
 							nlTop = d.config.areaStyle.tPx; //$.pxNum(d.config.areaStyle.top),
 							nlLeft = d.config.areaStyle.lPx; //$.pxNum(d.config.areaStyle.left),
-							nlOffset = $.calculateOffset(s,selectedLayer,d.config.areaStyle)
+							nlOffset = s.fn.calculateOffset(s,selectedLayer,d.config.areaStyle) //$.calculateOffset(s,selectedLayer,d.config.areaStyle)
 						;
 						selectedLayer.children.push({
 							id:s.fn.tree.newLayerName({pre:args.scope.data.lang[args.scope.data.lang.act].element,data:args.scope.data}),
 							type:'element',
+							typeNum:2,
 							children:[],
 							style:$.extend({
 								position:'absolute',
@@ -513,7 +510,7 @@ config.tools={
 	    mousemove:function(e,scope){
 			var s = scope.data;
 			var c = s.tools.selection.element;
-			if ((c) && (c.type=="element") && (e.buttons==1)){
+			if ((c) && (c.typeNum==2) && (e.buttons==1)){
 				var
 					leftPx = c.style.lPx,
 					topPx = c.style.tPx,

@@ -14,13 +14,13 @@ angular.module('gui', [
 	'colorpicker.module'
 ]).
 config(['$routeProvider', function ($routeProvider) {
-			$routeProvider.
-			when("/main", {
-				templateUrl : "partials/main.html",
-				controller : "main"
-			}).
-			otherwise({
-				redirectTo : '/main'
-			});
-		}
-	]);
+	$routeProvider.
+		when("/main", {
+			templateUrl : "partials/main.html",
+			controller : "main"
+		}).
+		otherwise({
+			redirectTo : '/main'
+		})
+	;
+}]);

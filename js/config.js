@@ -5,6 +5,32 @@
 * For more information visit pinocchio.us
 */
 var config = {
+	baseObject:{
+		id:'document__new_document',
+		name: 'New Document',
+		children : [{
+			id : 'layer_1',
+			type: 'layer',
+			typeNum:1, // 0 for the root level, 1 for layers and 2 for elments;
+			selected:false,
+			style:{
+				top:'0',
+				tPx:0,
+				left:'0',
+				lPx:0,
+				width:'0',
+				wPx:0,
+				height:'0',
+				hPx:0,
+				overflow:'visible',
+				'border-width':'0px',
+				bwPx:0
+			},
+			children : []
+		}],
+		type:'root',
+		typeNum:0
+	},
 	templates:{
 		properties:'<strong>properties</strong>'
 	},
@@ -15,26 +41,7 @@ var config = {
 		left:0,
 		top:0
 	},
-	tree:{
-		json:'',
-		getSelectedElement:function(to){
-			var selected = null;
-			var traverse = function(o){
-				for (var i = 0; i<o.length; i++){
-					if (o[i].selected) {
-						selected = o;
-						break;
-					} else {
-						if (o[i].children.length > 0){
-							traverse(o[i]);
-						}
-					}
-				}
-				return selected;
-			};
-			return traverse(to);
-		}
-	},
+	tree:{},
 	selection:{
 		active:null,
 		previous:null,
@@ -64,7 +71,27 @@ var config = {
 		act:'en',
 		en:{
 			layer:'layer',
-			element:'element'
+			element:'element',
+			welcome:'Welcome',
+			createNewDocument:'New Document',
+			name:'Name',
+			width:'Width',
+			height:'Height',
+			create:'Create',
+			layers:'Layers',
+			setFillColor:'Set Fill Color',
+			setBorderColor:'Set Border Color',
+			setBorderWidth:'Set Border Width',
+			new:'New',
+			save:'Save',
+			createNewFileAndLoseChanges:'Create new file and loose changes?',
+			openNewFileAndLoseChanges:'Open new file and loose changes?',
+			saveAs:'Save As...',
+			saveDocumentAs:'Save Document As',
+			doYouWantToOverwrite:'Do you want to overwrite',
+			cancel:'Cancel',
+			openDocument:'Open Document',
+			open:'Open'
 		}
 	},
 	drawStyle : {
@@ -83,5 +110,10 @@ var config = {
 	snap:{
 		canvas:true,
 		element:true
+	},
+	flags:{
+		storage:{
+			canSave:false
+		}
 	}
 };

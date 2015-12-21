@@ -1,3 +1,4 @@
+/*variables*/
 /*mixins*/
 /*imports*/
 .colorpicker-visible,
@@ -171,7 +172,6 @@ colorpicker-preview {
   clear: both;
   background-position: 0 100%; }
 
-/*variables*/
 /*helpers*/
 .margin-no {
   margin: 0 !important; }
@@ -281,6 +281,9 @@ html, body, #mainWrapper {
   font-size: 10px;
   color: #828282; }
 
+.misc {
+  font-size: 1.6em; }
+
 .btn:focus {
   outline: 0 !important; }
 
@@ -299,26 +302,28 @@ html, body, #mainWrapper {
     min-width: 100px;
     min-height: 100px; }
 
-#toolOptions {
+#upperHeader {
   background-color: #434343;
   border-bottom: 1px solid #343434;
   border-top: 1px solid #575757;
   height: 35px;
+  display: flex;
   padding: 0.5em; }
-  #toolOptions .form-group {
-    margin-right: 1em; }
-    #toolOptions .form-group label {
-      margin-right: 0.5em; }
-    #toolOptions .form-group input[type="text"] {
-      background-color: #3d3d3d;
-      border-color: #323232;
-      border-radius: 2px;
-      color: #a3a3a3;
-      font-size: 1.1em;
-      height: 23px;
-      line-height: 1.1em;
-      padding: 0 0.3em;
-      width: 50px; }
+
+#toolOptions .form-group {
+  margin-right: 1em; }
+  #toolOptions .form-group label {
+    margin-right: 0.5em; }
+  #toolOptions .form-group input[type="text"] {
+    background-color: #3d3d3d;
+    border-color: #323232;
+    border-radius: 2px;
+    color: #a3a3a3;
+    font-size: 1.1em;
+    height: 23px;
+    line-height: 1.1em;
+    padding: 0 0.3em;
+    width: 50px; }
 
 #wrapper {
   display: flex;
@@ -333,7 +338,8 @@ html, body, #mainWrapper {
     width: 40px;
     margin: 0.1em;
     display: flex;
-    flex-direction: column; }
+    flex-direction: column;
+    align-content: stretch; }
     #wrapper #mainTools > div {
       margin: 0 0.3em;
       padding: 0.3em 0;
@@ -349,7 +355,8 @@ html, body, #mainWrapper {
     #wrapper #mainTools #toolbox {
       align-items: flex-start;
       display: flex;
-      flex-direction: column; }
+      flex-direction: column;
+      flex-grow: 1; }
       #wrapper #mainTools #toolbox > button {
         align-self: center;
         background-color: transparent;
@@ -509,6 +516,51 @@ html, body, #mainWrapper {
   height: 100%;
   min-height: 25px;
   vertical-align: middle; }
+
+/*flyout menu*/
+.flyout-menu {
+  width: 36px;
+  padding: 0.3em 0.8em; }
+  .flyout-menu .fa-bars {
+    font-size: 1.7em;
+    line-height: 1em;
+    cursor: pointer; }
+  .flyout-menu .flyout {
+    position: absolute;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    min-width: 200px;
+    z-index: 1; }
+    .flyout-menu .flyout button {
+      border: none;
+      display: block;
+      font-size: 1.2em;
+      text-align: left;
+      width: 100%;
+      padding: 0.5em;
+      background-color: #434343; }
+      .flyout-menu .flyout button:hover {
+        background: linear-gradient(to bottom, #373737 0%, #323232 100%); }
+      .flyout-menu .flyout button[disabled="disabled"], .flyout-menu .flyout button[disabled="disabled"]:hover {
+        background-color: #333;
+        color: #555; }
+
+/*save as*/
+.document-names {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-height: 200px;
+  overflow-y: auto; }
+  .document-names button {
+    border: none;
+    display: block;
+    font-size: 1.2em;
+    text-align: left;
+    width: 100%;
+    padding: 0.5em;
+    background: transparent; }
+    .document-names button:hover {
+      background: #7777FF;
+      color: #fff; }
 
 /*treecontrol*/
 .tree-list {
