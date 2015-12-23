@@ -60,25 +60,30 @@ controller('main', ['$scope','data','$compile',function ($scope, data, $compile)
 		$scope.data.tree.root.name = name;
 	};
 	$scope.documents.saveAs = function(){
+		console.log('saving as');
 		var checkName = function(name){
 			for (var i=0;i<$scope.documents.length;i++){
 				if (name==$scope.documents[i].name) return true;
 			}
 			return false;
 		};
-		$scope.data.tree.root.id = 'document__' + $scope.data.fn.storage.sanitizeName($scope.data.tree.root.name);
-		if(!checkName($scope.data.tree.root.name)){
+		var newName = $('#saveAsName').val();
+		$scope.data.tree.root.name = newName;
+		$scope.data.tree.root.id = 'document__' + $scope.data.fn.storage.sanitizeName(newName);
+		if(!checkName(newName)){
 			$scope.data.fn.storage.storeDocument($scope);
-			$('#saveDocumentAsModal').modal('hide');
 			$scope.data.menus.main.actions.save.disabled=false;
 			$scope.documents = $scope.data.fn.storage.getDocumentNames();
 		} else {
-			if(confirm($scope.data.lang[$scope.data.lang.act].doYouWantToOverwrite + ' "' + $scope.data.tree.root.name + '"?')){
+			if(confirm($scope.data.lang[$scope.data.lang.act].doYouWantToOverwrite + ' "' + newName + '"?')){
 				$scope.data.fn.storage.storeDocument($scope);
-				$('#saveDocumentAsModal').modal('hide');
 				$scope.data.menus.main.actions.save.disabled=false;
 			}
 		}
+		console.log($scope.saveDocumentAsForm);
+		$scope.saveDocumentAsForm.$setPristine();
+		$scope.saveDocumentAsForm.$setUntouched();
+		$('#saveDocumentAsModal').modal('hide');
 	};
 	$scope.documents.open=function(){
 		var docId = $scope.documents.documentToOpen;

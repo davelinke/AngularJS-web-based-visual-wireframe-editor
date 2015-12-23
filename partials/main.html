@@ -54,7 +54,7 @@
 <div id="newDocumentModal" class="modal fade" tabindex="-1" role="dialog">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form action="javascript:;" ng-submit="createNew()">
+			<form name="newDocumentForm" novalidate ng-submit="createNew()">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title">{{data.lang[data.lang.act].createNewDocument}}</h4>
@@ -87,14 +87,14 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title">{{data.lang[data.lang.act].saveDocumentAs}}</h4>
 			</div>
-			<form action="javascript:;" ng-submit="documents.saveAs()">
+			<form name="saveDocumentAsForm" novalidate ng-submit="saveDocumentAsForm.$valid && documents.saveAs()">
 				<div class="modal-body">
 					<div class="document-names">
 						<button type="button" ng-repeat="document in documents" ng-click="documents.setDocumentName(document.name)">{{document.name}}</button>
 					</div>
 					<div class="form-group">
 						<label for="docName">{{data.lang[data.lang.act].name}}:</label>
-						<input class="form-control" type="text" ng-model="data.tree.root.name" />
+						<input class="form-control" id="saveAsName" type="text" ng-value="data.tree.root.name" />
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -112,7 +112,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title">{{data.lang[data.lang.act].openDocument}}</h4>
 			</div>
-			<form action="javascript:;" ng-submit="documents.open()">
+			<form name="openDocumentForm" novalidate ng-submit="documents.open()">
 				<div class="modal-body">
 					<div class="document-names">
 						<button type="button" ng-repeat="document in documents" ng-click="documents.documentToOpen = document.id">{{document.name}}</button>

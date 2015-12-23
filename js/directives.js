@@ -345,8 +345,9 @@ directive('drawstyleSelectionModifier', ['$compile',function ($compile) {
 }]).
 directive('listenKeystrokes',['$compile',function($compile){
     return function($scope,t,attrs){
-        $(window).on('keydown keyup',function(e){
+        $(window).on('keydown.listenKeystrokes keyup.listenKeystrokes',function(e){
             console.log(e);
+            //e.preventDefault();
             if((typeof($scope.data.keystrokes[e.keyCode])!='undefined')&&(typeof($scope.data.keystrokes[e.keyCode][e.type])!='undefined')) $scope.data.keystrokes[e.keyCode][e.type]({
                 e:e,
                 s:$scope,
