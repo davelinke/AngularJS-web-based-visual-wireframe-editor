@@ -10,24 +10,29 @@
 angular.
 module('gui.directives', ['gui.filters']).
 directive('keyIncrement', [function () {
-	return function (scope, t, attrs) {
-		t.on('keydown', function (e) {
-			var key = e.keyCode;
-			var increment = function (num) {
-				var val = t.val();
-				var numVal = parseInt(val.replace(/[^-\d\.]/g, ''));
-				var nuVal = numVal + num;
-				var unit = val.replace(numVal, '');
-				t.val(nuVal + (unit===''?'px':unit)).triggerHandler('input');
-			};
-			if (key == 40) {
-				// abajo;
-				increment(-1);
-			} else if (key == 38) {
-				// arriba
-				increment(+1);
-			}
-		});
+	return {
+		scope:{
+			model:'=ngModel',
+			unitlessValue:'=unitlessValue',
+		},
+		link:function(scope,t,attrs){
+			t.on('keydown', function (e) {
+				if(scope.model){
+					var
+						key = e.keyCode,
+						nuVal
+					;
+					if (key == 40) { // down;
+						nuVal = scope.$parent.data.fn.cssIncrement(scope.model,-1);
+					} else if (key == 38) { // up
+						nuVal = scope.$parent.data.fn.cssIncrement(scope.model,1);
+					}
+					scope.model = nuVal.val;
+					scope.unitlessValue = nuVal.unitLess;
+					scope.$apply();
+				}
+			});
+		}
 	};
 }]).
 directive('toolbox',['launcherFilter',function(launcher){

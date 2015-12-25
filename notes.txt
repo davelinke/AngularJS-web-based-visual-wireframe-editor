@@ -8,5 +8,3 @@
 // custom cursors
 
 // when starting the draw on top of the rulers, it breaks everything
-
-// create separation between numeric styles and their units

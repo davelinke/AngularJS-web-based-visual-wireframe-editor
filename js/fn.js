@@ -43,8 +43,18 @@ config.fn = {
 		};
 	},
 	pxNum : function(x){
+		console.log(x);
 		if (x!==0) return parseInt(x.replace(/[^-\d\.]/g, ''));
 		return 0;
+	},
+	cssIncrement:function(val,add){
+		var numVal = parseInt(val.replace(/[^-\d\.]/g, ''));
+		var nuVal = numVal + add;
+		var unit = val.replace(numVal, '');
+		return {
+			val:nuVal + (unit===''?'px':unit),
+			unitLess:nuVal
+		};
 	},
     fireModal:function(scope,$compile){
         var
