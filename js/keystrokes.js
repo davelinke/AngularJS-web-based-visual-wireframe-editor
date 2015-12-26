@@ -8,14 +8,33 @@
 config.keystrokes = {
     '65':{ //a letter
         'keydown':function(a){
-            a.s.data.fn.initTool(a.s, {setTool:'selection'}, a.c);
+            if(a.e.ctrlKey){
+                a.e.preventDefault();
+                console.log('select all');
+                // add the select all function if ctrl key is pressed
+            } else {
+                a.s.data.fn.initTool(a.s, {setTool:'selection'}, a.c);
+            }
+        },
+        'keyup':function(a){
+        }
+    },
+    '86':{ // v letter
+        'keydown':function(a){
+            if(a.e.ctrlKey){
+                a.e.preventDefault();
+                console.log('paste');
+                // add the paste function if ctrl is pressed
+            } else {
+                a.s.data.fn.initTool(a.s, {setTool:'selection'}, a.c);
+            }
         },
         'keyup':function(a){
         }
     },
     '77':{ //m letter
         'keydown':function(a){
-            a.s.data.fn.initTool(a.s, {setTool:'drawBox'}, a.c);
+            //a.s.data.fn.initTool(a.s, {setTool:'drawBox'}, a.c);
         },
         'keyup':function(a){
         }
@@ -35,57 +54,42 @@ config.keystrokes = {
     },
     '46':{ //delete key
         'keydown':function(a){
-            a.e.preventDefault();
-            if (a.s.data.selection.active.typeNum==2){
-                a.s.data.fn.tree.remove(a.s.data.selection.active,a.s.data);
-                a.s.$digest();
+            console.log('delete');
+            if($("input:focus,textarea:focus").length===0){
+                a.e.preventDefault();
+                if (a.s.data.selection.active.typeNum==2){
+                    a.s.data.fn.tree.remove(a.s.data.selection.active,a.s.data);
+                    a.s.$digest();
+                }
             }
         },
         'keyup':function(a){
-            a.e.preventDefault();
+            if($("input:focus,textarea:focus").length===0){
+                a.e.preventDefault();
+            }
         }
     },
     '38':{ // up arrow
     		'keydown':function(a){
-                if ((a.s.data.selection.active.typeNum==2)&&($("[x-key-increment]:focus").length===0)){
-                    var nuTop = a.s.data.fn.cssIncrement(a.s.data.selection.active.style.top,-1);
-                    a.s.data.selection.active.style.top = nuTop.val;
-                    a.s.data.selection.active.style.tPx = nuTop.unitLess;
-                    a.s.$apply();
-                }
+                a.s.data.fn.modifiers.modifyElementAreaWithKeystroke(a.s,'top',-1);
             },
     		'keyup':function(a){}
     },
     '40':{ // down arrow
     		'keydown':function(a){
-                if ((a.s.data.selection.active.typeNum==2)&&($("[x-key-increment]:focus").length===0)){
-                    var nuTop = a.s.data.fn.cssIncrement(a.s.data.selection.active.style.top,1);
-                    a.s.data.selection.active.style.top = nuTop.val;
-                    a.s.data.selection.active.style.tPx = nuTop.unitLess;
-                    a.s.$apply();
-                }
+                a.s.data.fn.modifiers.modifyElementAreaWithKeystroke(a.s,'top',1);
             },
     		'keyup':function(a){}
     },
     '37':{ // left arrow
     		'keydown':function(a){
-                if ((a.s.data.selection.active.typeNum==2)&&($("[x-key-increment]:focus").length===0)){
-                    var nuTop = a.s.data.fn.cssIncrement(a.s.data.selection.active.style.left,-1);
-                    a.s.data.selection.active.style.left = nuTop.val;
-                    a.s.data.selection.active.style.lPx = nuTop.unitLess;
-                    a.s.$apply();
-                }
+                a.s.data.fn.modifiers.modifyElementAreaWithKeystroke(a.s,'left',-1);
             },
     		'keyup':function(a){}
     },
     '39':{ // right arrow
     		'keydown':function(a){
-                if ((a.s.data.selection.active.typeNum==2)&&($("[x-key-increment]:focus").length===0)){
-                    var nuTop = a.s.data.fn.cssIncrement(a.s.data.selection.active.style.left,1);
-                    a.s.data.selection.active.style.left = nuTop.val;
-                    a.s.data.selection.active.style.lPx = nuTop.unitLess;
-                    a.s.$apply();
-                }
+                a.s.data.fn.modifiers.modifyElementAreaWithKeystroke(a.s,'left',1);
             },
     		'keyup':function(a){}
     }

@@ -43,18 +43,57 @@ config.fn = {
 		};
 	},
 	pxNum : function(x){
-		console.log(x);
 		if (x!==0) return parseInt(x.replace(/[^-\d\.]/g, ''));
 		return 0;
 	},
-	cssIncrement:function(val,add){
-		var numVal = parseInt(val.replace(/[^-\d\.]/g, ''));
-		var nuVal = numVal + add;
-		var unit = val.replace(numVal, '');
-		return {
-			val:nuVal + (unit===''?'px':unit),
-			unitLess:nuVal
-		};
+	modifiers:{
+		modifyElementAreaWithKeystroke:function(scope,attribute,value){
+			if ((scope.data.selection.active.typeNum==2)&&($("[area-key-increment]:focus").length===0)){
+				scope.data.fn.modifiers.modifyElementArea(scope,attribute,value);
+			}
+		},
+		modifyElementArea:function(scope,attribute,value){
+			var
+				canvasOverflow = scope.data.screen.overflow,
+				nuVal = scope.data.fn.modifiers.cssIncrement(scope.data.selection.active.style[attribute],value)
+			;
+			if(!canvasOverflow){
+				switch (attribute) {
+					case 'top':
+						var maxTop = scope.data.screen.hPx-scope.data.selection.active.style.hPx;
+						if(nuVal.unitLess < 0) nuVal = {val:'0px',unitLess:0};
+						if(nuVal.unitLess > maxTop) nuVal = {val:maxTop+'px',unitLess:maxTop};
+						break;
+					case 'left':
+						var maxLeft = scope.data.screen.wPx-scope.data.selection.active.style.wPx;
+						if(nuVal.unitLess < 0)  nuVal = {val:'0px',unitLess:0};
+						if(nuVal.unitLess > maxLeft) nuVal = {val:maxLeft+'px',unitLess:maxLeft};
+						break;
+					case 'height':
+						var maxheight = scope.data.screen.hPx-scope.data.selection.active.style.tPx;
+						if(nuVal.unitLess > maxheight) nuVal = {val:maxheight+'px',unitLess:maxheight};
+						break;
+					case 'width':
+						var maxwidth = scope.data.screen.wPx-scope.data.selection.active.style.lPx;
+						if(nuVal.unitLess > maxwidth) nuVal = {val:maxwidth+'px',unitLess:maxwidth};
+						break;
+					default:
+						//nazzin
+				}
+			}
+			scope.data.selection.active.style[attribute] = nuVal.val;
+			if (typeof(scope.data.selection.active.style[attribute.substr(0,1)+'Px'])!='undefined') scope.data.selection.active.style[attribute.substr(0,1)+'Px'] = nuVal.unitLess;
+			scope.$apply();
+		},
+		cssIncrement:function(val,add){
+			var numVal = parseInt(val.replace(/[^-\d\.]/g, ''));
+			var nuVal = numVal + add;
+			var unit = val.replace(numVal, '');
+			return {
+				val:nuVal + (unit===''?'px':unit),
+				unitLess:nuVal
+			};
+		}
 	},
     fireModal:function(scope,$compile){
         var

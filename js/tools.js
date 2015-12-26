@@ -452,13 +452,13 @@ config.tools={
 		optionsTemplate:''+
 		    '<div id="selectionOptions" class="options-panel form-inline">'+
 		    '<div class="form-group"><label for="selectionTop">Top</label>'+
-		    '<input class="form-control" type="text" id="selectionTop" ng-model="data.tools.selection.element.style.top" ng-attr-unitless-value="data.tools.selection.element.style.tPx" x-key-increment /></div>'+
+		    '<input class="form-control" type="text" id="selectionTop" ng-model="data.tools.selection.element.style.top" ng-property="top" area-key-increment /></div>'+
 		    '<div class="form-group"><label for="selectionHeight">Left</label>'+
-		    '<input class="form-control" type="text" id="selectionLeft" ng-model="data.tools.selection.element.style.left" ng-attr-unitless-value="data.tools.selection.element.style.lPx" x-key-increment /></div>'+
+		    '<input class="form-control" type="text" id="selectionLeft" ng-model="data.tools.selection.element.style.left" ng-property="left" area-key-increment /></div>'+
 		    '<div class="form-group"><label for="selectionWidth">Width</label>'+
-		    '<input class="form-control" type="text" id="selectionWidth" ng-model="data.tools.selection.element.style.width" ng-attr-unitless-value="data.tools.selection.element.style.wPx" x-key-increment /></div>'+
+		    '<input class="form-control" type="text" id="selectionWidth" ng-model="data.tools.selection.element.style.width" ng-property="width" area-key-increment /></div>'+
 		    '<div class="form-group"><label for="selectionHeight">Height</label>'+
-		    '<input class="form-control" type="text" id="selectionHeight" ng-model="data.tools.selection.element.style.height" ng-attr-unitless-value="data.tools.selection.element.style.hPx" x-key-increment /></div>'+
+		    '<input class="form-control" type="text" id="selectionHeight" ng-model="data.tools.selection.element.style.height" ng-property="height" area-key-increment /></div>'+
 			'<div class="separator-v margin-right"></div>'+
 			'<div class="form-group"><label for="canvasOverflow">Canvas overflow</label>'+
 			'<input  type="checkbox" class="margin-no" ng-model="data.screen.overflow" /></div>' +

@@ -23,14 +23,33 @@ directive('keyIncrement', [function () {
 						nuVal
 					;
 					if (key == 40) { // down;
-						nuVal = scope.$parent.data.fn.cssIncrement(scope.model,-1);
+						nuVal = scope.$parent.data.fn.modifiers.cssIncrement(scope.model,-1);
 					} else if (key == 38) { // up
-						nuVal = scope.$parent.data.fn.cssIncrement(scope.model,1);
+						nuVal = scope.$parent.data.fn.modifiers.cssIncrement(scope.model,1);
 					}
 					scope.model = nuVal.val;
 					scope.unitlessValue = nuVal.unitLess;
 					scope.$apply();
 				}
+			});
+		}
+	};
+}]).
+directive('areaKeyIncrement',[function(){
+	return {
+		link:function(scope,t,attrs){
+			t.on('keydown', function (e) {
+					var
+						key = e.keyCode,
+						nuVal
+					;
+					if (key == 40) { // down;
+						e.preventDefault();
+						nuVal = scope.data.fn.modifiers.modifyElementArea(scope,attrs.ngProperty,-1);
+					} else if (key == 38) { // up
+						e.preventDefault();
+						nuVal = scope.data.fn.modifiers.modifyElementArea(scope,attrs.ngProperty,1);
+					}
 			});
 		}
 	};
