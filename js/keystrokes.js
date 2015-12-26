@@ -47,7 +47,7 @@ config.keystrokes = {
     },
     '38':{ // up arrow
     		'keydown':function(a){
-                if (a.s.data.selection.active.typeNum==2){
+                if ((a.s.data.selection.active.typeNum==2)&&($("[x-key-increment]:focus").length===0)){
                     var nuTop = a.s.data.fn.cssIncrement(a.s.data.selection.active.style.top,-1);
                     a.s.data.selection.active.style.top = nuTop.val;
                     a.s.data.selection.active.style.tPx = nuTop.unitLess;
@@ -58,7 +58,7 @@ config.keystrokes = {
     },
     '40':{ // down arrow
     		'keydown':function(a){
-                if (a.s.data.selection.active.typeNum==2){
+                if ((a.s.data.selection.active.typeNum==2)&&($("[x-key-increment]:focus").length===0)){
                     var nuTop = a.s.data.fn.cssIncrement(a.s.data.selection.active.style.top,1);
                     a.s.data.selection.active.style.top = nuTop.val;
                     a.s.data.selection.active.style.tPx = nuTop.unitLess;
@@ -69,7 +69,7 @@ config.keystrokes = {
     },
     '37':{ // left arrow
     		'keydown':function(a){
-                if (a.s.data.selection.active.typeNum==2){
+                if ((a.s.data.selection.active.typeNum==2)&&($("[x-key-increment]:focus").length===0)){
                     var nuTop = a.s.data.fn.cssIncrement(a.s.data.selection.active.style.left,-1);
                     a.s.data.selection.active.style.left = nuTop.val;
                     a.s.data.selection.active.style.lPx = nuTop.unitLess;
@@ -80,7 +80,7 @@ config.keystrokes = {
     },
     '39':{ // right arrow
     		'keydown':function(a){
-                if (a.s.data.selection.active.typeNum==2){
+                if ((a.s.data.selection.active.typeNum==2)&&($("[x-key-increment]:focus").length===0)){
                     var nuTop = a.s.data.fn.cssIncrement(a.s.data.selection.active.style.left,1);
                     a.s.data.selection.active.style.left = nuTop.val;
                     a.s.data.selection.active.style.lPx = nuTop.unitLess;
