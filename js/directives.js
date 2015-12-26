@@ -69,6 +69,7 @@ directive('trackMouseEvents', ['$compile', function ($compile) {
 						compile:$compile
 					}
 				;
+				scope.data.flags.mouseEvent = e.type;
 				if ((g == hRuler)||(g==hrG)){
 					tools.addGuide.horizontal[e.type](args);
 				} else if ((g == vRuler)||(g==vrG)) {
@@ -365,8 +366,9 @@ directive('flyoutMenu',[function(){
 	return {
 		restrict:'A',
 		scope:{
-			menu:'=flyoutMenu'
+			menus:'=flyoutMenu',
+			menuId:'@id'
 		},
-		template:'<span ng-class="menu.iconClass" ng-attr-title="menu.label" ng-click="menu.visible = !menu.visible"></span><div class="flyout" ng-show="menu.visible"><button ng-repeat="action in menu.actions" ng-click="action.fn($parent)" ng-disabled="action.disabled">{{action.label}}</button></div>'
+		template:'<div class="flyoutMenuWrapper" ng-class="{true: \'active\', false: \'\'}[menus.active]"><div ng-repeat="(menuName,menu) in menus.menus" id="{{menuName}}Menu" class="flyout-menu" ng-class="{true: \'active\', false: \'\'}[menu.active]"><button id="{{menuName}}MenuButton" type="button" ng-class="menu.iconClass" ng-click="$parent.$parent.data.fn.flyoutMenu.activate($parent.$parent.data.menus,$parent.$parent)" ng-mouseover="$parent.$parent.data.fn.flyoutMenu.toggle(menu,$parent.$parent.data.menus)">{{menu.label}}</button><div class="flyout"><button ng-repeat="action in menu.actions" ng-click="action.fn($parent)" ng-disabled="action.disabled">{{action.label}}</button></div></div>'
 	};
 }]);

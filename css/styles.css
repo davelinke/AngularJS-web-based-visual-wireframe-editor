@@ -274,6 +274,9 @@ colorpicker-preview {
   line-height: 1;
   padding: 0 3px; }
 
+.cursor-pointer {
+  cursor: pointer; }
+
 /*elements*/
 html, body, #mainWrapper {
   width: 100%;
@@ -303,32 +306,45 @@ html, body, #mainWrapper {
     min-height: 100px; }
 
 #upperHeader {
+  display: flex;
+  flex-direction: column;
+  height: 58px; }
+  #upperHeader #mainMenuRow .flyoutMenuWrapper {
+    display: flex;
+    background-color: #434343;
+    border-bottom: 1px solid #343434;
+    border-top: 1px solid #575757;
+    height: 21px; }
+    #upperHeader #mainMenuRow .flyoutMenuWrapper .flyout {
+      display: none; }
+    #upperHeader #mainMenuRow .flyoutMenuWrapper.active .flyout-menu.active .flyout {
+      display: block; }
+
+#toolOptions {
+  height: 37px;
   background-color: #434343;
   border-bottom: 1px solid #343434;
   border-top: 1px solid #575757;
-  height: 35px;
-  display: flex;
   padding: 0.5em; }
-
-#toolOptions .form-group {
-  margin-right: 1em; }
-  #toolOptions .form-group label {
-    margin-right: 0.5em; }
-  #toolOptions .form-group input[type="text"] {
-    background-color: #3d3d3d;
-    border-color: #323232;
-    border-radius: 2px;
-    color: #a3a3a3;
-    font-size: 1.1em;
-    height: 23px;
-    line-height: 1.1em;
-    padding: 0 0.3em;
-    width: 50px; }
+  #toolOptions .form-group {
+    margin-right: 1em; }
+    #toolOptions .form-group label {
+      margin-right: 0.5em; }
+    #toolOptions .form-group input[type="text"] {
+      background-color: #3d3d3d;
+      border-color: #323232;
+      border-radius: 2px;
+      color: #a3a3a3;
+      font-size: 1.1em;
+      height: 23px;
+      line-height: 1.1em;
+      padding: 0 0.3em;
+      width: 50px; }
 
 #wrapper {
   display: flex;
   align-items: stretch;
-  height: calc(100% - 35px);
+  height: calc(100% - 58px);
   flex-wrap: wrap;
   background-color: #232323; }
   #wrapper #mainTools {
@@ -361,8 +377,8 @@ html, body, #mainWrapper {
         align-self: center;
         background-color: transparent;
         color: #9b9b9b;
-        height: 30px;
         padding: 0;
+        height: 30px;
         width: 30px; }
         #wrapper #mainTools #toolbox > button.active, #wrapper #mainTools #toolbox > button:hover {
           background: linear-gradient(to bottom, #373737 0%, #323232 100%);
@@ -391,7 +407,7 @@ html, body, #mainWrapper {
     justify-content: center;
     align-content: center;
     background-color: #424242;
-    overflow: hidden; }
+    overflow: auto; }
     #wrapper #workarea #rulers {
       align-self: center;
       display: flex;
@@ -520,7 +536,21 @@ html, body, #mainWrapper {
 /*flyout menu*/
 .flyout-menu {
   width: 36px;
-  padding: 0.3em 0.8em; }
+  padding: 0.1em; }
+  .flyout-menu .menu-item {
+    align-self: center;
+    background-color: transparent;
+    color: #9b9b9b;
+    padding: 0;
+    font-size: 1.1em;
+    padding: 0 0.5em; }
+    .flyout-menu .menu-item.active, .flyout-menu .menu-item:hover {
+      background: linear-gradient(to bottom, #373737 0%, #323232 100%);
+      color: #A6A6A6; }
+    .flyout-menu .menu-item:active {
+      border: 1px solid #1D1D1D; }
+    .flyout-menu .menu-item:active {
+      background-color: #c00; }
   .flyout-menu .fa-bars {
     font-size: 1.7em;
     line-height: 1em;

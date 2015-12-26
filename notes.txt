@@ -1,7 +1,7 @@
 
 // guides has got to be defined by two arrays, one for horizontal and one for vertical
 
-// can select out of the canvas from the uinputs above boxes
+// can select out of the canvas from the inputs above boxes
 
 // when selecting if you g o out of the workarea it stops, select has got to span the entire document
 

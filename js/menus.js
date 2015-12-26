@@ -7,47 +7,61 @@
 
 
 config.menus={
-    main:{
-        label:'Main Menu',
-        iconClass:'fa fa-bars',
-        visible:false,
-        actions:{
-            'new':{
-                label:config.lang[config.lang.act].new,
-                disabled:false,
-                fn:function(scope){
-                    scope.menu.visible=false;
-                    if (window.confirm(config.lang[config.lang.act].createNewFileAndLoseChanges)) {
-                        $('#newDocumentModal').modal('show');
+    active:false,
+    menus:{
+        file:{
+            label:'File',
+            iconClass:'btn menu-item',
+            active:false,
+            actions:{
+                'new':{
+                    label:config.lang[config.lang.act].new,
+                    disabled:false,
+                    fn:function(scope){
+                        if (window.confirm(config.lang[config.lang.act].createNewFileAndLoseChanges)) {
+                            $('#newDocumentModal').modal('show');
+                        }
+                    }
+                },
+                'open':{
+                    label:config.lang[config.lang.act].open,
+                    disabled:false,
+                    fn:function(scope){
+                        if (window.confirm(config.lang[config.lang.act].openNewFileAndLoseChanges)) {
+                            $('#openDocumentModal').modal('show');
+                        }
+                    }
+                },
+                'save':{
+                    label:config.lang[config.lang.act].save,
+                    disabled:true,
+                    fn:function(scope){
+                        console.log(scope);
+                        scope.$parent.$parent.data.fn.storage.saveDocument(scope.$parent.$parent);
+                    }
+                },
+                'saveAs':{
+                    label:config.lang[config.lang.act].saveAs,
+                    disabled:false,
+                    fn:function(scope){
+                        $('#saveDocumentAsModal').modal('show');
                     }
                 }
-            },
-            'open':{
-                label:config.lang[config.lang.act].open,
-                disabled:false,
-                fn:function(scope){
-                    scope.menu.visible=false;
-                    if (window.confirm(config.lang[config.lang.act].openNewFileAndLoseChanges)) {
-                        $('#openDocumentModal').modal('show');
+            }
+        },
+        edit:{
+            label:'Edit',
+            iconClass:'btn menu-item',
+            active:false,
+            actions:{
+                'copy':{
+                    label:config.lang[config.lang.act].copy,
+                    disabled:false,
+                    fn:function(scope){
+                        console.log('copying');
                     }
-                }
-            },
-            'save':{
-                label:config.lang[config.lang.act].save,
-                disabled:true,
-                fn:function(scope){
-                    scope.menu.visible=false;
-                    scope.$parent.data.fn.storage.saveDocument(scope.$parent);
-                }
-            },
-            'saveAs':{
-                label:config.lang[config.lang.act].saveAs,
-                disabled:false,
-                fn:function(scope){
-                    scope.menu.visible = false;
-                    $('#saveDocumentAsModal').modal('show');
                 }
             }
         }
-    }
+    },
 };

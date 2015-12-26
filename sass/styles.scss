@@ -1,10 +1,23 @@
 /*variables*/
-$toolOptiosHeight:35px;
+$toolOptiosHeight:58px;
 $background-color:#434343;
 $buttonHover:linear-gradient(to bottom, #373737 0%,#323232 100%);
 $shadowMain:0 2px 5px rgba(0, 0, 0, 0.5);
 
 /*mixins*/
+@mixin button-well(){
+	align-self: center;
+	background-color: transparent;
+	color: #9b9b9b;
+	padding: 0;
+	&.active, &:hover{
+		background: $buttonHover;
+		color:#A6A6A6;
+	}
+	&:active{
+		border:1px solid #1D1D1D;
+	}
+}
 @mixin chrome-heading(){
 	background-color:$background-color;
 	border-bottom: 1px solid #343434;
@@ -118,12 +131,31 @@ html,body,#mainWrapper{
 	}
 }
 #upperHeader{
-	@include chrome-heading();
-	height:$toolOptiosHeight;
 	display:flex;
-	padding: 0.5em;
+	flex-direction: column;
+	height: $toolOptiosHeight;
+	#mainMenuRow{
+		.flyoutMenuWrapper{
+			display:flex;
+			@include chrome-heading();
+			height:21px;
+			.flyout{
+				display:none;
+			}
+			&.active{
+				.flyout-menu.active{
+					.flyout{
+						display:block;
+					}
+				}
+			}
+		}
+	}
 }
 #toolOptions{
+	height:37px;
+	@include chrome-heading();
+	padding:0.5em;
 	.form-group {
 		margin-right: 1em;
 		label {
@@ -179,19 +211,9 @@ html,body,#mainWrapper{
 			flex-direction: column;
 			flex-grow: 1;
 			& > button{
-				align-self: center;
-				background-color: transparent;
-				color: #9b9b9b;
+				@include button-well();
 				height: 30px;
-				padding: 0;
 				width: 30px;
-				&.active, &:hover{
-					background: $buttonHover;
-					color:#A6A6A6;
-				}
-				&:active{
-					border:1px solid #1D1D1D;
-				}
 			}
 		}
 		#colorPicker{
@@ -222,7 +244,7 @@ html,body,#mainWrapper{
 		justify-content:center;
 		align-content:center;
 		background-color: #424242;
-		overflow:hidden;
+		overflow:auto;
 		#rulers{
 			align-self: center;
 			display: flex;
@@ -370,7 +392,15 @@ html,body,#mainWrapper{
 /*flyout menu*/
 .flyout-menu{
 	width:36px;
-	padding: 0.3em 0.8em;
+	padding: 0.1em;
+	.menu-item{
+		@include button-well();
+		font-size:1.1em;
+		padding:0 0.5em;
+		&:active{
+			background-color: #c00;
+		}
+	}
 	.fa-bars{
 		font-size: 1.7em;
 		line-height: 1em;

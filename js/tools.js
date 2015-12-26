@@ -407,7 +407,7 @@ config.tools={
 			args.scope.data.tools.drawBox.finishSelect(args);
 		},
 		mousemove:function(e,scope){
-			if (e.buttons==1){
+			if ((e.buttons==1)&&(scope.data.flags.mouseEvent =='mousedown')){
 				var
 					canvas = $('#canvas'),
 					s = scope.data,
@@ -510,7 +510,7 @@ config.tools={
 	    mousemove:function(e,scope){
 			var s = scope.data;
 			var c = s.tools.selection.element;
-			if ((c) && (c.typeNum==2) && (e.buttons==1)){
+			if ((c) && (c.typeNum==2) && (e.buttons==1) && (s.flags.mouseEvent =='mousedown')){
 				var
 					leftPx = c.style.lPx,
 					topPx = c.style.tPx,

@@ -91,7 +91,8 @@ var config = {
 			doYouWantToOverwrite:'Do you want to overwrite',
 			cancel:'Cancel',
 			openDocument:'Open Document',
-			open:'Open'
+			open:'Open',
+			copy:'Copy'
 		}
 	},
 	drawStyle : {

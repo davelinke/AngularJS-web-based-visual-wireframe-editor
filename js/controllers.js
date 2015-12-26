@@ -47,7 +47,10 @@ controller('main', ['$scope','data','$compile',function ($scope, data, $compile)
 			data:$scope.data
 		});
 		$scope.createNew.newName = $scope.data.lang[$scope.data.lang.act].createNewDocument;
-		$scope.data.menus.main.actions.save.disabled=true;
+		$scope.data.menus.menus.file.actions.save.disabled=true;
+
+		$scope.newDocumentForm.$setPristine();
+		$scope.newDocumentForm.$setUntouched();
 		s = $scope;
 	};
 	$scope.createNew.newName = $scope.data.lang[$scope.data.lang.act].createNewDocument;
@@ -60,7 +63,6 @@ controller('main', ['$scope','data','$compile',function ($scope, data, $compile)
 		$scope.data.tree.root.name = name;
 	};
 	$scope.documents.saveAs = function(){
-		console.log('saving as');
 		var checkName = function(name){
 			for (var i=0;i<$scope.documents.length;i++){
 				if (name==$scope.documents[i].name) return true;
@@ -72,15 +74,14 @@ controller('main', ['$scope','data','$compile',function ($scope, data, $compile)
 		$scope.data.tree.root.id = 'document__' + $scope.data.fn.storage.sanitizeName(newName);
 		if(!checkName(newName)){
 			$scope.data.fn.storage.storeDocument($scope);
-			$scope.data.menus.main.actions.save.disabled=false;
+			$scope.data.menus.menus.file.actions.save.disabled=false;
 			$scope.documents = $scope.data.fn.storage.getDocumentNames();
 		} else {
 			if(confirm($scope.data.lang[$scope.data.lang.act].doYouWantToOverwrite + ' "' + newName + '"?')){
 				$scope.data.fn.storage.storeDocument($scope);
-				$scope.data.menus.main.actions.save.disabled=false;
+				$scope.data.menus.menus.file.actions.save.disabled=false;
 			}
 		}
-		console.log($scope.saveDocumentAsForm);
 		$scope.saveDocumentAsForm.$setPristine();
 		$scope.saveDocumentAsForm.$setUntouched();
 		$('#saveDocumentAsModal').modal('hide');
@@ -88,12 +89,7 @@ controller('main', ['$scope','data','$compile',function ($scope, data, $compile)
 	$scope.documents.open=function(){
 		var docId = $scope.documents.documentToOpen;
 		if (docId){
-			console.log(docId);
 			var documentData = $scope.data.fn.storage.getDocumentObjectById($scope.documents.documentToOpen);
-
-			console.log(documentData.screen);
-			console.log($scope.data.screen);
-
 			$scope.data.fn.tree.reset($scope.data);
 			$scope.data.flags.storage.canOverwrite = true;
 
@@ -103,11 +99,10 @@ controller('main', ['$scope','data','$compile',function ($scope, data, $compile)
 				child:$scope.data.fn.tree.searchElementById('layer_1', $scope.data.tree.root.children),
 				data:$scope.data
 			});
-
-			console.log($scope);
-
+			$scope.openDocumentForm.$setPristine();
+			$scope.openDocumentForm.$setUntouched();
 			$('#openDocumentModal').modal('hide');
-			$scope.data.menus.main.actions.save.disabled=false;
+			$scope.data.menus.menus.file.actions.save.disabled=false;
 			$scope.documents.documentToOpen = null;
 		}
 	};
