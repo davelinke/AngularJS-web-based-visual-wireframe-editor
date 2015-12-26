@@ -22,10 +22,11 @@ directive('keyIncrement', [function () {
 						key = e.keyCode,
 						nuVal
 					;
+					//console.log(scope);
 					if (key == 40) { // down;
-						nuVal = scope.$parent.data.fn.modifiers.cssIncrement(scope.model,-1);
+						nuVal = scope.$parent.$parent.data.fn.modifiers.cssIncrement(scope.model,-1);
 					} else if (key == 38) { // up
-						nuVal = scope.$parent.data.fn.modifiers.cssIncrement(scope.model,1);
+						nuVal = scope.$parent.$parent.data.fn.modifiers.cssIncrement(scope.model,1);
 					}
 					scope.model = nuVal.val;
 					scope.unitlessValue = nuVal.unitLess;

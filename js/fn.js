@@ -48,7 +48,7 @@ config.fn = {
 	},
 	modifiers:{
 		modifyElementAreaWithKeystroke:function(scope,attribute,value){
-			if ((scope.data.selection.active.typeNum==2)&&($("[area-key-increment]:focus").length===0)){
+			if ((scope.data.selection.active.typeNum==2)&&($("[area-key-increment]:focus,[x-key-increment]:focus").length===0)){
 				scope.data.fn.modifiers.modifyElementArea(scope,attribute,value);
 			}
 		},
