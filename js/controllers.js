@@ -51,7 +51,6 @@ controller('main', ['$scope','data','$compile',function ($scope, data, $compile)
 
 		$scope.newDocumentForm.$setPristine();
 		$scope.newDocumentForm.$setUntouched();
-		s = $scope;
 	};
 	$scope.createNew.newName = $scope.data.lang[$scope.data.lang.act].createNewDocument;
 	$scope.createNew.width="270px";

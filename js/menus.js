@@ -36,7 +36,6 @@ config.menus={
                     label:config.lang[config.lang.act].save,
                     disabled:true,
                     fn:function(scope){
-                        console.log(scope);
                         scope.$parent.$parent.data.fn.storage.saveDocument(scope.$parent.$parent);
                     }
                 },
