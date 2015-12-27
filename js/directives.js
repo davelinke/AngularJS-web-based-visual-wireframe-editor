@@ -89,6 +89,7 @@ directive('trackMouseEvents', ['$compile', function ($compile) {
 						compile:$compile
 					}
 				;
+				if(e.type=='mousedown') $(':focus').blur();
 				scope.data.flags.mouseEvent = e.type;
 				if ((g == hRuler)||(g==hrG)){
 					tools.addGuide.horizontal[e.type](args);
