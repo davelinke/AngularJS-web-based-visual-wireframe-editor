@@ -277,6 +277,9 @@ colorpicker-preview {
 .cursor-pointer {
   cursor: pointer; }
 
+.scroll-y {
+  overflow-y: auto; }
+
 /*bootstrap override*/
 .container-fluid {
   width: 100%;
@@ -488,6 +491,8 @@ html, body, #mainWrapper {
           cursor: crosshair; }
         #wrapper #workarea #screen div.work-layer .draw-box {
           position: absolute; }
+      #wrapper #workarea #screen div .element {
+        cursor: default; }
       #wrapper #workarea #screen div .selected {
         background: linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%);
         background-repeat: repeat-x, repeat-x, repeat-y, repeat-y, no-repeat, no-repeat, no-repeat, no-repeat;
@@ -521,6 +526,38 @@ html, body, #mainWrapper {
     flex-wrap: nowrap;
     align-content: stretch;
     align-items: stretch; }
+    #wrapper #sidebar #elementProperties {
+      color: #828282; }
+      #wrapper #sidebar #elementProperties .element-property {
+        margin: 0.5em 0;
+        text-transform: capitalize; }
+        #wrapper #sidebar #elementProperties .element-property:after {
+          visibility: hidden;
+          display: block;
+          font-size: 0;
+          content: " ";
+          clear: both;
+          height: 0; }
+      #wrapper #sidebar #elementProperties h4 {
+        text-transform: capitalize;
+        font-size: 1.2em;
+        font-weight: 700;
+        color: #bbb;
+        margin-left: 0.6em; }
+      #wrapper #sidebar #elementProperties label {
+        line-height: 2.1em;
+        white-space: nowrap; }
+      #wrapper #sidebar #elementProperties input:not([type="checkbox"]), #wrapper #sidebar #elementProperties textarea {
+        background-color: #3d3d3d;
+        border-color: #323232;
+        border-radius: 2px;
+        color: #a3a3a3;
+        font-size: 1.1em;
+        height: 23px;
+        line-height: 1.1em;
+        padding: 0 0.3em; }
+      #wrapper #sidebar #elementProperties textarea {
+        height: 50px; }
     #wrapper #sidebar .toolset {
       border: 1px solid #202020;
       flex-grow: 1;
@@ -529,8 +566,6 @@ html, body, #mainWrapper {
       max-height: 50%; }
     #wrapper #sidebar .btn-link {
       color: #B6B6B6; }
-    #wrapper #sidebar #sidebarHamburger {
-      margin-bottom: 1em; }
     #wrapper #sidebar.collapsed {
       width: 62px; }
       #wrapper #sidebar.collapsed .options-panel {
@@ -541,6 +576,7 @@ html, body, #mainWrapper {
       background-color: #434343;
       border-bottom: 1px solid #343434;
       border-top: 1px solid #575757;
+      color: #fff;
       display: block;
       font-size: 1.1em;
       font-weight: 700;

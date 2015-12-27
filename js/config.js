@@ -93,7 +93,14 @@ var config = {
 			openDocument:'Open Document',
 			open:'Open',
 			copy:'Copy',
-			properties:'Properties'
+			properties:'Properties',
+			top:'top',
+			text:'text',
+			textAlign:'text align',
+			fontSize:'font size',
+			fontColor:'font color',
+			fontFamily:'font family',
+			fontWeight:'font weight'
 		}
 	},
 	drawStyle : {

@@ -5,6 +5,16 @@ $buttonHover:linear-gradient(to bottom, #373737 0%,#323232 100%);
 $shadowMain:0 2px 5px rgba(0, 0, 0, 0.5);
 
 /*mixins*/
+@mixin darkInput(){
+	background-color: #3d3d3d;
+	border-color: #323232;
+	border-radius: 2px;
+	color: #a3a3a3;
+	font-size: 1.1em;
+	height: 23px;
+	line-height: 1.1em;
+	padding: 0 0.3em;
+}
 @mixin button-well(){
 	align-self: center;
 	background-color: transparent;
@@ -178,14 +188,7 @@ html,body,#mainWrapper{
 			margin-right: 0.5em;
 		}
 		input[type="text"] {
-			background-color: #3d3d3d;
-			border-color: #323232;
-			border-radius: 2px;
-			color: #a3a3a3;
-			font-size: 1.1em;
-			height: 23px;
-			line-height: 1.1em;
-			padding: 0 0.3em;
+			@include darkInput();
 			width: 50px;
 		}
 	}
@@ -342,6 +345,9 @@ html,body,#mainWrapper{
 						position:absolute;
 					}
 				}
+				.element{
+					cursor: default;
+				}
 				.selected{
 					@include bg-slashes(#00f);
 					&.n, &.s{
@@ -376,6 +382,38 @@ html,body,#mainWrapper{
 		flex-wrap: nowrap;
 		align-content: stretch;
     	align-items: stretch;
+		#elementProperties{
+			color:#828282;
+			.element-property{
+				margin:0.5em 0;
+				text-transform: capitalize;
+				&:after {
+					visibility: hidden;
+					display: block;
+					font-size: 0;
+					content: " ";
+					clear: both;
+					height: 0;
+				}
+			}
+			h4{
+				text-transform: capitalize;
+				font-size: 1.2em;
+				font-weight: 700;
+				color: #bbb;
+				margin-left: 0.6em;
+			}
+			label{
+				line-height: 2.1em;
+			 	white-space: nowrap;
+			}
+			input:not([type="checkbox"]),textarea{
+				@include darkInput();
+			}
+			textarea{
+				height:50px;
+			}
+		}
 		.toolset{
 			border:1px solid #202020;
 			flex-grow:1;
@@ -385,9 +423,6 @@ html,body,#mainWrapper{
 		}
 		.btn-link{
 			color:#B6B6B6;
-		}
-		#sidebarHamburger{
-			margin-bottom:1em;
 		}
 		&.collapsed{
 			width:62px;
@@ -400,6 +435,7 @@ html,body,#mainWrapper{
 		}
 		h3 {
 			@include chrome-heading();
+			color:#fff;
 			display: block;
 			font-size: 1.1em;
 			font-weight: 700;

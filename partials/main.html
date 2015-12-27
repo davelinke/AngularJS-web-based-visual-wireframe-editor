@@ -8,7 +8,7 @@
 		<div id="colorPicker">
 			<div x-size="small" x-which="background-color" color-picker title="{{data.lang[data.lang.act].setBackgroundColor}}" class="margin-bottom-sm"></div>
 			<div x-size="small" x-which="border-color" color-picker title="{{data.lang[data.lang.act].setBorderColor}}" class="margin-bottom-sm"></div>
-			<div x-which="border-width" input-type="text" input-class="input-xs w-full" title="{{data.lang[data.lang.act].setBorderWidth}}" class="input-xs w-full" drawstyle-selection-modifier></div>
+			<div x-which="border-width" input-type="text" input-class="input-xs w-full" title="" class="input-xs w-full" drawstyle-selection-modifier></div>
 		</div>
 	</div>
 	<div id="workarea" x-track-mouse-position x-track-mouse-events>
@@ -18,23 +18,73 @@
 			<div id="screen" class="tr-sq">
 				<div id="guides" class="work-layer"></div>
 				<div id="canvas" class="work-layer"></div>
-				<div class="{{child.type}} {{child.cursorClass}}" ng-class="{selected:child.selected}" id="screen_{{child.id}}" tree="child in data.tree.root.children at none" ng-style="child.style" ob-id="{{child.id}}" ob-type="{{child.type}}"></div>
+				<div class="{{child.type}} {{child.cursorClass}}" ng-class="{selected:child.selected}" id="screen_{{child.id}}" tree="child in data.tree.root.children at none" ng-style="child.style" ob-id="{{child.id}}" ob-type="{{child.type}}">{{child.text}}</div>
 			</div>
 		</div>
 		<div id="actions" style="width:calc({{data.screen.width}} + 10px);" tool-actions></div>
 	</div>
 	<div id="sidebar" class="{{data.config.sidebarClass}}">
-		<div class="toolset">
+		<div id="elementProperties" class="toolset">
 			<h3>{{data.lang[data.lang.act].properties}}</h3>
-			<!--
-			<div>
-				<div class="col-sm-4">
-					color
+			<div class="scroll-y">
+				<!--<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{data.lang[data.lang.act].top}}</label>
+					</div>
+					<div class="col-sm-8">
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style.top" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
+					</div>
+				</div>-->
+				<h4>{{data.lang[data.lang.act].text}}</h4>
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{data.lang[data.lang.act].text}}</label>
+					</div>
+					<div class="col-sm-8">
+						<textarea class="form-control w-full" ng-model="data.selection.active.text" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]"></textarea>
+					</div>
 				</div>
-				<div class="col-sm-8">
-					<input type="text" class="input-xs w-full" ng-model="data.tools.selection.element.style.top"/>
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{data.lang[data.lang.act].textAlign}}</label>
+					</div>
+					<div class="col-sm-8">
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['text-align']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
+					</div>
 				</div>
-			</div>-->
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{data.lang[data.lang.act].fontSize}}</label>
+					</div>
+					<div class="col-sm-8">
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['font-size']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" x-key-increment />
+					</div>
+				</div>
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{data.lang[data.lang.act].fontColor}}</label>
+					</div>
+					<div class="col-sm-8">
+						<input  type="text" class="form-control w-full" ng-model="data.selection.active.style['color']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
+					</div>
+				</div>
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{data.lang[data.lang.act].fontFamily}}</label>
+					</div>
+					<div class="col-sm-8">
+						<input  type="text" class="form-control w-full" ng-model="data.selection.active.style['font-family']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
+					</div>
+				</div>
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{data.lang[data.lang.act].fontWeight}}</label>
+					</div>
+					<div class="col-sm-8">
+						<input  type="text" class="form-control w-full" ng-model="data.selection.active.style['font-weight']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="toolset">
 			<h3>{{data.lang[data.lang.act].layers}}</h3>
