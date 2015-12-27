@@ -92,7 +92,8 @@ var config = {
 			cancel:'Cancel',
 			openDocument:'Open Document',
 			open:'Open',
-			copy:'Copy'
+			copy:'Copy',
+			properties:'Properties'
 		}
 	},
 	drawStyle : {

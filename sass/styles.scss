@@ -100,6 +100,21 @@ $shadowMain:0 2px 5px rgba(0, 0, 0, 0.5);
 /*helpers*/
 @import 'helpers';
 
+/*bootstrap override*/
+.container-fluid{
+	width: 100%;
+	padding-right:0.94em;
+	padding-left: 0.94em;
+}
+.row{
+	margin-right:0.94em;
+	margin-left:0.94em;
+}
+div[class^="col-"]{
+	padding-right:0.94em;
+	padding-left:0.94em;
+}
+
 /*elements*/
 
 html,body,#mainWrapper{
@@ -107,6 +122,7 @@ html,body,#mainWrapper{
 	height:100%;
 	font-size:10px;
 	color:#828282;
+	overflow:hidden;
 }
 .misc{
 	font-size: 1.6em;
@@ -328,6 +344,18 @@ html,body,#mainWrapper{
 				}
 				.selected{
 					@include bg-slashes(#00f);
+					&.n, &.s{
+						cursor: ns-resize;
+					}
+					&.e, &.w{
+						cursor: ew-resize;
+					}
+					&.nw, &.se{
+						cursor: nwse-resize;
+					}
+					&.ne, &.sw{
+						cursor:nesw-resize;
+					}
 				}
 				[ob-type="element"]:hover{
 					@include bg-slashes(#0f0);
@@ -341,13 +369,19 @@ html,body,#mainWrapper{
 	#sidebar{
 		display: flex;
 		flex-direction: column;
-		justify-content: flex-end;
 		width: 250px;
+		height:100%;
 		background-color:#232323;
 		color:#fefefe;
+		flex-wrap: nowrap;
+		align-content: stretch;
+    	align-items: stretch;
 		.toolset{
-			background-color:#393939;
 			border:1px solid #202020;
+			flex-grow:1;
+			display: flex;
+			flex-direction: column;
+			max-height: 50%;
 		}
 		.btn-link{
 			color:#B6B6B6;
@@ -371,9 +405,25 @@ html,body,#mainWrapper{
 			font-weight: 700;
 			padding: 0.3rem 0.5rem;
 			margin: 0;
+			flex-grow:0;
+			min-height: 21px;
+		}
+		.tree-list{
+			flex-grow:1;
+			overflow-y:auto;
+			ul{
+
+			}
+			li{
+				border-top:1px solid #232323;
+			}
+			> li{
+				background-color:#393939;
+			}
 		}
 		.chrome-menu{
 			@include chrome-heading();
+			flex-grow:0;
 		}
 	}
 }
@@ -475,7 +525,11 @@ html,body,#mainWrapper{
 		}
 		ul{
 			list-style-type:none;
-			padding-left: 1.5rem;
+			padding-left: 0;
+			> li > div{
+				padding: 0.2em 0 0.2em 1.5em;
+				background-color: #2e2e2e;
+			}
 		}
 	}
 }

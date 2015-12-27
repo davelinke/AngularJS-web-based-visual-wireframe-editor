@@ -382,6 +382,7 @@ config.tools={
 						selectedLayer.children.push({
 							id:s.fn.tree.newLayerName({pre:args.scope.data.lang[args.scope.data.lang.act].element,data:args.scope.data}),
 							type:'element',
+							cursorClass:'',
 							typeNum:2,
 							children:[],
 							style:$.extend({
@@ -493,6 +494,10 @@ config.tools={
 				s.data.fn.tree.toggleSelected({child:selectedLayer,data:s.data});
 			} else {
 				s.data.fn.tree.toggleSelected({child:t.element,data:s.data});
+				s.data.flags.resizeLeft = (e.offsetX<5)?true:false;
+				s.data.flags.resizeTop = (e.offsetY<5)?true:false;
+				s.data.flags.resizeRight = (e.offsetX>(t.element.style.wPx - 5))?true:false;
+				s.data.flags.resizeBottom = (e.offsetY>(t.element.style.hPx - 5))?true:false;
 			}
 	    },
 	    mouseup:function(args){
@@ -508,29 +513,52 @@ config.tools={
 
 	    },
 	    mousemove:function(e,scope){
-			var s = scope.data;
-			var c = s.tools.selection.element;
+			var
+				s = scope.data,
+				f = s.flags,
+				c = s.tools.selection.element,
+				cursorClass = '',
+				h={}
+			;
+			// set adequate cursor
+			if (c && c.typeNum==2){
+				if (e.offsetY<5) cursorClass +='n';
+				if (e.offsetY>(c.style.hPx - 5)) cursorClass +='s';
+				if (e.offsetX<5) cursorClass +='w';
+				if (e.offsetX>(c.style.wPx - 5)) cursorClass +='e';
+				c.cursorClass = cursorClass;
+			}
+
+			//resize or move
 			if ((c) && (c.typeNum==2) && (e.buttons==1) && (s.flags.mouseEvent =='mousedown')){
+				console.log(e);
 				var
 					leftPx = c.style.lPx,
-					topPx = c.style.tPx,
-					nuX = leftPx + e.originalEvent.movementX,
-					nuY = topPx + e.originalEvent.movementY,
-					docWidth = s.screen.wPx,
-					docHeight = s.screen.hPx
+					topPx = c.style.tPx
 				;
+				if(f.resizeLeft||f.resizeTop||f.resizeRight||f.resizeBottom){
+					if (f.resizeLeft){
+						var lVal = (!s.screen.overflow && e.originalEvent.movementX<0 && leftPx===0)?0:e.originalEvent.movementX;
 
-				if(!s.screen.overflow){
-					nuX = nuX>=0 ? nuX: 0; // less than 0 is not possible
-					nuY = nuY>=0 ? nuY: 0; // less than 0 is not possible
-					nuX = (nuX + c.style.wPx > docWidth ? leftPx : nuX);
-					nuY = (nuY + c.style.hPx > docHeight ? topPx : nuY);
+						s.fn.modifiers.modifyElementArea(scope,'left',lVal);
+						s.fn.modifiers.modifyElementArea(scope,'width',(lVal*-1));
+					}
+					if (f.resizeTop){
+						var tVal = (!s.screen.overflow && e.originalEvent.movementY<0 && topPx===0)?0:e.originalEvent.movementY;
+
+						s.fn.modifiers.modifyElementArea(scope,'top',tVal);
+						s.fn.modifiers.modifyElementArea(scope,'height',(tVal*-1));
+					}
+					if (f.resizeRight){
+						s.fn.modifiers.modifyElementArea(scope,'width',e.originalEvent.movementX);
+					}
+					if (f.resizeBottom){
+						s.fn.modifiers.modifyElementArea(scope,'height',e.originalEvent.movementY);
+					}
+				} else {
+					s.fn.modifiers.modifyElementArea(scope,'left',e.originalEvent.movementX);
+					s.fn.modifiers.modifyElementArea(scope,'top',e.originalEvent.movementY);
 				}
-
-				c.style.left = nuX + 'px';
-				c.style.lPx = nuX;
-				c.style.top = nuY + 'px';
-				c.style.tPx = nuY;
 			}
 	    }
 	}

@@ -12,13 +12,6 @@ controller('main', ['$scope','data','$compile',function ($scope, data, $compile)
 		$scope.data.fn.tree.reset($scope.data);
 	}
 	$scope.fn = {
-		toggleSidebar:function () {
-			if ($scope.data.config.sidebarClass === '') {
-				$scope.data.config.sidebarClass = 'collapsed';
-			} else {
-				$scope.data.config.sidebarClass = '';
-			}
-		},
 		modal:function(properties){}
 	};
 	$scope.data.fn.tree.toggleSelected({
