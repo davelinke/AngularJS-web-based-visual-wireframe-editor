@@ -445,7 +445,7 @@ html,body,#mainWrapper{
 		}
 		h3 {
 			@include chrome-heading();
-			color:#fff;
+			color:#e3e3e3;
 			display: block;
 			font-size: 1.1em;
 			font-weight: 700;
@@ -453,6 +453,7 @@ html,body,#mainWrapper{
 			margin: 0;
 			flex-grow:0;
 			min-height: 21px;
+			text-transform: uppercase;
 		}
 		.tree-list{
 			flex-grow:1;
