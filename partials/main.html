@@ -35,6 +35,31 @@
 						<input type="text" class="form-control w-full" ng-model="data.selection.active.style.top" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
 					</div>
 				</div>-->
+				<h4>{{data.lang[data.lang.act].layout}}</h4>
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{data.lang[data.lang.act].padding}}</label>
+					</div>
+					<div class="col-sm-8">
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['padding']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" x-key-increment />
+					</div>
+				</div>
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{data.lang[data.lang.act].margin}}</label>
+					</div>
+					<div class="col-sm-8">
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['margin']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" x-key-increment />
+					</div>
+				</div>
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{data.lang[data.lang.act].overflow}}</label>
+					</div>
+					<div class="col-sm-8">
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['overflow']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
+					</div>
+				</div>
 				<h4>{{data.lang[data.lang.act].text}}</h4>
 				<div class="element-property">
 					<div class="col-sm-4">

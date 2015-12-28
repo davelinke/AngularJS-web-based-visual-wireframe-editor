@@ -100,7 +100,11 @@ var config = {
 			fontSize:'font size',
 			fontColor:'font color',
 			fontFamily:'font family',
-			fontWeight:'font weight'
+			fontWeight:'font weight',
+			layout:'layout',
+			padding:'padding',
+			margin:'margin',
+			overflow:'overflow'
 		}
 	},
 	drawStyle : {

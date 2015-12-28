@@ -394,7 +394,8 @@ config.tools={
 								width: d.config.areaStyle.width,
 								wPx:d.config.areaStyle.wPx,
 								height: d.config.areaStyle.height,
-								hPx:d.config.areaStyle.hPx
+								hPx:d.config.areaStyle.hPx,
+								overflow:'hidden'
 							},s.drawStyle)
 						});
 					}

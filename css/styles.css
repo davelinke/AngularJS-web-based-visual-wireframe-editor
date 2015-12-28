@@ -278,7 +278,8 @@ colorpicker-preview {
   cursor: pointer; }
 
 .scroll-y {
-  overflow-y: auto; }
+  overflow-y: auto;
+  overflow-x: hidden; }
 
 /*bootstrap override*/
 .container-fluid {
@@ -468,7 +469,9 @@ html, body, #mainWrapper {
       align-self: center;
       position: relative;
       width: calc(100% - 10px);
-      height: calc(100% - 10px); }
+      height: calc(100% - 10px);
+      font-size: 1.6rem;
+      color: #000; }
       #wrapper #workarea #screen div.work-layer {
         border: none;
         position: absolute;

@@ -19,18 +19,29 @@ directive('keyIncrement', [function () {
 			t.on('keydown', function (e) {
 				if(scope.model){
 					var
-						key = e.keyCode,
-						nuVal
+						key = e.keyCode
 					;
-					//console.log(scope);
-					if (key == 40) { // down;
-						nuVal = scope.$parent.$parent.data.fn.modifiers.cssIncrement(scope.model,-1);
-					} else if (key == 38) { // up
-						nuVal = scope.$parent.$parent.data.fn.modifiers.cssIncrement(scope.model,1);
+					if(key==40||key==38){
+						var
+							nuVal,
+							findControllerScope = function(s){
+								if (s.$parent.$parent===null){
+									return s;
+								} else {
+									 return findControllerScope(s.$parent);
+								}
+							},
+							sc = findControllerScope(scope)
+						;
+						if (key == 40) { // down;
+							nuVal = sc.data.fn.modifiers.cssIncrement(scope.model,-1);
+						} else if (key == 38) { // up
+							nuVal = sc.data.fn.modifiers.cssIncrement(scope.model,1);
+						}
+						scope.model = nuVal.val;
+						scope.unitlessValue = nuVal.unitLess;
+						scope.$apply();
 					}
-					scope.model = nuVal.val;
-					scope.unitlessValue = nuVal.unitLess;
-					scope.$apply();
 				}
 			});
 		}
