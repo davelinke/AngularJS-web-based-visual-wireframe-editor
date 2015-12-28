@@ -327,7 +327,7 @@ html, body, #mainWrapper {
 #upperHeader {
   display: flex;
   flex-direction: column;
-  height: 58px; }
+  height: 21px; }
   #upperHeader #mainMenuRow .flyoutMenuWrapper {
     display: flex;
     background-color: #434343;
@@ -363,7 +363,7 @@ html, body, #mainWrapper {
 #wrapper {
   display: flex;
   align-items: stretch;
-  height: calc(100% - 58px);
+  height: calc(100% - 21px);
   flex-wrap: wrap;
   background-color: #232323; }
   #wrapper #mainTools {
@@ -530,7 +530,8 @@ html, body, #mainWrapper {
     align-content: stretch;
     align-items: stretch; }
     #wrapper #sidebar #elementProperties {
-      color: #828282; }
+      color: #828282;
+      height: 65%; }
       #wrapper #sidebar #elementProperties .element-property {
         margin: 0.5em 0;
         text-transform: capitalize; }
@@ -543,10 +544,13 @@ html, body, #mainWrapper {
           height: 0; }
       #wrapper #sidebar #elementProperties h4 {
         text-transform: capitalize;
-        font-size: 1.2em;
+        font-size: 1.1em;
         font-weight: 700;
         color: #bbb;
-        margin-left: 0.6em; }
+        margin: 0.6em 0.8em 0.8em 0.5em;
+        background-color: #1c1c1c;
+        padding: 0.2em 0.5em;
+        border-radius: 3px; }
       #wrapper #sidebar #elementProperties label {
         line-height: 2.1em;
         white-space: nowrap; }
@@ -566,7 +570,10 @@ html, body, #mainWrapper {
       flex-grow: 1;
       display: flex;
       flex-direction: column;
-      max-height: 50%; }
+      height: 35%; }
+      #wrapper #sidebar .toolset hr {
+        border-top: 2px solid #323232;
+        margin: 0.5em 0.8em 0.8em; }
     #wrapper #sidebar .btn-link {
       color: #B6B6B6; }
     #wrapper #sidebar.collapsed {

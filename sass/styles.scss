@@ -1,5 +1,5 @@
 /*variables*/
-$toolOptiosHeight:58px;
+$toolOptiosHeight:21px;
 $background-color:#434343;
 $buttonHover:linear-gradient(to bottom, #373737 0%,#323232 100%);
 $shadowMain:0 2px 5px rgba(0, 0, 0, 0.5);
@@ -386,6 +386,7 @@ html,body,#mainWrapper{
     	align-items: stretch;
 		#elementProperties{
 			color:#828282;
+			height: 65%;
 			.element-property{
 				margin:0.5em 0;
 				text-transform: capitalize;
@@ -400,10 +401,13 @@ html,body,#mainWrapper{
 			}
 			h4{
 				text-transform: capitalize;
-				font-size: 1.2em;
-				font-weight: 700;
-				color: #bbb;
-				margin-left: 0.6em;
+			    font-size: 1.1em;
+			    font-weight: 700;
+			    color: #bbb;
+			    margin: 0.6em 0.8em 0.8em 0.5em;
+			    background-color: #1c1c1c;
+			    padding: 0.2em 0.5em;
+			    border-radius: 3px;
 			}
 			label{
 				line-height: 2.1em;
@@ -421,7 +425,11 @@ html,body,#mainWrapper{
 			flex-grow:1;
 			display: flex;
 			flex-direction: column;
-			max-height: 50%;
+			height: 35%;
+			hr{
+				border-top: 2px solid #323232;
+    			margin: 0.5em 0.8em 0.8em;
+			}
 		}
 		.btn-link{
 			color:#B6B6B6;

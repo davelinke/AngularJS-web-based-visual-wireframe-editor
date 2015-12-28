@@ -84,7 +84,7 @@ directive('setTool', ['$compile', function ($compile) {
 }]).
 directive('trackMouseEvents', ['$compile', function ($compile) {
 		return function (scope, t, attrs) {
-			t.on('mousedown mouseup mouseenter mouseleave', function (e) {
+			t.on('mousedown mouseup mouseenter mouseleave touchstart touchend', function (e) {
 				e.preventDefault();
 				var
 					g = e.target,
@@ -100,7 +100,7 @@ directive('trackMouseEvents', ['$compile', function ($compile) {
 						compile:$compile
 					}
 				;
-				if(e.type=='mousedown') $(':focus').blur();
+				if(e.type=='mousedown'||e.type=='touchstart') $(':focus').blur();
 				scope.data.flags.mouseEvent = e.type;
 				if ((g == hRuler)||(g==hrG)){
 					tools.addGuide.horizontal[e.type](args);
@@ -122,7 +122,7 @@ directive('trackMouseEvents', ['$compile', function ($compile) {
 ]).
 directive('trackMousePosition', [function () {
 		return function (scope, t, attrs) {
-			t.on('mousemove', function (e) {
+			t.on('mousemove touchmove', function (e) {
 				var so = $('#screen').offset();
 				scope.$apply(function () {
 					scope.data.mouse.y = e.pageX;

@@ -72,12 +72,12 @@ config.tools={
 			var
 				$screen = $('#canvas'),
 				html = '<div id="drawAreaBox" ng-class="data.tools.drawArea.config.areaClass" ng-style="data.tools.drawArea.config.areaStyle"></div>',
-				elem = $compile(html)(scope),
-				$options = $('#toolOptions'),
-				sElem = $compile(scope.data.tools.drawArea.optionsTemplate)(scope)
+				elem = $compile(html)(scope)//,
+				//$options = $('#toolOptions'),
+				//sElem = $compile(scope.data.tools.drawArea.optionsTemplate)(scope)
 			;
 			$screen.append(elem);
-			$options.append(sElem);
+			//$options.append(sElem);
 			scope.data.tools.drawArea.element = elem;
 			scope.data.tools.drawArea.optionsMenu = sElem;
 		},
@@ -154,7 +154,8 @@ config.tools={
 			var e = args.event;
 			var s = args.scope.data;
 			var d = s.tools.drawArea;
-			if (!d.isMoving && e.buttons!=1){
+			var downFlag = (s.flags.mouseEvent =='mousedown' || s.flags.mouseEvent=='touchstart')?true:false;
+			if (!d.isMoving && !downFlag){
 				d.config.leftPx = d.config.areaStyle.lPx; //$.pxNum(d.config.areaStyle.left);
 				d.config.topPx = d.config.areaStyle.tPx; //$.pxNum(d.config.areaStyle.top);
 			}
@@ -165,7 +166,8 @@ config.tools={
 		},
 		mousemove:function(e,scope){
 			var canvas = $('#canvas');
-			if (e.buttons==1){
+			var downFlag = (scope.data.flags.mouseEvent =='mousedown' || scope.data.flags.mouseEvent=='touchstart')?true:false;
+			if (downFlag){
 				scope.$apply(function(){
 					var s = scope.data;
 					var c = s.tools.drawArea.config;
@@ -249,11 +251,7 @@ config.tools={
 		iconClass:'fa fa-square-o',
 		isMoving:false,
 		isDrawing:false,
-		optionsTemplate:''+
-			'<div id="drawBoxOptions" class="options-panel form-inline">'+
-			'<div class="form-group"><label for="canvasOverflow">Canvas overflow</label>'+
-			'<input  type="checkbox" class="margin-no" ng-model="data.screen.overflow" /></div>'+
-			'</div>',
+		optionsTemplate:'',
 		element:null,
 		config:null,
 		resetConfig:function(scope){
@@ -296,6 +294,12 @@ config.tools={
 			//console.log('setting undo');
 		},
 		mousedown:function(args){
+			args.scope.data.tools.drawBox.clickTouch(args);
+		},
+		touchstart:function(args){
+			args.scope.data.tools.drawBox.clickTouch(args);
+		},
+		clickTouch:function(args){
 			args.scope.data.tools.drawBox.resetConfig(args.scope);
 			var
 				s = args.scope.data,
@@ -350,6 +354,10 @@ config.tools={
 			args.scope.data.tools.drawBox.isMoving = false;
 			args.scope.data.tools.drawBox.finishSelect(args);
 		},
+		touchend:function(args){
+			args.scope.data.tools.drawBox.isMoving = false;
+			args.scope.data.tools.drawBox.finishSelect(args);
+		},
 		mouseleave:function(args){
 		},
 		finishSelect:function(args){
@@ -359,9 +367,8 @@ config.tools={
 				s = args.scope.data,
 				d = s.tools.drawBox
 			;
-			if (!d.isMoving && e.buttons!=1){
-				//d.config.leftPx = d.config.areaStyle.lPx; //$.pxNum(d.config.areaStyle.left);
-				//d.config.topPx = d.config.areaStyle.tPx; //$.pxNum(d.config.areaStyle.top);
+			var downFlag = (s.flags.mouseEvent =='mousedown' || s.flags.mouseEvent=='touchstart')?true:false;
+			if (!d.isMoving && !downFlag){
 				if(d.isDrawing){
 					// go draw the box
 					if ((d.config.areaStyle.wPx >0)&&(d.config.areaStyle.hPx >0)){
@@ -409,7 +416,14 @@ config.tools={
 			args.scope.data.tools.drawBox.finishSelect(args);
 		},
 		mousemove:function(e,scope){
-			if ((e.buttons==1)&&(scope.data.flags.mouseEvent =='mousedown')){
+			scope.data.tools.drawBox.move(e,scope);
+		},
+		touchmove:function(e,scope){
+			scope.data.tools.drawBox.move(e,scope);
+		},
+		move:function(e,scope){
+			var downFlag = (scope.data.flags.mouseEvent =='mousedown' || scope.data.flags.mouseEvent=='touchstart')?true:false;
+			if (downFlag){
 				var
 					canvas = $('#canvas'),
 					s = scope.data,
@@ -451,25 +465,12 @@ config.tools={
 	    launcher:'toolbar',
 	    label:'Select Element',
 	    iconClass:'fa fa-mouse-pointer',
-		optionsTemplate:''+
-		    '<div id="selectionOptions" class="options-panel form-inline">'+
-		    '<div class="form-group"><label for="selectionTop">Top</label>'+
-		    '<input class="form-control" type="text" id="selectionTop" ng-model="data.tools.selection.element.style.top" ng-property="top" area-key-increment /></div>'+
-		    '<div class="form-group"><label for="selectionHeight">Left</label>'+
-		    '<input class="form-control" type="text" id="selectionLeft" ng-model="data.tools.selection.element.style.left" ng-property="left" area-key-increment /></div>'+
-		    '<div class="form-group"><label for="selectionWidth">Width</label>'+
-		    '<input class="form-control" type="text" id="selectionWidth" ng-model="data.tools.selection.element.style.width" ng-property="width" area-key-increment /></div>'+
-		    '<div class="form-group"><label for="selectionHeight">Height</label>'+
-		    '<input class="form-control" type="text" id="selectionHeight" ng-model="data.tools.selection.element.style.height" ng-property="height" area-key-increment /></div>'+
-			'<div class="separator-v margin-right"></div>'+
-			'<div class="form-group"><label for="canvasOverflow">Canvas overflow</label>'+
-			'<input  type="checkbox" class="margin-no" ng-model="data.screen.overflow" /></div>' +
-			'</div>',
+		optionsTemplate:'',
 	    element:null,
 	    init:function($compile,scope){
 			$('#canvas,#guides').hide();
-			var sElem = $compile(scope.data.tools.selection.optionsTemplate)(scope);
-			$('#toolOptions').append(sElem);
+			//var sElem = $compile(scope.data.tools.selection.optionsTemplate)(scope);
+			//$('#toolOptions').append(sElem);
 	    },
 	    destroy:function(scope){
 			$('#canvas,#guides').show();
@@ -478,7 +479,7 @@ config.tools={
 	    setUndo:function(args){
 
 	    },
-	    mousedown:function(args){
+		down:function(args){
 			var
 				s = args.scope,
 				e = args.event,
@@ -500,10 +501,17 @@ config.tools={
 				s.data.flags.resizeRight = (e.offsetX>(t.element.style.wPx - 5))?true:false;
 				s.data.flags.resizeBottom = (e.offsetY>(t.element.style.hPx - 5))?true:false;
 			}
+		},
+	    mousedown:function(args){
+			args.scope.data.tools.selection.down(args);
 	    },
+		touchstart:function(args){
+			args.scope.data.tools.selection.down(args);
+		},
 	    mouseup:function(args){
 
 	    },
+		touchend:function(){},
 	    mouseleave:function(args){
 
 	    },
@@ -513,13 +521,14 @@ config.tools={
 	    mouseenter:function(args){
 
 	    },
-	    mousemove:function(e,scope){
+		move:function(e,scope){
 			var
 				s = scope.data,
 				f = s.flags,
 				c = s.tools.selection.element,
 				cursorClass = '',
-				h={}
+				h={},
+				downFlag = (s.flags.mouseEvent=='mousedown'||s.flags.mouseEvent=='touchstart')?true:false
 			;
 			// set adequate cursor
 			if (c && c.typeNum==2){
@@ -531,7 +540,7 @@ config.tools={
 			}
 
 			//resize or move
-			if ((c) && (c.typeNum==2) && (e.buttons==1) && (s.flags.mouseEvent =='mousedown')){
+			if ((c) && (c.typeNum==2) && downFlag){
 				console.log(e);
 				var
 					leftPx = c.style.lPx,
@@ -561,6 +570,12 @@ config.tools={
 					s.fn.modifiers.modifyElementArea(scope,'top',e.originalEvent.movementY);
 				}
 			}
+		},
+	    mousemove:function(e,scope){
+			scope.data.tools.selection.move(e,scope);
+	    },
+	    touchmove:function(e,scope){
+			scope.data.tools.selection.move(e,scope);
 	    }
 	}
 };

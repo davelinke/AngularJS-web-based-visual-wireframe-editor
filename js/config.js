@@ -95,6 +95,7 @@ var config = {
 			copy:'Copy',
 			properties:'Properties',
 			top:'top',
+			left:'left',
 			text:'text',
 			textAlign:'text align',
 			fontSize:'font size',

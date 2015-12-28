@@ -1,6 +1,6 @@
 <div id="upperHeader" x-listen-keystrokes>
 	<div id="mainMenuRow" flyout-menu="data.menus"></div>
-	<div id="toolOptions"></div>
+	<!--<div id="toolOptions"></div>-->
 </div>
 <div id="wrapper">
 	<div id="mainTools">
@@ -26,7 +26,28 @@
 	<div id="sidebar" class="{{data.config.sidebarClass}}">
 		<div id="elementProperties" class="toolset">
 			<h3>{{data.lang[data.lang.act].properties}}</h3>
-			<div class="scroll-y">
+			<div class="scroll-y" ng-hide="data.selection.active.typeNum==2">
+				<div class="element-property">
+					<div class="col-sm-12">
+						<input type="checkbox" class="margin-no" ng-model="data.screen.overflow" /> <label>Canvas overflow</label>
+					</div>
+				</div>
+				<div class="element-property">
+					<div class="col-sm-2">
+						<label>{{data.lang[data.lang.act].width}}</label>
+					</div>
+					<div class="col-sm-4">
+						<input type="text" class="form-control w-full" unitless-value="data.screen.wPx" ng-model="data.screen.width" x-key-increment />
+					</div>
+					<div class="col-sm-2">
+						<label>{{data.lang[data.lang.act].height}}</label>
+					</div>
+					<div class="col-sm-4">
+						<input type="text" class="form-control w-full" unitless-value="data.screen.hPx"ng-model="data.screen.height" x-key-increment />
+					</div>
+				</div>
+			</div>
+			<div class="scroll-y" ng-show="data.selection.active.typeNum==2">
 				<!--<div class="element-property">
 					<div class="col-sm-4">
 						<label>{{data.lang[data.lang.act].top}}</label>
@@ -35,13 +56,43 @@
 						<input type="text" class="form-control w-full" ng-model="data.selection.active.style.top" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
 					</div>
 				</div>-->
+
 				<h4>{{data.lang[data.lang.act].layout}}</h4>
+				<div class="element-property">
+					<div class="col-sm-2">
+						<label>{{data.lang[data.lang.act].top}}</label>
+					</div>
+					<div class="col-sm-4">
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['top']" x-key-increment />
+					</div>
+					<div class="col-sm-2">
+						<label>{{data.lang[data.lang.act].left}}</label>
+					</div>
+					<div class="col-sm-4">
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['left']" x-key-increment />
+					</div>
+				</div>
+				<div class="element-property">
+					<div class="col-sm-2">
+						<label>{{data.lang[data.lang.act].width}}</label>
+					</div>
+					<div class="col-sm-4">
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['width']" x-key-increment />
+					</div>
+					<div class="col-sm-2">
+						<label>{{data.lang[data.lang.act].height}}</label>
+					</div>
+					<div class="col-sm-4">
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['height']" x-key-increment />
+					</div>
+				</div>
+				<hr>
 				<div class="element-property">
 					<div class="col-sm-4">
 						<label>{{data.lang[data.lang.act].padding}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['padding']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" x-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['padding']" x-key-increment />
 					</div>
 				</div>
 				<div class="element-property">
@@ -49,7 +100,7 @@
 						<label>{{data.lang[data.lang.act].margin}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['margin']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" x-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['margin']" x-key-increment />
 					</div>
 				</div>
 				<div class="element-property">
@@ -57,7 +108,7 @@
 						<label>{{data.lang[data.lang.act].overflow}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['overflow']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['overflow']" />
 					</div>
 				</div>
 				<h4>{{data.lang[data.lang.act].text}}</h4>
@@ -66,7 +117,7 @@
 						<label>{{data.lang[data.lang.act].text}}</label>
 					</div>
 					<div class="col-sm-8">
-						<textarea class="form-control w-full" ng-model="data.selection.active.text" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]"></textarea>
+						<textarea class="form-control w-full" ng-model="data.selection.active.text"></textarea>
 					</div>
 				</div>
 				<div class="element-property">
@@ -74,7 +125,7 @@
 						<label>{{data.lang[data.lang.act].textAlign}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['text-align']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['text-align']" />
 					</div>
 				</div>
 				<div class="element-property">
@@ -82,7 +133,7 @@
 						<label>{{data.lang[data.lang.act].fontSize}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['font-size']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" x-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['font-size']" x-key-increment />
 					</div>
 				</div>
 				<div class="element-property">
@@ -90,7 +141,7 @@
 						<label>{{data.lang[data.lang.act].fontColor}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input  type="text" class="form-control w-full" ng-model="data.selection.active.style['color']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
+						<input  type="text" class="form-control w-full" ng-model="data.selection.active.style['color']" />
 					</div>
 				</div>
 				<div class="element-property">
@@ -98,7 +149,7 @@
 						<label>{{data.lang[data.lang.act].fontFamily}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input  type="text" class="form-control w-full" ng-model="data.selection.active.style['font-family']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
+						<input  type="text" class="form-control w-full" ng-model="data.selection.active.style['font-family']" />
 					</div>
 				</div>
 				<div class="element-property">
@@ -106,7 +157,7 @@
 						<label>{{data.lang[data.lang.act].fontWeight}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input  type="text" class="form-control w-full" ng-model="data.selection.active.style['font-weight']" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
+						<input  type="text" class="form-control w-full" ng-model="data.selection.active.style['font-weight']" />
 					</div>
 				</div>
 			</div>
