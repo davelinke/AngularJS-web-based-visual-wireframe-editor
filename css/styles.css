@@ -572,7 +572,7 @@ html, body, #mainWrapper {
       flex-direction: column;
       height: 35%; }
       #wrapper #sidebar .toolset hr {
-        border-top: 2px solid #323232;
+        border-top: 2px solid #1c1c1c;
         margin: 0.5em 0.8em 0.8em; }
     #wrapper #sidebar .btn-link {
       color: #B6B6B6; }
