@@ -1,3 +1,4 @@
+<style type="text/css" inline-styles ng-model="data.tree.root"></style>
 <div id="upperHeader" x-listen-keystrokes>
 	<div id="mainMenuRow" flyout-menu="data.menus"></div>
 	<!--<div id="toolOptions"></div>-->
@@ -18,7 +19,7 @@
 			<div id="screen" class="tr-sq">
 				<div id="guides" class="work-layer"></div>
 				<div id="canvas" class="work-layer"></div>
-				<div class="{{child.type}} {{child.cursorClass}}" ng-class="{selected:child.selected}" id="screen_{{child.id}}" tree="child in data.tree.root.children at none" ng-style="child.style" ob-id="{{child.id}}" ob-type="{{child.type}}">{{child.text}}</div>
+				<div class="{{child.type}} {{child.cursorClass}}" ng-class="{selected:child.selected}" id="screen_{{child.id}}" tree="child in data.tree.root.children at none" ng-style="child.styles.normal" ob-id="{{child.id}}" ob-type="{{child.type}}">{{child.text}}</div>
 			</div>
 		</div>
 		<div id="actions" style="width:calc({{data.screen.width}} + 10px);" tool-actions></div>
@@ -48,28 +49,19 @@
 				</div>
 			</div>
 			<div class="scroll-y" ng-show="data.selection.active.typeNum==2">
-				<!--<div class="element-property">
-					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].top}}</label>
-					</div>
-					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style.top" ng-disabled="{true: true, false: false}[data.selection.active.typeNum!=2]" />
-					</div>
-				</div>-->
-
 				<h4>{{data.lang[data.lang.act].layout}}</h4>
 				<div class="element-property">
 					<div class="col-sm-2">
 						<label>{{data.lang[data.lang.act].top}}</label>
 					</div>
 					<div class="col-sm-4">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['top']" x-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles.normal['top']" ng-property='top' area-key-increment />
 					</div>
 					<div class="col-sm-2">
 						<label>{{data.lang[data.lang.act].left}}</label>
 					</div>
 					<div class="col-sm-4">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['left']" x-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles.normal['left']" ng-property='left' area-key-increment />
 					</div>
 				</div>
 				<div class="element-property">
@@ -77,13 +69,13 @@
 						<label>{{data.lang[data.lang.act].width}}</label>
 					</div>
 					<div class="col-sm-4">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['width']" x-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles.normal['width']" ng-property='width' area-key-increment />
 					</div>
 					<div class="col-sm-2">
 						<label>{{data.lang[data.lang.act].height}}</label>
 					</div>
 					<div class="col-sm-4">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['height']" x-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles.normal['height']" ng-property='height' area-key-increment />
 					</div>
 				</div>
 				<hr>
@@ -92,7 +84,7 @@
 						<label>{{data.lang[data.lang.act].padding}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['padding']" x-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles.normal['padding']" x-key-increment />
 					</div>
 				</div>
 				<div class="element-property">
@@ -100,7 +92,7 @@
 						<label>{{data.lang[data.lang.act].margin}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['margin']" x-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles.normal['margin']" x-key-increment />
 					</div>
 				</div>
 				<div class="element-property">
@@ -108,7 +100,7 @@
 						<label>{{data.lang[data.lang.act].overflow}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['overflow']" />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles.normal['overflow']" />
 					</div>
 				</div>
 				<h4>{{data.lang[data.lang.act].text}}</h4>
@@ -125,7 +117,7 @@
 						<label>{{data.lang[data.lang.act].textAlign}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['text-align']" />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles.normal['text-align']" />
 					</div>
 				</div>
 				<div class="element-property">
@@ -133,7 +125,7 @@
 						<label>{{data.lang[data.lang.act].fontSize}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.style['font-size']" x-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles.normal['font-size']" x-key-increment />
 					</div>
 				</div>
 				<div class="element-property">
@@ -141,7 +133,7 @@
 						<label>{{data.lang[data.lang.act].fontColor}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input  type="text" class="form-control w-full" ng-model="data.selection.active.style['color']" />
+						<input  type="text" class="form-control w-full" ng-model="data.selection.active.styles.normal['color']" />
 					</div>
 				</div>
 				<div class="element-property">
@@ -149,7 +141,7 @@
 						<label>{{data.lang[data.lang.act].fontFamily}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input  type="text" class="form-control w-full" ng-model="data.selection.active.style['font-family']" />
+						<input  type="text" class="form-control w-full" ng-model="data.selection.active.styles.normal['font-family']" />
 					</div>
 				</div>
 				<div class="element-property">
@@ -157,7 +149,7 @@
 						<label>{{data.lang[data.lang.act].fontWeight}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input  type="text" class="form-control w-full" ng-model="data.selection.active.style['font-weight']" />
+						<input  type="text" class="form-control w-full" ng-model="data.selection.active.styles.normal['font-weight']" />
 					</div>
 				</div>
 			</div>

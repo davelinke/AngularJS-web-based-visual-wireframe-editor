@@ -380,11 +380,11 @@ config.tools={
 						console.log(d);
 						var
 							//determine the position relative to the parent
-							plTop = selectedLayer.style.tPx; //$.pxNum(selectedLayer.style.top),
-							plLeft = selectedLayer.style.lPx; //$.pxNum(selectedLayer.style.left),
-							nlTop = d.config.areaStyle.tPx; //$.pxNum(d.config.areaStyle.top),
-							nlLeft = d.config.areaStyle.lPx; //$.pxNum(d.config.areaStyle.left),
-							nlOffset = s.fn.calculateOffset(s,selectedLayer,d.config.areaStyle) //$.calculateOffset(s,selectedLayer,d.config.areaStyle)
+							plTop = selectedLayer.styles.normal.tPx,
+							plLeft = selectedLayer.styles.normal.lPx,
+							nlTop = d.config.areaStyle.tPx,
+							nlLeft = d.config.areaStyle.lPx,
+							nlOffset = s.fn.calculateOffset(s,selectedLayer,d.config.areaStyle)
 						;
 						selectedLayer.children.push({
 							id:s.fn.tree.newLayerName({pre:args.scope.data.lang[args.scope.data.lang.act].element,data:args.scope.data}),
@@ -392,21 +392,22 @@ config.tools={
 							cursorClass:'',
 							typeNum:2,
 							children:[],
-							style:$.extend({
-								position:'absolute',
-								left:nlOffset.left,
-								lPx:nlOffset.lPx,
-								top:nlOffset.top,
-								tPx:nlOffset.tPx,
-								width: d.config.areaStyle.width,
-								wPx:d.config.areaStyle.wPx,
-								height: d.config.areaStyle.height,
-								hPx:d.config.areaStyle.hPx,
-								overflow:'hidden'
-							},s.drawStyle)
+							styles:{
+								'normal':$.extend({
+									position:'absolute',
+									left:nlOffset.left,
+									lPx:nlOffset.lPx,
+									top:nlOffset.top,
+									tPx:nlOffset.tPx,
+									width: d.config.areaStyle.width,
+									wPx:d.config.areaStyle.wPx,
+									height: d.config.areaStyle.height,
+									hPx:d.config.areaStyle.hPx,
+									overflow:'hidden'
+								},s.drawStyle)
+							}
 						});
 					}
-
 					d.isDrawing = false;
 					d.resetConfig(args.scope);
 				}
@@ -498,8 +499,8 @@ config.tools={
 				s.data.fn.tree.toggleSelected({child:t.element,data:s.data});
 				s.data.flags.resizeLeft = (e.offsetX<5)?true:false;
 				s.data.flags.resizeTop = (e.offsetY<5)?true:false;
-				s.data.flags.resizeRight = (e.offsetX>(t.element.style.wPx - 5))?true:false;
-				s.data.flags.resizeBottom = (e.offsetY>(t.element.style.hPx - 5))?true:false;
+				s.data.flags.resizeRight = (e.offsetX>(t.element.styles.normal.wPx - 5))?true:false;
+				s.data.flags.resizeBottom = (e.offsetY>(t.element.styles.normal.hPx - 5))?true:false;
 			}
 		},
 	    mousedown:function(args){
@@ -533,9 +534,9 @@ config.tools={
 			// set adequate cursor
 			if (c && c.typeNum==2){
 				if (e.offsetY<5) cursorClass +='n';
-				if (e.offsetY>(c.style.hPx - 5)) cursorClass +='s';
+				if (e.offsetY>(c.styles.normal.hPx - 5)) cursorClass +='s';
 				if (e.offsetX<5) cursorClass +='w';
-				if (e.offsetX>(c.style.wPx - 5)) cursorClass +='e';
+				if (e.offsetX>(c.styles.normal.wPx - 5)) cursorClass +='e';
 				c.cursorClass = cursorClass;
 			}
 
@@ -543,8 +544,8 @@ config.tools={
 			if ((c) && (c.typeNum==2) && downFlag){
 				console.log(e);
 				var
-					leftPx = c.style.lPx,
-					topPx = c.style.tPx
+					leftPx = c.styles.normal.lPx,
+					topPx = c.styles.normal.tPx
 				;
 				if(f.resizeLeft||f.resizeTop||f.resizeRight||f.resizeBottom){
 					if (f.resizeLeft){

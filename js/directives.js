@@ -55,6 +55,7 @@ directive('areaKeyIncrement',[function(){
 						key = e.keyCode,
 						nuVal
 					;
+					console.log(attrs.ngProperty);
 					if (key == 40) { // down;
 						e.preventDefault();
 						nuVal = scope.data.fn.modifiers.modifyElementArea(scope,attrs.ngProperty,-1);
@@ -330,7 +331,7 @@ directive('colorPicker',['$compile',function($compile){
 				if (selection.type == 'layer') {
 					s.data.stylePickers[scope.which] = s.data.drawStyle[scope.which];
 				} else {
-					s.data.stylePickers[scope.which] = selection.style[scope.which];
+					s.data.stylePickers[scope.which] = selection.styles.normal[scope.which];
 				}
 			};
 			setSwatch();
@@ -341,7 +342,7 @@ directive('colorPicker',['$compile',function($compile){
                 if(s.data.selection.active.type=="layer"){
                     s.data.drawStyle[scope.which] = a;
                 } else {
-                    s.data.selection.active.style[scope.which] = a;
+                    s.data.selection.active.styles.normal[scope.which] = a;
                 }
             });
 		}
@@ -364,7 +365,7 @@ directive('drawstyleSelectionModifier', ['$compile',function ($compile) {
 				if (selection.type == 'layer') {
 					s.data.stylePickers[scope.which] = s.data.drawStyle[scope.which];
 				} else {
-					s.data.stylePickers[scope.which] = selection.style[scope.which];
+					s.data.stylePickers[scope.which] = selection.styles.normal[scope.which];
 				}
 			};
 			setStyle();
@@ -375,7 +376,7 @@ directive('drawstyleSelectionModifier', ['$compile',function ($compile) {
 				if(s.data.selection.active.type=="layer"){
 					s.data.drawStyle[scope.which] = a;
 				} else {
-					s.data.selection.active.style[scope.which] = a;
+					s.data.selection.active.styles.normal[scope.which] = a;
 				}
 			});
 		}
@@ -402,5 +403,43 @@ directive('flyoutMenu',[function(){
 			menuId:'@id'
 		},
 		template:'<div class="flyoutMenuWrapper" ng-class="{true: \'active\', false: \'\'}[menus.active]"><div ng-repeat="(menuName,menu) in menus.menus" id="{{menuName}}Menu" class="flyout-menu" ng-class="{true: \'active\', false: \'\'}[menu.active]"><button id="{{menuName}}MenuButton" type="button" ng-class="menu.iconClass" ng-click="$parent.$parent.data.fn.flyoutMenu.activate($parent.$parent.data.menus,$parent.$parent)" ng-mouseover="$parent.$parent.data.fn.flyoutMenu.toggle(menu,$parent.$parent.data.menus)">{{menu.label}}</button><div class="flyout"><button ng-repeat="action in menu.actions" ng-click="action.fn($parent)" ng-disabled="action.disabled">{{action.label}}</button></div></div>'
+	};
+}]).
+directive('inlineStyles', [function () {
+	return {
+		scope:{
+			element:'=ngModel'
+		},
+		template:'{{styleString}}',
+		link:function(scope,t,attrs){
+			var createStyles = function(){
+				scope.styleString="";
+				var writeStyles = function(element){
+					if (typeof(element.styles)!='undefined'){
+						var styles = element.styles;
+						var id = '#screen_'+element.id;
+						for (var state in styles){
+							if (state!='normal'){
+								scope.styleString += id+(state=='normal'?'':state)+'{';
+								for (var property in styles[state]){
+									scope.styleString += property +':'+styles[state][property]+';';
+								}
+								scope.styleString += '}';
+							}
+						}
+					}
+					if (element.children.length>0) {
+						for (var i=0;i<element.children.length;i++){
+							writeStyles(element.children[i]);
+						}
+					}
+				};
+				writeStyles(scope.element);
+				console.log(scope.styleString);
+			};
+			scope.$watch('element',function(newValue){
+				createStyles();
+			},true);
+		}
 	};
 }]);

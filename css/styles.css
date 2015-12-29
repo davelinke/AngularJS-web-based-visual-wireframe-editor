@@ -480,7 +480,7 @@ html, body, #mainWrapper {
         #wrapper #workarea #screen div.work-layer.drawArea {
           cursor: crosshair; }
         #wrapper #workarea #screen div.work-layer .draw-area {
-          background: linear-gradient(90deg, #000 50%, transparent 50%), linear-gradient(90deg, #000 50%, transparent 50%), linear-gradient(0deg, #000 50%, transparent 50%), linear-gradient(0deg, #000 50%, transparent 50%);
+          background-image: linear-gradient(90deg, #000 50%, transparent 50%), linear-gradient(90deg, #000 50%, transparent 50%), linear-gradient(0deg, #000 50%, transparent 50%), linear-gradient(0deg, #000 50%, transparent 50%);
           background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
           background-size: 10px 1px, 10px 1px, 1px 10px, 1px 10px;
           background-position: left top, 10px bottom, left top, right 10px;
@@ -497,7 +497,7 @@ html, body, #mainWrapper {
       #wrapper #workarea #screen div .element {
         cursor: default; }
       #wrapper #workarea #screen div .selected {
-        background: linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%);
+        background-image: linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%);
         background-repeat: repeat-x, repeat-x, repeat-y, repeat-y, no-repeat, no-repeat, no-repeat, no-repeat;
         background-size: 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px;
         background-position: left top, left bottom, left top, right top, left top, right top, left bottom, right bottom; }
@@ -510,12 +510,12 @@ html, body, #mainWrapper {
         #wrapper #workarea #screen div .selected.ne, #wrapper #workarea #screen div .selected.sw {
           cursor: nesw-resize; }
       #wrapper #workarea #screen div [ob-type="element"]:hover {
-        background: linear-gradient(45deg, transparent calc(50% - 1px), #0f0 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #0f0 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #0f0 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #0f0 1px, transparent calc(50%)), linear-gradient(0deg, #0f0 0, #0f0 100%), linear-gradient(0deg, #0f0 0, #0f0 100%), linear-gradient(0deg, #0f0 0, #0f0 100%), linear-gradient(0deg, #0f0 0, #0f0 100%);
+        background-image: linear-gradient(45deg, transparent calc(50% - 1px), #0f0 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #0f0 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #0f0 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #0f0 1px, transparent calc(50%)), linear-gradient(0deg, #0f0 0, #0f0 100%), linear-gradient(0deg, #0f0 0, #0f0 100%), linear-gradient(0deg, #0f0 0, #0f0 100%), linear-gradient(0deg, #0f0 0, #0f0 100%);
         background-repeat: repeat-x, repeat-x, repeat-y, repeat-y, no-repeat, no-repeat, no-repeat, no-repeat;
         background-size: 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px;
         background-position: left top, left bottom, left top, right top, left top, right top, left bottom, right bottom; }
       #wrapper #workarea #screen div [ob-type="element"]:active {
-        background: linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%);
+        background-image: linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(45deg, transparent calc(50% - 1px), #00f 1px, transparent calc(50%)), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%), linear-gradient(0deg, #00f 0, #00f 100%);
         background-repeat: repeat-x, repeat-x, repeat-y, repeat-y, no-repeat, no-repeat, no-repeat, no-repeat;
         background-size: 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px, 5px 5px;
         background-position: left top, left bottom, left top, right top, left top, right top, left bottom, right bottom; }

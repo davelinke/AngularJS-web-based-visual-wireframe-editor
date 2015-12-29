@@ -38,7 +38,7 @@ $shadowMain:0 2px 5px rgba(0, 0, 0, 0.5);
 }
 @mixin bg-slashes($color){
 
-	background:
+	background-image:
 		linear-gradient(45deg, transparent calc(50% - 1px), $color 1px, transparent calc(50%)),
 		linear-gradient(45deg, transparent calc(50% - 1px), $color 1px, transparent calc(50%)),
 		linear-gradient(45deg, transparent calc(50% - 1px), $color 1px, transparent calc(50%)),
@@ -327,7 +327,7 @@ html,body,#mainWrapper{
 						cursor:crosshair;
 					}
 					.draw-area{
-						background: linear-gradient(90deg, #000 50%, transparent 50%), linear-gradient(90deg, #000 50%, transparent 50%), linear-gradient(0deg, #000 50%, transparent 50%), linear-gradient(0deg, #000 50%, transparent 50%);
+						background-image: linear-gradient(90deg, #000 50%, transparent 50%), linear-gradient(90deg, #000 50%, transparent 50%), linear-gradient(0deg, #000 50%, transparent 50%), linear-gradient(0deg, #000 50%, transparent 50%);
 						background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
 						background-size: 10px 1px, 10px 1px, 1px 10px, 1px 10px;
 						background-position: left top, 10px bottom, left top, right 10px;

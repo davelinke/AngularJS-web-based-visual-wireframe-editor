@@ -13,23 +13,27 @@ var config = {
 			type: 'layer',
 			typeNum:1, // 0 for the root level, 1 for layers and 2 for elments;
 			selected:false,
-			style:{
-				top:'0',
-				tPx:0,
-				left:'0',
-				lPx:0,
-				width:'0',
-				wPx:0,
-				height:'0',
-				hPx:0,
-				overflow:'visible',
-				'border-width':'0px',
-				bwPx:0
+			styles:{
+				'normal':{top:'0',
+					tPx:0,
+					left:'0',
+					lPx:0,
+					width:'0',
+					wPx:0,
+					height:'0',
+					hPx:0,
+					overflow:'visible',
+					'border-width':'0px',
+					bwPx:0
+				}
 			},
 			children : []
 		}],
 		type:'root',
-		typeNum:0
+		typeNum:0,
+		styles:{
+			normal:{}
+		}
 	},
 	templates:{
 		properties:'<strong>properties</strong>'
