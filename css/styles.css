@@ -358,7 +358,12 @@ html, body, #mainWrapper {
       height: 23px;
       line-height: 1.1em;
       padding: 0 0.3em;
+      /* firefox 19+ */
       width: 50px; }
+      #toolOptions .form-group input[type="text"]::-webkit-input-placeholder {
+        color: #696969; }
+      #toolOptions .form-group input[type="text"]::-moz-placeholder {
+        color: #696969; }
 
 #wrapper {
   display: flex;
@@ -529,6 +534,17 @@ html, body, #mainWrapper {
     flex-wrap: nowrap;
     align-content: stretch;
     align-items: stretch; }
+    #wrapper #sidebar .btn:not(.btn-link) {
+      background-color: transparent;
+      border-color: #1c1c1c;
+      color: #9b9b9b;
+      padding: 0.3rem 0.7rem; }
+      #wrapper #sidebar .btn:not(.btn-link) .fa {
+        font-size: 1.4rem;
+        line-height: 1.4rem; }
+      #wrapper #sidebar .btn:not(.btn-link).active, #wrapper #sidebar .btn:not(.btn-link):hover {
+        background-color: #1c1c1c;
+        color: #a6a6a6; }
     #wrapper #sidebar #elementProperties {
       color: #828282;
       height: 65%; }
@@ -562,7 +578,12 @@ html, body, #mainWrapper {
         font-size: 1.1em;
         height: 23px;
         line-height: 1.1em;
-        padding: 0 0.3em; }
+        padding: 0 0.3em;
+        /* firefox 19+ */ }
+        #wrapper #sidebar #elementProperties input:not([type="checkbox"])::-webkit-input-placeholder, #wrapper #sidebar #elementProperties textarea::-webkit-input-placeholder, #wrapper #sidebar #elementProperties select::-webkit-input-placeholder {
+          color: #696969; }
+        #wrapper #sidebar #elementProperties input:not([type="checkbox"])::-moz-placeholder, #wrapper #sidebar #elementProperties textarea::-moz-placeholder, #wrapper #sidebar #elementProperties select::-moz-placeholder {
+          color: #696969; }
       #wrapper #sidebar #elementProperties textarea {
         height: 50px; }
     #wrapper #sidebar .toolset {

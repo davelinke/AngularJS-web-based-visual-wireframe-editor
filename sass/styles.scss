@@ -14,6 +14,8 @@ $shadowMain:0 2px 5px rgba(0, 0, 0, 0.5);
 	height: 23px;
 	line-height: 1.1em;
 	padding: 0 0.3em;
+	&::-webkit-input-placeholder { color:#696969; }
+	&::-moz-placeholder { color:#696969; } /* firefox 19+ */
 }
 @mixin button-well(){
 	align-self: center;
@@ -178,6 +180,8 @@ html,body,#mainWrapper{
 		}
 	}
 }
+
+
 #toolOptions{
 	height:37px;
 	@include chrome-heading();
@@ -384,6 +388,21 @@ html,body,#mainWrapper{
 		flex-wrap: nowrap;
 		align-content: stretch;
     	align-items: stretch;
+
+		.btn:not(.btn-link) {
+		    background-color: transparent;
+		    border-color: #1c1c1c;
+		    color: #9b9b9b;
+			padding: 0.3rem 0.7rem;
+			.fa {
+			    font-size: 1.4rem;
+			    line-height: 1.4rem;
+			}
+			&.active, &:hover{
+				background-color: #1c1c1c;
+				color:#a6a6a6;
+			}
+		}
 		#elementProperties{
 			color:#828282;
 			height: 65%;

@@ -40,13 +40,13 @@
 						<label>{{data.lang[data.lang.act].width}}</label>
 					</div>
 					<div class="col-sm-4">
-						<input type="text" class="form-control w-full" unitless-value="data.screen.wPx" ng-model="data.screen.width" x-key-increment />
+						<input type="text" class="form-control w-full" unitless-value="data.screen.wPx" ng-model="data.screen.width" placeholder="XXpx" x-key-increment />
 					</div>
 					<div class="col-sm-2">
 						<label></label>
 					</div>
 					<div class="col-sm-4">
-						<input type="text" class="form-control w-full" unitless-value="data.screen.hPx"ng-model="data.screen.height" x-key-increment />
+						<input type="text" class="form-control w-full" unitless-value="data.screen.hPx"ng-model="data.screen.height" placeholder="XXpx" x-key-increment />
 					</div>
 				</div>
 			</div>
@@ -72,13 +72,13 @@
 						<label>{{data.lang[data.lang.act].top}}</label>
 					</div>
 					<div class="col-sm-4">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['top']" ng-property='top' area-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['top']" placeholder="XXpx" ng-property='top' area-key-increment />
 					</div>
 					<div class="col-sm-2">
 						<label>{{data.lang[data.lang.act].left}}</label>
 					</div>
 					<div class="col-sm-4">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['left']" ng-property='left' area-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['left']" placeholder="XXpx" ng-property='left' area-key-increment />
 					</div>
 				</div>
 				<div class="element-property">
@@ -86,13 +86,13 @@
 						<label>{{data.lang[data.lang.act].width}}</label>
 					</div>
 					<div class="col-sm-4">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['width']" ng-property='width' area-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['width']" placeholder="XXpx" ng-property='width' area-key-increment />
 					</div>
 					<div class="col-sm-2">
 						<label>{{data.lang[data.lang.act].height}}</label>
 					</div>
 					<div class="col-sm-4">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['height']" ng-property='height' area-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['height']" placeholder="XXpx" ng-property='height' area-key-increment />
 					</div>
 				</div>
 				<hr>
@@ -101,7 +101,7 @@
 						<label>{{data.lang[data.lang.act].padding}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['padding']" x-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['padding']" placeholder="0px" x-key-increment />
 					</div>
 				</div>
 				<div class="element-property">
@@ -109,7 +109,7 @@
 						<label>{{data.lang[data.lang.act].margin}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['margin']" x-key-increment />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['margin']" placeholder="0px" x-key-increment />
 					</div>
 				</div>
 				<div class="element-property">
@@ -117,40 +117,56 @@
 						<label>{{data.lang[data.lang.act].overflow}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['overflow']" />
+						<select class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['overflow']">
+							<option value="hidden">
+								{{data.lang[data.lang.act].hidden}}
+							</option>
+							<option value="scroll">
+								{{data.lang[data.lang.act].scroll}}
+							</option>
+							<option value="auto">
+								{{data.lang[data.lang.act].auto}}
+							</option>
+							<option value="initial">
+								{{data.lang[data.lang.act].initial}}
+							</option>
+							<option value="inherit">
+								{{data.lang[data.lang.act].inherit}}
+							</option>
+						</select>
 					</div>
 				</div>
 				<h4>{{data.lang[data.lang.act].text}}</h4>
 				<div class="element-property">
-					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].text}}</label>
-					</div>
-					<div class="col-sm-8">
-						<textarea class="form-control w-full" ng-model="data.selection.active.text"></textarea>
+					<div class="col-sm-12">
+						<textarea class="form-control w-full" ng-model="data.selection.active.text" placeholder="{{data.lang[data.lang.act].textElementPlaceHolder}}"></textarea>
 					</div>
 				</div>
+				<hr />
 				<div class="element-property">
 					<div class="col-sm-4">
 						<label>{{data.lang[data.lang.act].textAlign}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['text-align']" />
+						<div class="btn-group" role="group">
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-align']=='left']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-align']='left'" title="{{data.lang[data.lang.act].align}} {{data.lang[data.lang.act].left}}"><i class="fa fa-align-left"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-align']=='center']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-align']='center'" title="{{data.lang[data.lang.act].align}} {{data.lang[data.lang.act].center}}"><i class="fa fa-align-center"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-align']=='right']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-align']='right'" title="{{data.lang[data.lang.act].align}} {{data.lang[data.lang.act].right}}"><i class="fa fa-align-right"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-align']=='justify']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-align']='justify'" title="{{data.lang[data.lang.act].align}} {{data.lang[data.lang.act].justify}}"><i class="fa fa-align-justify"></i></button>
+						</div>
 					</div>
 				</div>
 				<div class="element-property">
 					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].fontSize}}</label>
+						<label>{{data.lang[data.lang.act].textStyle}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['font-size']" x-key-increment />
-					</div>
-				</div>
-				<div class="element-property">
-					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].fontColor}}</label>
-					</div>
-					<div class="col-sm-8">
-						<input  type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['color']" />
+						<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['font-weight']=='bold']}}" ng-click="data.selection.active.styles[data.flags.elementState]['font-weight']=({true:'normal',false:'bold'}[data.selection.active.styles[data.flags.elementState]['font-weight']=='bold'])" title="{{data.lang[data.lang.act].bold}}"><i class="fa fa-bold"></i></button>
+						<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['font-style']=='italic']}}" ng-click="data.selection.active.styles[data.flags.elementState]['font-style']=({true:'normal',false:'italic'}[data.selection.active.styles[data.flags.elementState]['font-style']=='italic'])" title="{{data.lang[data.lang.act].italic}}"><i class="fa fa-italic"></i></button>
+						<div class="btn-group" role="group">
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-decoration']=='underline']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-decoration']=({true:'normal',false:'underline'}[data.selection.active.styles[data.flags.elementState]['text-decoration']=='underline'])" title="{{data.lang[data.lang.act].underline}}"><i class="fa fa-underline"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-decoration']=='line-through']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-decoration']=({true:'normal',false:'line-through'}[data.selection.active.styles[data.flags.elementState]['text-decoration']=='line-through'])" title="{{data.lang[data.lang.act].strikeThrough}}"><i class="fa fa-strikethrough"></i></button>
+						</div>
 					</div>
 				</div>
 				<div class="element-property">
@@ -158,15 +174,54 @@
 						<label>{{data.lang[data.lang.act].fontFamily}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input  type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['font-family']" />
+						<select class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['font-family']">
+							<optgroup label="Sans Serif">
+								<option value='Arial, Helvetica, sans-serif' style="font-family:Arial, Helvetica, sans-serif">Arial, Helvetica, sans-serif</option>
+								<option value='"Arial Black", Gadget, sans-serif' style='font-family:"Arial Black", Gadget, sans-serif'>Arial Black, Gadget, sans-serif</option>
+								<option value='"Comic Sans MS", cursive, sans-serif' style='font-family:"Comic Sans MS", cursive, sans-serif'>Comic Sans MS, cursive, sans-serif</option>
+								<option value="Impact, Charcoal, sans-serif" style='font-family:Impact, Charcoal, sans-serif'>Impact, Charcoal, sans-serif</option>
+								<option value='"Lucida Sans Unicode", "Lucida Grande", sans-serif' style='font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif'>Lucida Sans Unicode, Lucida Grande, sans-serif</option>
+								<option value='Tahoma, Geneva, sans-serif' style='font-family:Tahoma, Geneva, sans-serif'>Tahoma, Geneva, sans-serif</option>
+								<option value='"Trebuchet MS", Helvetica, sans-serif' style='font-family:"Trebuchet MS", Helvetica, sans-serif'>"Trebuchet MS", Helvetica, sans-serif</option>
+								<option value='Verdana, Geneva, sans-serif' style='font-family:Verdana, Geneva, sans-serif'>Verdana, Geneva, sans-serif</option>
+							</optgroup>
+							<optgroup label="Serif">
+								<option value='Georgia, serif' style='font-family:Georgia, serif'>Georgia, serif</option>
+								<option value='"Palatino Linotype", "Book Antiqua", Palatino, serif' style='font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif'>Palatino Linotype, Book Antiqua, Palatino, serif</option>
+								<option value='"Times New Roman", Times, serif' style='font-family:"Times New Roman", Times, serif'>Times New Roman, Times, serif</option>
+							</optgroup>
+							<optgroup label="Monospaced">
+								<option value='"Courier New", Courier, monospace' style='font-family:"Courier New", Courier, monospace'>Courier New, Courier, monospace</option>
+								<option value='"Lucida Console", Monaco, monospace' style='font-family:"Lucida Console", Monaco, monospace'>Lucida Console, Monaco, monospace</option>
+							</optgroup>
+						</select>
 					</div>
 				</div>
 				<div class="element-property">
 					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].fontWeight}}</label>
+						<label>{{data.lang[data.lang.act].fontSize}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input  type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['font-weight']" />
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['font-size']" placeholder="16px" x-key-increment />
+					</div>
+				</div>
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{data.lang[data.lang.act].fontColor}}</label>
+					</div>
+					<div class="col-sm-8">
+						<input  type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['color']" placeholder="black" />
+					</div>
+				</div>
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{data.lang[data.lang.act].textWrap}}</label>
+					</div>
+					<div class="col-sm-8">
+						<select class="form-control w-full"  ng-model="data.selection.active.styles[data.flags.elementState]['white-space']">
+							<option value="pre-wrap">{{data.lang[data.lang.act].normal}}</option>
+							<option value="nowrap">{{data.lang[data.lang.act].noWrap}}</option>
+						</select>
 					</div>
 				</div>
 			</div>

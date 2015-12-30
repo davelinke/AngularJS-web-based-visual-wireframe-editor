@@ -113,7 +113,25 @@ var config = {
 			canvasOverflow:'canvas overflow',
 			baseStyle:'base style',
 			hover:'hover',
-			active:'active'
+			active:'active',
+			textWrap:'text wrap',
+			align:'align',
+			center:'center',
+			right:'right',
+			justify:'justify',
+			textElementPlaceHolder:'The text you\'d like your element to have',
+			hidden:'hidden',
+			scroll:'scroll',
+			auto:'auto',
+			initial:'initial',
+			inherit:'inherit',
+			textStyle:'ttext style',
+			bold:'bold',
+			italic:'italic',
+			underline:'underline',
+			strikeThrough:'strike through',
+			normal:'normal',
+			noWrap:'no wrap'
 		}
 	},
 	drawStyle : {

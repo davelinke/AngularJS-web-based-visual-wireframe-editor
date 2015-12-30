@@ -403,7 +403,8 @@ config.tools={
 									wPx:d.config.areaStyle.wPx,
 									height: d.config.areaStyle.height,
 									hPx:d.config.areaStyle.hPx,
-									overflow:'hidden'
+									overflow:'hidden',
+									'white-space':'pre-wrap'
 								},s.drawStyle)
 							}
 						});
