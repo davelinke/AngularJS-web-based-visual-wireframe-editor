@@ -317,35 +317,13 @@ directive('tree', function () {
 	};
 }).
 directive('colorPicker',['$compile',function($compile){
-    return {
+	return {
 		scope:{
-			which:'@which'
+			which:'@which',
 		},
-		template:'<div class="tr-sq"><input type="text" class="swatch" style="background-color:{{$parent.data.stylePickers[which]}}" ng-model="$parent.data.stylePickers[which]" colorpicker="rgba"  colorpicker-position="value" colorpicker-position-value="-100,40" colorpicker-parent colorpicker-with-input="true" /></div>',
-		link: function (scope,t, atts) {
-			var s = scope.$parent;
-			if (typeof(s.data.stylePickers)=='undefined') s.stylePickers = {};
-			s.data.stylePickers[scope.which] = s.data.drawStyle[scope.which];
-			var setSwatch = function(){
-				var selection = s.data.selection.active;
-				if (selection.type == 'layer') {
-					s.data.stylePickers[scope.which] = s.data.drawStyle[scope.which];
-				} else {
-					s.data.stylePickers[scope.which] = selection.styles.normal[scope.which];
-				}
-			};
-			setSwatch();
-			s.$watch('data.selection',function(a){
-				setSwatch();
-			});
-            s.$watch('data.stylePickers["'+scope.which+'"]',function(a){
-                if(s.data.selection.active.type=="layer"){
-                    s.data.drawStyle[scope.which] = a;
-                } else {
-                    s.data.selection.active.styles.normal[scope.which] = a;
-                }
-            });
-		}
+		template:
+			'<div class="tr-sq" ng-show="$parent.data.selection.active.typeNum==1"><input type="text" class="swatch" style="background-color:{{$parent.data.drawStyle[which]}}" ng-model="$parent.data.drawStyle[which]" colorpicker="rgba"  colorpicker-position="value" colorpicker-position-value="-100,40" colorpicker-parent colorpicker-with-input="true" /></div>' +
+			'<div class="tr-sq" ng-show="$parent.data.selection.active.typeNum==2"><input type="text" class="swatch" style="background-color:{{$parent.data.selection.active.styles[$parent.data.flags.elementState][which]}}" ng-model="$parent.data.selection.active.styles[$parent.data.flags.elementState][which]" colorpicker="rgba"  colorpicker-position="value" colorpicker-position-value="-100,40" colorpicker-parent colorpicker-with-input="true" /></div>'
 	};
 }]).
 directive('drawstyleSelectionModifier', ['$compile',function ($compile) {
@@ -355,31 +333,9 @@ directive('drawstyleSelectionModifier', ['$compile',function ($compile) {
 			inputClass : "@inputClass",
 			which: "@which"
 		},
-		template:'<input type="{{inputType}}" class="{{inputClass}}" which="{{which}}" ng-model="$parent.data.stylePickers[which]" x-key-increment />',
-		link : function (scope,t,atts) {
-			s = scope.$parent;
-			if (typeof(s.data.stylePickers)=='undefined') s.data.stylePickers = {};
-			s.data.stylePickers[scope.which] = s.data.drawStyle[scope.which];
-			var setStyle = function(){
-				var selection = s.data.selection.active;
-				if (selection.type == 'layer') {
-					s.data.stylePickers[scope.which] = s.data.drawStyle[scope.which];
-				} else {
-					s.data.stylePickers[scope.which] = selection.styles.normal[scope.which];
-				}
-			};
-			setStyle();
-			s.$watch('data.selection',function(a){
-				setStyle();
-			});
-			s.$watch('data.stylePickers["'+scope.which+'"]',function(a){
-				if(s.data.selection.active.type=="layer"){
-					s.data.drawStyle[scope.which] = a;
-				} else {
-					s.data.selection.active.styles.normal[scope.which] = a;
-				}
-			});
-		}
+		template:
+			'<input ng-show="$parent.data.selection.active.typeNum==1" type="{{inputType}}" class="{{inputClass}}" which="{{which}}" ng-model="$parent.data.drawStyle[which]" x-key-increment />' +
+			'<input ng-show="$parent.data.selection.active.typeNum==2" type="{{inputType}}" class="{{inputClass}}" which="{{which}}" ng-model="$parent.data.selection.active.styles[$parent.data.flags.elementState][which]" x-key-increment />'
 	};
 }]).
 directive('listenKeystrokes',['$compile',function($compile){
@@ -420,9 +376,9 @@ directive('inlineStyles', [function () {
 						var id = '#screen_'+element.id;
 						for (var state in styles){
 							if (state!='normal'){
-								scope.styleString += id+(state=='normal'?'':state)+'{';
+								scope.styleString += id+(state=='normal'?'':state.replace(':','.colon__'))+'{';
 								for (var property in styles[state]){
-									scope.styleString += property +':'+styles[state][property]+';';
+									scope.styleString += property +':'+styles[state][property]+' !important;';
 								}
 								scope.styleString += '}';
 							}
@@ -435,7 +391,6 @@ directive('inlineStyles', [function () {
 					}
 				};
 				writeStyles(scope.element);
-				console.log(scope.styleString);
 			};
 			scope.$watch('element',function(newValue){
 				createStyles();

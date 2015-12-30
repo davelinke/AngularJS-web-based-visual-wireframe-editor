@@ -554,7 +554,7 @@ html, body, #mainWrapper {
       #wrapper #sidebar #elementProperties label {
         line-height: 2.1em;
         white-space: nowrap; }
-      #wrapper #sidebar #elementProperties input:not([type="checkbox"]), #wrapper #sidebar #elementProperties textarea {
+      #wrapper #sidebar #elementProperties input:not([type="checkbox"]), #wrapper #sidebar #elementProperties textarea, #wrapper #sidebar #elementProperties select {
         background-color: #3d3d3d;
         border-color: #323232;
         border-radius: 2px;

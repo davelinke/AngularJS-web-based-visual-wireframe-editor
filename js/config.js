@@ -109,7 +109,11 @@ var config = {
 			layout:'layout',
 			padding:'padding',
 			margin:'margin',
-			overflow:'overflow'
+			overflow:'overflow',
+			canvasOverflow:'canvas overflow',
+			baseStyle:'base style',
+			hover:'hover',
+			active:'active'
 		}
 	},
 	drawStyle : {
@@ -132,6 +136,7 @@ var config = {
 	flags:{
 		storage:{
 			canSave:false
-		}
+		},
+		elementState:'normal'
 	}
 };

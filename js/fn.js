@@ -101,6 +101,21 @@ config.fn = {
 				val:nuVal + (unit===''?'px':unit),
 				unitLess:nuVal
 			};
+		},
+		setStyle:function(element,state,style,value){
+			if (typeof(element[state])=='undefined'){
+				element.styles[state]={};
+			}
+			element.styles[state][style] = value;
+		},
+		getStyle:function(element,state,style,value){
+			if (typeof(element.styles[state])=='undefined'){
+				element.styles[state]={};
+			}
+			if (typeof(element.styles[state][style])=='undefined'){
+				element.styles[state][style]='';
+			}
+			return element.styles[state][style];
 		}
 	},
     fireModal:function(scope,$compile){

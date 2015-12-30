@@ -413,7 +413,7 @@ html,body,#mainWrapper{
 				line-height: 2.1em;
 			 	white-space: nowrap;
 			}
-			input:not([type="checkbox"]),textarea{
+			input:not([type="checkbox"]),textarea,select{
 				@include darkInput();
 			}
 			textarea{

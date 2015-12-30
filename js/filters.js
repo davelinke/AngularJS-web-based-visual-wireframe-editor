@@ -26,4 +26,9 @@ filter('nicename', function () {
 	return function (item) {
 		return item.replace(/_/g, ' ');
 	};
+}).
+filter('statesToClass',function(){
+    return function (item){
+        return item.replace(/:/g,'colon__');
+    };
 });

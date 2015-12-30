@@ -408,6 +408,7 @@ config.tools={
 							}
 						});
 					}
+
 					d.isDrawing = false;
 					d.resetConfig(args.scope);
 				}
