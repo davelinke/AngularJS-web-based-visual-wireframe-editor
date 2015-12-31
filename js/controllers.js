@@ -7,6 +7,7 @@
 
 angular.module('gui.controllers', []).
 controller('main', ['$scope','data','$compile',function ($scope, data, $compile) {
+	s=$scope;
 	$scope.data = data;
 	if (typeof($scope.data.tree.root)=='undefined') {
 		$scope.data.fn.tree.reset($scope.data);

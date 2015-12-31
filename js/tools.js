@@ -34,213 +34,6 @@ config.tools={
 			}
 		}
 	},
-	drawArea:{
-		cursor:'crosshair',
-		id:'drawArea',
-		isDefault:false,
-		isActive:false,
-		launcher:'none',
-		label:'Draw Area',
-		iconClass:'ci select',
-		isMoving:false,
-		optionsTemplate:''+
-			'<div id="drawAreaOptions" class="options-panel form-inline">'+
-			'<div class="form-group"><label for="drawAreaTop">Top</label>'+
-			'<input class="form-control" type="text" aria-describedby="drawAreaTop" ng-model="data.tools.drawArea.config.areaStyle.top" x-key-increment /></div>'+
-			'<div class="form-group"><label for="drawAreaHeight">Left</label>'+
-			'<input class="form-control" type="text" aria-describedby="drawAreaLeft" ng-model="data.tools.drawArea.config.areaStyle.left" x-key-increment /></div>'+
-			'<div class="form-group"><label for="drawAreaWidth">Width</label>'+
-			'<input class="form-control" type="text" aria-describedby="drawAreaWidth" ng-model="data.tools.drawArea.config.areaStyle.width" x-key-increment /></div>'+
-			'<div class="form-group"><label for="drawAreaHeight">Height</label>'+
-			'<input class="form-control" type="text" aria-describedby="drawAreaHeight" ng-model="data.tools.drawArea.config.areaStyle.height" x-key-increment /></div>'+
-			'</div>',
-		element:null,
-		baseConfig:{
-			leftPx:0,
-			topPx:0,
-			areaClass:'draw-area',
-			areaStyle:{
-				left:'0',
-				top:'0',
-				width:'0',
-				height:'0'
-			}
-		},
-		config:null,
-		init:function($compile,scope){
-			scope.data.tools.drawArea.config = $.extend({},config.tools.drawArea.baseConfig);
-			var
-				$screen = $('#canvas'),
-				html = '<div id="drawAreaBox" ng-class="data.tools.drawArea.config.areaClass" ng-style="data.tools.drawArea.config.areaStyle"></div>',
-				elem = $compile(html)(scope)//,
-				//$options = $('#toolOptions'),
-				//sElem = $compile(scope.data.tools.drawArea.optionsTemplate)(scope)
-			;
-			$screen.append(elem);
-			//$options.append(sElem);
-			scope.data.tools.drawArea.element = elem;
-			scope.data.tools.drawArea.optionsMenu = sElem;
-		},
-		destroy:function(scope){
-			scope.data.tools.drawArea.config = $.extend({},config.tools.drawArea.baseConfig);
-			var da = scope.data.tools.drawArea;
-			if (da.element){
-				da.element.remove();
-				da.optionsMenu.remove();
-			}
-
-		},
-		setUndo:function(args){
-			//console.log('setting undo');
-		},
-		mousedown:function(args){
-			args.scope.$apply(function(){
-				var s = args.scope.data;
-				var dac = s.tools.drawArea.config;
-				var e = args.event;
-				var canvas = $('#canvas');
-				if(e.target==canvas[0]){
-					dac.initPos = {
-						lPx:e.offsetX,
-						tPx:e.offsetY
-					};
-					dac.areaStyle = {
-						left:e.offsetX + 'px',
-						lPx:e.offsetX,
-						top:e.offsetY + 'px',
-						tPx:e.offsetY,
-						width: 0,
-						wPx:0,
-						height: 0,
-						hPx:0
-					};
-				} else if (e.target.id=='workarea') {
-					var o = canvas.offset();
-					var x = e.pageX - o.left;
-					var y = e.pageY - o.top;
-					var dw = s.screen.wPx; //$.pxNum(s.screen.width);
-					var dh = s.screen.hPx; //$.pxNum(s.screen.height);
-					var xVal = (x>0?x:0);
-					xVal = Math.floor(xVal>dw?dw:xVal);
-					var yVal = y>0?y:0;
-					yVal = Math.floor(yVal>dh?dh:yVal);
-					dac.initPos = {
-						lPx:xVal,
-						tPx:yVal
-					};
-					dac.areaStyle = {
-						left:xVal + 'px',
-						lPx:xVal,
-						top:yVal + 'px',
-						tPx:yVal,
-						width: 0,
-						wPx:0,
-						height: 0,
-						hPx:0
-					};
-				} else if (e.target.id=='drawAreaBox') {
-					s.tools.drawArea.isMoving = true;
-				}
-			});
-		},
-		mouseup:function(args){
-			args.scope.data.tools.drawArea.isMoving = false;
-			args.scope.data.tools.drawArea.finishSelect(args);
-		},
-		mouseleave:function(args){
-		},
-		finishSelect:function(args){
-			// this fixes the issue of releasing the button outside the area and entering back without a mouseup event that wasn't tracked
-			var e = args.event;
-			var s = args.scope.data;
-			var d = s.tools.drawArea;
-			var downFlag = (s.flags.mouseEvent =='mousedown' || s.flags.mouseEvent=='touchstart')?true:false;
-			if (!d.isMoving && !downFlag){
-				d.config.leftPx = d.config.areaStyle.lPx; //$.pxNum(d.config.areaStyle.left);
-				d.config.topPx = d.config.areaStyle.tPx; //$.pxNum(d.config.areaStyle.top);
-			}
-
-		},
-		mouseenter:function(args){
-			args.scope.data.tools.drawArea.finishSelect(args);
-		},
-		mousemove:function(e,scope){
-			var canvas = $('#canvas');
-			var downFlag = (scope.data.flags.mouseEvent =='mousedown' || scope.data.flags.mouseEvent=='touchstart')?true:false;
-			if (downFlag){
-				scope.$apply(function(){
-					var s = scope.data;
-					var c = s.tools.drawArea.config;
-					console.log(scope.data.tools.drawArea.isMoving);
-					if(!scope.data.tools.drawArea.isMoving){
-						var
-							o = canvas.offset(),
-							x = e.pageX - o.left,
-							y = e.pageY - o.top,
-							dw = s.screen.wPx, //$.pxNum(s.screen.width),
-							dh = s.screen.hPx, //$.pxNum(s.screen.height),
-							xVal = (x>0?x:0),
-							yVal = y>0?y:0
-						;
-						xVal = Math.floor(xVal>dw?dw:xVal);
-						yVal = Math.floor(yVal>dh?dh:yVal);
-
-						var
-							leftVal = ((c.areaStyle.lPx < xVal)?c.areaStyle.lPx:xVal),
-							topVal = ((c.areaStyle.tPx < yVal)?c.areaStyle.tPx:yVal),
-							widthVal = ((c.areaStyle.lPx < xVal)?(xVal-c.areaStyle.lPx):(c.initPos.lPx-xVal)),
-							heightVal = ((c.areaStyle.tPx < yVal)?(yVal-c.areaStyle.tPx):(c.initPos.tPx-yVal))
-						;
-
-						c.areaStyle = {
-							lPx:leftVal,
-							left: leftVal + 'px',
-							tPx: topVal,
-							top: topVal + 'px',
-							wPx: widthVal,
-							width: widthVal + 'px',
-							hPx: heightVal,
-							height: heightVal + 'px'
-						};
-					} else {
-						var
-							nuX = c.areaStyle.lPx + e.originalEvent.movementX,
-							nuY = c.areaStyle.tPx + e.originalEvent.movementY,
-							docWidth = s.screen.wPx,
-							docHeight = s.screen.hPx
-						;
-						nuX = nuX>=0 ? nuX: 0; // less than 0 is not possible
-						nuY = nuY>=0 ? nuY: 0; // less than 0 is not possible
-
-						nuX = (nuX + c.areaStyle.wPx > docWidth ? c.areaStyle.lPx : nuX);
-						nuY = (nuY + c.areaStyle.hPx > docHeight ? c.areaStyle.tPx : nuY);
-
-						c.areaStyle.lPx = nuX;
-						c.areaStyle.left = nuX + 'px';
-						c.areaStyle.tPx = nuY;
-						c.areaStyle.top = nuY + 'px';
-					}
-				});
-			}
-		}
-	},
-	crop:{
-		isDefault:false,
-		isActive:false,
-		id:'crop',
-		launcher:'menu_view',
-		label:'Crop',
-		iconClass:'fa fa-crop',
-		init:function(){
-			console.log('crop init');
-		},
-		destroy:function(){
-			console.log('crop destroy');
-		},
-		mousedown:function(e){},
-		mouseup:function(e){},
-		mousemove:function(e){}
-	},
 	drawBox:{
 		cursor:'crosshair',
 		id:'drawBox',
@@ -277,7 +70,6 @@ config.tools={
 				sElem = $compile(scope.data.tools.drawBox.optionsTemplate)(scope)
 			;
 			$('#canvas').append(elem);
-			$('#toolOptions').append(sElem);
 			scope.data.tools.drawBox.element = elem;
 			scope.data.tools.drawBox.optionsMenu = sElem;
 		},
@@ -472,12 +264,9 @@ config.tools={
 	    element:null,
 	    init:function($compile,scope){
 			$('#canvas,#guides').hide();
-			//var sElem = $compile(scope.data.tools.selection.optionsTemplate)(scope);
-			//$('#toolOptions').append(sElem);
 	    },
 	    destroy:function(scope){
 			$('#canvas,#guides').show();
-			$('#toolOptions').empty();
 	    },
 	    setUndo:function(args){
 
@@ -504,6 +293,7 @@ config.tools={
 				s.data.flags.resizeRight = (e.offsetX>(t.element.styles.normal.wPx - 5))?true:false;
 				s.data.flags.resizeBottom = (e.offsetY>(t.element.styles.normal.hPx - 5))?true:false;
 			}
+			s.$apply();
 		},
 	    mousedown:function(args){
 			args.scope.data.tools.selection.down(args);
@@ -580,5 +370,69 @@ config.tools={
 	    touchmove:function(e,scope){
 			scope.data.tools.selection.move(e,scope);
 	    }
+	},
+	eyedropper:{
+	    cursor:'crosshair !important',
+	    id:'eyedropper',
+	    isDefault:false,
+	    isActive:false,
+	    launcher:'toolbar',
+	    label:'Eyedropper',
+	    iconClass:'fa fa-eyedropper',
+		optionsTemplate:'',
+	    element:null,
+	    init:function($compile,scope){
+			$('#canvas,#guides').hide();
+	    },
+	    destroy:function(scope){
+			$('#canvas,#guides').show();
+	    },
+	    setUndo:function(args){
+
+	    },
+		down:function(args){
+			var
+				s = args.scope,
+				e = args.event,
+				c = args.compile,
+				t = s.data.tools.eyedropper
+			;
+			t.element = s.data.fn.tree.searchElementById($(e.target).attr('ob-id'), s.data.tree.root.children);
+
+			if (t.element.typeNum==2) {
+				var style = angular.extend({}, t.element.styles.normal);
+				delete style.hPx;
+				delete style.height;
+				delete style.lPx;
+				delete style.left;
+				delete style.position;
+				delete style.tPx;
+				delete style.top;
+				delete style.wPx;
+				delete style.width;
+				console.log(style);
+				if(s.data.selection.active.typeNum==2){
+					s.data.selection.active.styles[s.data.flags.elementState] = angular.extend({},s.data.selection.active.styles[s.data.flags.elementState],style);
+				} else {
+					s.data.drawStyle['background-color'] = style['background-color'];
+					s.data.drawStyle['border-color'] = style['border-color'];
+					s.data.drawStyle['border-style'] = style['border-style'];
+					s.data.drawStyle['border-width'] = style['border-width'];
+				}
+			}
+		},
+	    mousedown:function(args){
+			args.scope.data.tools.eyedropper.down(args);
+	    },
+		touchstart:function(args){
+			args.scope.data.tools.eyedropper.down(args);
+		},
+	    mouseup:function(args){},
+		touchend:function(){},
+	    mouseleave:function(args){},
+	    finishSelect:function(args){},
+	    mouseenter:function(args){},
+	    mousemove:function(e,scope){},
+	    touchmove:function(e,scope){}
 	}
 };

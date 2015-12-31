@@ -8,8 +8,8 @@
 		<div id="toolbox" x-toolbox="toolbar" x-data="data"></div>
 		<div id="colorPicker">
 
-			<div x-size="small" x-which="background-color" color-picker title="{{data.lang[data.lang.act].setBackgroundColor}}" class="margin-bottom-sm"></div>
-			<div x-size="small" x-which="border-color" color-picker title="{{data.lang[data.lang.act].setBorderColor}}" class="margin-bottom-sm"></div>
+			<div x-size="small" x-which="background-color" color-picker title="{{::data.lang[data.lang.act].setFillColor}}" class="margin-bottom-sm"></div>
+			<div x-size="small" x-which="border-color" color-picker title="{{::data.lang[data.lang.act].setBorderColor}}" class="margin-bottom-sm"></div>
 			<!---->
 			<div x-which="border-width" input-type="text" input-class="input-xs w-full" title="" class="input-xs w-full" drawstyle-selection-modifier></div>
 		</div>
@@ -20,24 +20,24 @@
 			<div id="verticalRuler"><div id="rulerVGuide" style="margin-top:{{data.screen.mouse.y}}px"></div></div>
 			<div id="screen" class="tr-sq">
 				<div id="guides" class="work-layer"></div>
-				<div id="canvas" class="work-layer"></div>
+				<div id="canvas" class="work-layer {{data.tool}}"></div>
 				<div class="{{child.type}} {{child.cursorClass}} {{{true: (data.flags.elementState|statesToClass), false: ''}[child.selected]}}" ng-class="{selected:child.selected}" id="screen_{{child.id}}" tree="child in data.tree.root.children at none" ng-style="child.styles.normal" ob-id="{{child.id}}" ob-type="{{child.type}}">{{child.text}}</div>
 			</div>
 		</div>
-		<div id="actions" style="width:calc({{data.screen.width}} + 10px);" tool-actions></div>
+		<!--<div id="actions" style="width:calc({{data.screen.width}} + 10px);" tool-actions></div>-->
 	</div>
-	<div id="sidebar" class="{{data.config.sidebarClass}}">
+	<div id="sidebar" class="{::{data.config.sidebarClass}}">
 		<div id="elementProperties" class="toolset">
-			<h3>{{data.lang[data.lang.act].properties}}</h3>
+			<h3>{{::data.lang[data.lang.act].properties}}</h3>
 			<div class="scroll-y" ng-hide="data.selection.active.typeNum==2">
 				<div class="element-property">
 					<div class="col-sm-12">
-						<input type="checkbox" class="margin-no" ng-model="data.screen.overflow" /> <label>{{data.lang[data.lang.act].canvasOverflow}}</label>
+						<input type="checkbox" class="margin-no" ng-model="data.screen.overflow" /> <label>{{::data.lang[data.lang.act].canvasOverflow}}</label>
 					</div>
 				</div>
 				<div class="element-property">
 					<div class="col-sm-2">
-						<label>{{data.lang[data.lang.act].width}}</label>
+						<label>{{::data.lang[data.lang.act].width}}</label>
 					</div>
 					<div class="col-sm-4">
 						<input type="text" class="form-control w-full" unitless-value="data.screen.wPx" ng-model="data.screen.width" placeholder="XXpx" x-key-increment />
@@ -46,7 +46,7 @@
 						<label></label>
 					</div>
 					<div class="col-sm-4">
-						<input type="text" class="form-control w-full" unitless-value="data.screen.hPx"ng-model="data.screen.height" placeholder="XXpx" x-key-increment />
+						<input type="text" class="form-control w-full" unitless-value="data.screen.hPx" ng-model="data.screen.height" placeholder="XXpx" x-key-increment />
 					</div>
 				</div>
 			</div>
@@ -55,27 +55,27 @@
 					<div class="col-sm-12">
 						<select class="form-control w-full" ng-model="data.flags.elementState">
 							<option value="normal">
-								{{data.lang[data.lang.act].baseStyle}}
+								{{::data.lang[data.lang.act].baseStyle}}
 							</option>
 							<option value=":hover">
-								{{data.lang[data.lang.act].hover}}
+								{{::data.lang[data.lang.act].hover}}
 							</option>
 							<option value=":active">
-								{{data.lang[data.lang.act].active}}
+								{{::data.lang[data.lang.act].active}}
 							</option>
 						</select>
 					</div>
 				</div>
-				<h4>{{data.lang[data.lang.act].layout}}</h4>
+				<h4>{{::data.lang[data.lang.act].layout}}</h4>
 				<div class="element-property">
 					<div class="col-sm-2">
-						<label>{{data.lang[data.lang.act].top}}</label>
+						<label>{{::data.lang[data.lang.act].top}}</label>
 					</div>
 					<div class="col-sm-4">
 						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['top']" placeholder="XXpx" ng-property='top' area-key-increment />
 					</div>
 					<div class="col-sm-2">
-						<label>{{data.lang[data.lang.act].left}}</label>
+						<label>{{::data.lang[data.lang.act].left}}</label>
 					</div>
 					<div class="col-sm-4">
 						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['left']" placeholder="XXpx" ng-property='left' area-key-increment />
@@ -83,13 +83,13 @@
 				</div>
 				<div class="element-property">
 					<div class="col-sm-2">
-						<label>{{data.lang[data.lang.act].width}}</label>
+						<label>{{::data.lang[data.lang.act].width}}</label>
 					</div>
 					<div class="col-sm-4">
 						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['width']" placeholder="XXpx" ng-property='width' area-key-increment />
 					</div>
 					<div class="col-sm-2">
-						<label>{{data.lang[data.lang.act].height}}</label>
+						<label>{{::data.lang[data.lang.act].height}}</label>
 					</div>
 					<div class="col-sm-4">
 						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['height']" placeholder="XXpx" ng-property='height' area-key-increment />
@@ -98,7 +98,7 @@
 				<hr>
 				<div class="element-property">
 					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].padding}}</label>
+						<label>{{::data.lang[data.lang.act].padding}}</label>
 					</div>
 					<div class="col-sm-8">
 						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['padding']" placeholder="0px" x-key-increment />
@@ -106,7 +106,7 @@
 				</div>
 				<div class="element-property">
 					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].margin}}</label>
+						<label>{{::data.lang[data.lang.act].margin}}</label>
 					</div>
 					<div class="col-sm-8">
 						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['margin']" placeholder="0px" x-key-increment />
@@ -114,64 +114,64 @@
 				</div>
 				<div class="element-property">
 					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].overflow}}</label>
+						<label>{{::data.lang[data.lang.act].overflow}}</label>
 					</div>
 					<div class="col-sm-8">
 						<select class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['overflow']">
 							<option value="hidden">
-								{{data.lang[data.lang.act].hidden}}
+								{{::data.lang[data.lang.act].hidden}}
 							</option>
 							<option value="scroll">
-								{{data.lang[data.lang.act].scroll}}
+								{{::data.lang[data.lang.act].scroll}}
 							</option>
 							<option value="auto">
-								{{data.lang[data.lang.act].auto}}
+								{{::data.lang[data.lang.act].auto}}
 							</option>
 							<option value="initial">
-								{{data.lang[data.lang.act].initial}}
+								{{::data.lang[data.lang.act].initial}}
 							</option>
 							<option value="inherit">
-								{{data.lang[data.lang.act].inherit}}
+								{{::data.lang[data.lang.act].inherit}}
 							</option>
 						</select>
 					</div>
 				</div>
-				<h4>{{data.lang[data.lang.act].text}}</h4>
+				<h4>{{::data.lang[data.lang.act].text}}</h4>
 				<div class="element-property">
 					<div class="col-sm-12">
-						<textarea class="form-control w-full" ng-model="data.selection.active.text" placeholder="{{data.lang[data.lang.act].textElementPlaceHolder}}"></textarea>
+						<textarea class="form-control w-full" ng-model="data.selection.active.text" placeholder="{{::data.lang[data.lang.act].textElementPlaceHolder}}"></textarea>
 					</div>
 				</div>
 				<hr />
 				<div class="element-property">
 					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].textAlign}}</label>
+						<label>{{::data.lang[data.lang.act].textAlign}}</label>
 					</div>
 					<div class="col-sm-8">
 						<div class="btn-group" role="group">
-							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-align']=='left']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-align']='left'" title="{{data.lang[data.lang.act].align}} {{data.lang[data.lang.act].left}}"><i class="fa fa-align-left"></i></button>
-							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-align']=='center']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-align']='center'" title="{{data.lang[data.lang.act].align}} {{data.lang[data.lang.act].center}}"><i class="fa fa-align-center"></i></button>
-							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-align']=='right']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-align']='right'" title="{{data.lang[data.lang.act].align}} {{data.lang[data.lang.act].right}}"><i class="fa fa-align-right"></i></button>
-							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-align']=='justify']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-align']='justify'" title="{{data.lang[data.lang.act].align}} {{data.lang[data.lang.act].justify}}"><i class="fa fa-align-justify"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-align']=='left']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-align']='left'" title="{{::data.lang[data.lang.act].align}} {{::data.lang[data.lang.act].left}}"><i class="fa fa-align-left"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-align']=='center']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-align']='center'" title="{{::data.lang[data.lang.act].align}} {{::data.lang[data.lang.act].center}}"><i class="fa fa-align-center"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-align']=='right']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-align']='right'" title="{{::data.lang[data.lang.act].align}} {{::data.lang[data.lang.act].right}}"><i class="fa fa-align-right"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-align']=='justify']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-align']='justify'" title="{{::data.lang[data.lang.act].align}} {{::data.lang[data.lang.act].justify}}"><i class="fa fa-align-justify"></i></button>
 						</div>
 					</div>
 				</div>
 				<div class="element-property">
 					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].textStyle}}</label>
+						<label>{{::data.lang[data.lang.act].textStyle}}</label>
 					</div>
 					<div class="col-sm-8">
-						<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['font-weight']=='bold']}}" ng-click="data.selection.active.styles[data.flags.elementState]['font-weight']=({true:'normal',false:'bold'}[data.selection.active.styles[data.flags.elementState]['font-weight']=='bold'])" title="{{data.lang[data.lang.act].bold}}"><i class="fa fa-bold"></i></button>
-						<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['font-style']=='italic']}}" ng-click="data.selection.active.styles[data.flags.elementState]['font-style']=({true:'normal',false:'italic'}[data.selection.active.styles[data.flags.elementState]['font-style']=='italic'])" title="{{data.lang[data.lang.act].italic}}"><i class="fa fa-italic"></i></button>
+						<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['font-weight']=='bold']}}" ng-click="data.selection.active.styles[data.flags.elementState]['font-weight']=({true:'normal',false:'bold'}[data.selection.active.styles[data.flags.elementState]['font-weight']=='bold'])" title="{{::data.lang[data.lang.act].bold}}"><i class="fa fa-bold"></i></button>
+						<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['font-style']=='italic']}}" ng-click="data.selection.active.styles[data.flags.elementState]['font-style']=({true:'normal',false:'italic'}[data.selection.active.styles[data.flags.elementState]['font-style']=='italic'])" title="{{::data.lang[data.lang.act].italic}}"><i class="fa fa-italic"></i></button>
 						<div class="btn-group" role="group">
-							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-decoration']=='underline']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-decoration']=({true:'normal',false:'underline'}[data.selection.active.styles[data.flags.elementState]['text-decoration']=='underline'])" title="{{data.lang[data.lang.act].underline}}"><i class="fa fa-underline"></i></button>
-							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-decoration']=='line-through']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-decoration']=({true:'normal',false:'line-through'}[data.selection.active.styles[data.flags.elementState]['text-decoration']=='line-through'])" title="{{data.lang[data.lang.act].strikeThrough}}"><i class="fa fa-strikethrough"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-decoration']=='underline']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-decoration']=({true:'normal',false:'underline'}[data.selection.active.styles[data.flags.elementState]['text-decoration']=='underline'])" title="{{::data.lang[data.lang.act].underline}}"><i class="fa fa-underline"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['text-decoration']=='line-through']}}" ng-click="data.selection.active.styles[data.flags.elementState]['text-decoration']=({true:'normal',false:'line-through'}[data.selection.active.styles[data.flags.elementState]['text-decoration']=='line-through'])" title="{{::data.lang[data.lang.act].strikeThrough}}"><i class="fa fa-strikethrough"></i></button>
 						</div>
 					</div>
 				</div>
 				<div class="element-property">
 					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].fontFamily}}</label>
+						<label>{{::data.lang[data.lang.act].fontFamily}}</label>
 					</div>
 					<div class="col-sm-8">
 						<select class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['font-family']">
@@ -199,7 +199,7 @@
 				</div>
 				<div class="element-property">
 					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].fontSize}}</label>
+						<label>{{::data.lang[data.lang.act].fontSize}}</label>
 					</div>
 					<div class="col-sm-8">
 						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['font-size']" placeholder="16px" x-key-increment />
@@ -207,7 +207,7 @@
 				</div>
 				<div class="element-property">
 					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].fontColor}}</label>
+						<label>{{::data.lang[data.lang.act].fontColor}}</label>
 					</div>
 					<div class="col-sm-8">
 						<input  type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['color']" placeholder="black" />
@@ -215,19 +215,19 @@
 				</div>
 				<div class="element-property">
 					<div class="col-sm-4">
-						<label>{{data.lang[data.lang.act].textWrap}}</label>
+						<label>{{::data.lang[data.lang.act].textWrap}}</label>
 					</div>
 					<div class="col-sm-8">
 						<select class="form-control w-full"  ng-model="data.selection.active.styles[data.flags.elementState]['white-space']">
-							<option value="pre-wrap">{{data.lang[data.lang.act].normal}}</option>
-							<option value="nowrap">{{data.lang[data.lang.act].noWrap}}</option>
+							<option value="pre-wrap">{{::data.lang[data.lang.act].normal}}</option>
+							<option value="nowrap">{{::data.lang[data.lang.act].noWrap}}</option>
 						</select>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="toolset">
-			<h3>{{data.lang[data.lang.act].layers}}</h3>
+			<h3>{{::data.lang[data.lang.act].layers}}</h3>
 			<ul class="tree-list">
 				<li tree="child in data.tree.root.children at ul" ng-class="{minimized:child.minimized}">
 					<div ng-class="{selected:child.selected}" ng-click="data.fn.tree.toggleSelected({child:child,data:data})">
@@ -245,8 +245,8 @@
 				</li>
 			</ul>
 			<div class="text-right chrome-menu">
-				<button class="btn btn-xs btn-link" ng-click="data.fn.tree.addChild(data.tree.root,data)" title="new layer"><i class="fa fa-file-o"></i></button>
-				<button class="btn btn-xs btn-link" ng-click="data.fn.tree.removeSelected(data.tree.root,data)" title="Remove Selected Layer"><i class="fa fa-trash-o"></i></button>
+				<button class="btn btn-xs btn-link" ng-click="data.fn.tree.addChild(data.tree.root,data)" title="{{::data.lang[data.lang.act].newLayer}}"><i class="fa fa-file-o"></i></button>
+				<button class="btn btn-xs btn-link" ng-click="data.fn.tree.removeSelected(data.tree.root,data)" title="{{::data.lang[data.lang.act].removeSelectedLayer}}"><i class="fa fa-trash-o"></i></button>
 			</div>
 		</div>
 	</div>
@@ -256,26 +256,26 @@
 		<div class="modal-content">
 			<form name="newDocumentForm" novalidate ng-submit="createNew()">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">{{data.lang[data.lang.act].createNewDocument}}</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="{{::data.lang[data.lang.act].close}}"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">{{::data.lang[data.lang.act].createNewDocument}}</h4>
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="docName">{{data.lang[data.lang.act].name}}:</label>
+						<label for="docName">{{::data.lang[data.lang.act].name}}:</label>
 						<input class="form-control" type="text" ng-model="createNew.newName" />
 					</div>
 					<div class="form-group">
-						<label for="screenWidth">{{data.lang[data.lang.act].width}}:</label>
+						<label for="screenWidth">{{::data.lang[data.lang.act].width}}:</label>
 						<input class="form-control" type="text" ng-model="createNew.width" />
 					</div>
 					<div class="form-group">
-						<label for="screenHeight">{{data.lang[data.lang.act].height}}:</label>
+						<label for="screenHeight">{{::data.lang[data.lang.act].height}}:</label>
 						<input class="form-control" type="text" ng-model="createNew.height" />
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-danger pull-left" type="button" data-dismiss="modal">{{data.lang[data.lang.act].cancel}}</button>
-					<button class="btn btn-success" type="submit">{{data.lang[data.lang.act].create}}</button>
+					<button class="btn btn-danger pull-left" type="button" data-dismiss="modal">{{::data.lang[data.lang.act].cancel}}</button>
+					<button class="btn btn-success" type="submit">{{::data.lang[data.lang.act].create}}</button>
 				</div>
 			</form>
 		</div><!-- /.modal-content -->
@@ -285,8 +285,8 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">{{data.lang[data.lang.act].saveDocumentAs}}</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="{{::data.lang[data.lang.act].close}}"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">{{::data.lang[data.lang.act].saveDocumentAs}}</h4>
 			</div>
 			<form name="saveDocumentAsForm" novalidate ng-submit="saveDocumentAsForm.$valid && documents.saveAs()">
 				<div class="modal-body">
@@ -294,13 +294,13 @@
 						<button type="button" ng-repeat="document in documents" ng-click="documents.setDocumentName(document.name)">{{document.name}}</button>
 					</div>
 					<div class="form-group">
-						<label for="docName">{{data.lang[data.lang.act].name}}:</label>
+						<label for="docName">{{::data.lang[data.lang.act].name}}:</label>
 						<input class="form-control" id="saveAsName" type="text" ng-value="data.tree.root.name" />
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-danger pull-left" type="button" data-dismiss="modal">{{data.lang[data.lang.act].cancel}}</button>
-					<button class="btn btn-success pull-right" type="submit">{{data.lang[data.lang.act].save}}</button>
+					<button class="btn btn-danger pull-left" type="button" data-dismiss="modal">{{::data.lang[data.lang.act].cancel}}</button>
+					<button class="btn btn-success pull-right" type="submit">{{::data.lang[data.lang.act].save}}</button>
 				</div>
 			</form>
 		</div><!-- /.modal-content -->
@@ -310,19 +310,19 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">{{data.lang[data.lang.act].openDocument}}</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="{{::data.lang[data.lang.act].close}}"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">{{::data.lang[data.lang.act].openDocument}}</h4>
 			</div>
 			<form name="openDocumentForm" novalidate ng-submit="documents.open()">
 				<div class="modal-body">
 					<div class="document-names">
-						<button class="btn btn-danger pull-left" type="button" data-dismiss="modal">{{data.lang[data.lang.act].cancel}}</button>
+						<button class="btn btn-danger pull-left" type="button" data-dismiss="modal">{{::data.lang[data.lang.act].cancel}}</button>
 						<button type="button" ng-repeat="document in documents" ng-click="documents.documentToOpen = document.id">{{document.name}}</button>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-danger pull-left" type="button" data-dismiss="modal">{{data.lang[data.lang.act].cancel}}</button>
-					<button class="btn btn-success pull-right" type="submit">{{data.lang[data.lang.act].open}}</button>
+					<button class="btn btn-danger pull-left" type="button" data-dismiss="modal">{{::data.lang[data.lang.act].cancel}}</button>
+					<button class="btn btn-success pull-right" type="submit">{{::data.lang[data.lang.act].open}}</button>
 				</div>
 			</form>
 		</div><!-- /.modal-content -->

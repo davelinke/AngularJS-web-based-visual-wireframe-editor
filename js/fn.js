@@ -141,11 +141,13 @@ config.fn = {
         var ts = scope.data.tools;
         ts[scope.data.tool].destroy(scope);
         ts[scope.data.tool].isActive = false;
-        $('#canvas').removeClass(scope.data.tool);
+        //$('#canvas').removeClass(scope.data.tool);
         scope.data.tool = attrs.setTool;
         ts[scope.data.tool].init($compile, scope);
         ts[scope.data.tool].isActive = true;
-        $('#canvas').addClass(scope.data.tool);
+        //$('#canvas').addClass(scope.data.tool);
+		//safe apply
+		if (scope.$root.$$phase != '$apply' && scope.$root.$$phase != '$digest') scope.$apply();
     },
 	varHider:function(value){
 		console.log(value);

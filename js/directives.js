@@ -73,7 +73,7 @@ directive('toolbox',['launcherFilter',function(launcher){
 			toolbox:'@toolbox',
 			data:'=data'
 		},
-		template:'<button ng-repeat="(key,value) in data.tools | launcher:toolbox" type="button" class="btn" ng-class="{active: value.isActive}" set-tool="{{value.id}}" title="{{value.label}}" ng-attr-is-default="{{value.isDefault}}"><span class="{{value.iconClass}}"></span></button>'
+		template:'<button ng-repeat="(key,value) in data.tools | launcher:toolbox" type="button" class="btn" ng-class="{active: value.isActive}" set-tool="{{::value.id}}" title="{{::value.label}}" ng-attr-is-default="{{value.isDefault}}"><span class="{{::value.iconClass}}"></span></button>'
 	};
 }]).
 directive('setTool', ['$compile', function ($compile) {
@@ -334,8 +334,8 @@ directive('drawstyleSelectionModifier', ['$compile',function ($compile) {
 			which: "@which"
 		},
 		template:
-			'<input ng-show="$parent.data.selection.active.typeNum==1" type="{{inputType}}" class="{{inputClass}}" which="{{which}}" ng-model="$parent.data.drawStyle[which]" x-key-increment />' +
-			'<input ng-show="$parent.data.selection.active.typeNum==2" type="{{inputType}}" class="{{inputClass}}" which="{{which}}" ng-model="$parent.data.selection.active.styles[$parent.data.flags.elementState][which]" x-key-increment />'
+			'<input ng-show="$parent.data.selection.active.typeNum==1" type="{{::inputType}}" class="{{::inputClass}}" which="{{::which}}" ng-model="$parent.data.drawStyle[which]" x-key-increment />' +
+			'<input ng-show="$parent.data.selection.active.typeNum==2" type="{{::inputType}}" class="{{::inputClass}}" which="{{::which}}" ng-model="$parent.data.selection.active.styles[$parent.data.flags.elementState][which]" x-key-increment />'
 	};
 }]).
 directive('listenKeystrokes',['$compile',function($compile){
@@ -358,7 +358,7 @@ directive('flyoutMenu',[function(){
 			menus:'=flyoutMenu',
 			menuId:'@id'
 		},
-		template:'<div class="flyoutMenuWrapper" ng-class="{true: \'active\', false: \'\'}[menus.active]"><div ng-repeat="(menuName,menu) in menus.menus" id="{{menuName}}Menu" class="flyout-menu" ng-class="{true: \'active\', false: \'\'}[menu.active]"><button id="{{menuName}}MenuButton" type="button" ng-class="menu.iconClass" ng-click="$parent.$parent.data.fn.flyoutMenu.activate($parent.$parent.data.menus,$parent.$parent)" ng-mouseover="$parent.$parent.data.fn.flyoutMenu.toggle(menu,$parent.$parent.data.menus)">{{menu.label}}</button><div class="flyout"><button ng-repeat="action in menu.actions" ng-click="action.fn($parent)" ng-disabled="action.disabled">{{action.label}}</button></div></div>'
+		template:'<div class="flyoutMenuWrapper" ng-class="{true: \'active\', false: \'\'}[menus.active]"><div ng-repeat="(menuName,menu) in menus.menus" id="{{::menuName}}Menu" class="flyout-menu" ng-class="{true: \'active\', false: \'\'}[menu.active]"><button id="{{::menuName}}MenuButton" type="button" ng-class="::menu.iconClass" ng-click="$parent.$parent.data.fn.flyoutMenu.activate($parent.$parent.data.menus,$parent.$parent)" ng-mouseover="$parent.$parent.data.fn.flyoutMenu.toggle(menu,$parent.$parent.data.menus)">{{::menu.label}}</button><div class="flyout"><button ng-repeat="action in menu.actions" ng-click="action.fn($parent)" ng-disabled="action.disabled">{{::action.label}}</button></div></div>'
 	};
 }]).
 directive('inlineStyles', [function () {

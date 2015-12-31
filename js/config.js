@@ -131,7 +131,10 @@ var config = {
 			underline:'underline',
 			strikeThrough:'strike through',
 			normal:'normal',
-			noWrap:'no wrap'
+			noWrap:'no wrap',
+			newLayer:'new layer',
+			removeSelectedLayer:'Remove Selected Layer',
+			close:'close'
 		}
 	},
 	drawStyle : {

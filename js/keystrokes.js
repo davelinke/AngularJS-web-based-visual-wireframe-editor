@@ -92,6 +92,12 @@ config.keystrokes = {
                 a.s.data.fn.modifiers.modifyElementAreaWithKeystroke(a.s,'left',1);
             },
     		'keyup':function(a){}
+    },
+    '73':{ //i letter
+        'keydown':function(a){
+            a.s.data.fn.initTool(a.s, {setTool:'eyedropper'}, a.c);
+        },
+        'keyup':function(a){}
     }
 };
 config.keystrokes['91'] = config.keystrokes['17']; // to equalize mac ctrl key to win ctrl key
