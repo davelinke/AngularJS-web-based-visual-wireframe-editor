@@ -168,7 +168,7 @@ html,body,#mainWrapper{
 			@include chrome-heading();
 			height:21px;
 			.flyout{
-				display:none;
+				//display:none;
 			}
 			&.active{
 				.flyout-menu.active{

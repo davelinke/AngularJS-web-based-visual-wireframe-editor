@@ -334,8 +334,6 @@ html, body, #mainWrapper {
     border-bottom: 1px solid #343434;
     border-top: 1px solid #575757;
     height: 21px; }
-    #upperHeader #mainMenuRow .flyoutMenuWrapper .flyout {
-      display: none; }
     #upperHeader #mainMenuRow .flyoutMenuWrapper.active .flyout-menu.active .flyout {
       display: block; }
 

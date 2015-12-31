@@ -33,14 +33,14 @@ config.menus={
                     }
                 },
                 'save':{
-                    label:config.lang[config.lang.act].save,
+                    label:config.lang[config.lang.act].save+config.lang[config.lang.act].locally,
                     disabled:true,
                     fn:function(scope){
                         scope.$parent.$parent.data.fn.storage.saveDocument(scope.$parent.$parent);
                     }
                 },
                 'saveAs':{
-                    label:config.lang[config.lang.act].saveAs,
+                    label:config.lang[config.lang.act].saveAs+config.lang[config.lang.act].locally,
                     disabled:false,
                     fn:function(scope){
                         $('#saveDocumentAsModal').modal('show');

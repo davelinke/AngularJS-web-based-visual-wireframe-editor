@@ -341,13 +341,14 @@ directive('drawstyleSelectionModifier', ['$compile',function ($compile) {
 directive('listenKeystrokes',['$compile',function($compile){
     return function($scope,t,attrs){
         $(window).on('keydown.listenKeystrokes keyup.listenKeystrokes',function(e){
-            console.log(e);
-            //e.preventDefault();
+            //console.log(e);
             if((typeof($scope.data.keystrokes[e.keyCode])!='undefined')&&(typeof($scope.data.keystrokes[e.keyCode][e.type])!='undefined')) $scope.data.keystrokes[e.keyCode][e.type]({
                 e:e,
                 s:$scope,
                 c:$compile
             });
+			//safe apply
+			if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') $scope.$apply();
         });
     };
 }]).
@@ -358,7 +359,15 @@ directive('flyoutMenu',[function(){
 			menus:'=flyoutMenu',
 			menuId:'@id'
 		},
-		template:'<div class="flyoutMenuWrapper" ng-class="{true: \'active\', false: \'\'}[menus.active]"><div ng-repeat="(menuName,menu) in menus.menus" id="{{::menuName}}Menu" class="flyout-menu" ng-class="{true: \'active\', false: \'\'}[menu.active]"><button id="{{::menuName}}MenuButton" type="button" ng-class="::menu.iconClass" ng-click="$parent.$parent.data.fn.flyoutMenu.activate($parent.$parent.data.menus,$parent.$parent)" ng-mouseover="$parent.$parent.data.fn.flyoutMenu.toggle(menu,$parent.$parent.data.menus)">{{::menu.label}}</button><div class="flyout"><button ng-repeat="action in menu.actions" ng-click="action.fn($parent)" ng-disabled="action.disabled">{{::action.label}}</button></div></div>'
+		template:
+		'<div class="flyoutMenuWrapper" ng-mouseleave="menus.activeMenu=null">'+
+		'	<div ng-repeat="(menuName,menu) in menus.menus" id="{{::menuName}}Menu" class="flyout-menu">'+
+		'		<button id="{{::menuName}}MenuButton" type="button" ng-class="::menu.iconClass" ng-click="menus.activeMenu = {true:null,false:menuName}[menus.activeMenu==menuName]" ng-mouseover="menus.activeMenu = {true:null,false:menuName}[menus.activeMenu==null]">{{::menu.label}}</button>'+
+		'		<div class="flyout" ng-show="(menus.activeMenu==menuName)">'+
+		'			<button ng-repeat="action in menu.actions" ng-click="action.fn($parent);menus.activeMenu=null" ng-disabled="action.disabled">{{::action.label}}</button>'+
+		'		</div>'+
+		'	</div>'+
+		'</div>'
 	};
 }]).
 directive('inlineStyles', [function () {

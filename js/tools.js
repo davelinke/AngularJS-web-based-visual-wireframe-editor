@@ -302,7 +302,8 @@ config.tools={
 			args.scope.data.tools.selection.down(args);
 		},
 	    mouseup:function(args){
-
+			//safe apply
+			if (args.scope.$root.$$phase != '$apply' && args.scope.$root.$$phase != '$digest') args.scope.$apply();
 	    },
 		touchend:function(){},
 	    mouseleave:function(args){

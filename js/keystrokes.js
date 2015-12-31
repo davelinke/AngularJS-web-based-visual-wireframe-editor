@@ -34,7 +34,7 @@ config.keystrokes = {
     },
     '77':{ //m letter
         'keydown':function(a){
-            //a.s.data.fn.initTool(a.s, {setTool:'drawBox'}, a.c);
+            if (!a.e.ctrlKey) a.s.data.fn.initTool(a.s, {setTool:'drawBox'}, a.c);
         },
         'keyup':function(a){
         }
@@ -49,7 +49,7 @@ config.keystrokes = {
         'keyup':function(a){
             var backto = a.s.data.toolPrev;
             a.s.data.toolPrev = null;
-            a.s.data.fn.initTool(a.s, {setTool:backto}, a.c);
+            if (backto) a.s.data.fn.initTool(a.s, {setTool:backto}, a.c);
         }
     },
     '46':{ //delete key

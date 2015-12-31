@@ -429,22 +429,5 @@ config.fn = {
 		store:function(type,data,name){
 			localStorage.setItem('pinocchio_'+type+'__'+name, data);
 		}
-	},
-	flyoutMenu:{
-		toggle:function(menu, menus){
-			for (var key in menus.menus) {
-				menus.menus[key].active = false;
-			}
-			menu.active=true;
-		},
-		activate:function(menus, scope){
-			menus.active = !menus.active;
-			$(document).one('click',function(e){
-				$(document).one('click',function(e){
-					menus.active = false;
-					scope.$apply();
-				});
-			});/**/
-		}
 	}
 };

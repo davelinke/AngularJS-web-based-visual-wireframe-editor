@@ -88,6 +88,7 @@ var config = {
 			setBorderWidth:'Set Border Width',
 			new:'New',
 			save:'Save',
+			locally:' (Locally)',
 			createNewFileAndLoseChanges:'Create new file and loose changes?',
 			openNewFileAndLoseChanges:'Open new file and loose changes?',
 			saveAs:'Save As...',
