@@ -17,7 +17,7 @@ directive('keyIncrement', [function () {
 		},
 		link:function(scope,t,attrs){
 			t.on('keydown', function (e) {
-				if(scope.model){
+				if(!scope.model) scope.model='0px';
 					var
 						key = e.keyCode
 					;
@@ -42,7 +42,7 @@ directive('keyIncrement', [function () {
 						scope.unitlessValue = nuVal.unitLess;
 						scope.$apply();
 					}
-				}
+
 			});
 		}
 	};
