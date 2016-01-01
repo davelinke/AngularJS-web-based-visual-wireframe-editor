@@ -7,10 +7,8 @@
 	<div id="mainTools">
 		<div id="toolbox" x-toolbox="toolbar" x-data="data"></div>
 		<div id="colorPicker">
-
 			<div x-size="small" x-which="background-color" color-picker title="{{::data.lang[data.lang.act].setFillColor}}" class="margin-bottom-sm"></div>
 			<div x-size="small" x-which="border-color" color-picker title="{{::data.lang[data.lang.act].setBorderColor}}" class="margin-bottom-sm"></div>
-			<!---->
 			<div x-which="border-width" input-type="text" input-class="input-xs w-full" title="" class="input-xs w-full" drawstyle-selection-modifier></div>
 		</div>
 	</div>
@@ -26,7 +24,8 @@
 		</div>
 	</div>
 	<div id="sidebar" class="{::{data.config.sidebarClass}}">
-		<div id="elementProperties" class="toolset">
+		<div id="elementProperties" class="toolset position-relative">
+			<div id="propertiesBlocker" ng-show="data.selection.active.locked===true"></div>
 			<h3>{{::data.lang[data.lang.act].properties}}</h3>
 			<div class="scroll-y" ng-hide="data.selection.active.typeNum==2">
 				<div class="element-property">
@@ -137,8 +136,64 @@
 				</div>
 				<h4>{{::data.lang[data.lang.act].border}}</h4>
 				<div class="element-property">
-					<div class="col-sm-12">
-						<!--css-four ng-model="data.selection.active.padding"></css-four-->
+					<div class="col-sm-4">
+						<label>{{::data.lang[data.lang.act].borderWidth}}</label>
+					</div>
+					<div class="col-sm-8">
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['border-width']" placeholder="Xpx" x-key-increment />
+					</div>
+				</div>
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{::data.lang[data.lang.act].borderRadius}}</label>
+					</div>
+					<div class="col-sm-8">
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['border-radius']" placeholder="Xpx" x-key-increment />
+					</div>
+				</div>
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{::data.lang[data.lang.act].borderColor}}</label>
+					</div>
+					<div class="col-sm-8">
+						<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['border-color']" colorpicker="rgba"  colorpicker-position="left" colorpicker-with-input="true" />
+					</div>
+				</div>
+
+				<div class="element-property">
+					<div class="col-sm-4">
+						<label>{{::data.lang[data.lang.act].borderStyle}}</label>
+					</div>
+					<div class="col-sm-8">
+						<select class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['border-style']">
+							<option value="none">
+								{{::data.lang[data.lang.act].none}}
+							</option>
+							<option value="solid">
+								{{::data.lang[data.lang.act].solid}}
+							</option>
+							<option value="dashed">
+								{{::data.lang[data.lang.act].dashed}}
+							</option>
+							<option value="dotted">
+								{{::data.lang[data.lang.act].dotted}}
+							</option>
+							<option value="double">
+								{{::data.lang[data.lang.act].double}}
+							</option>
+							<option value="groove">
+								{{::data.lang[data.lang.act].groove}}
+							</option>
+							<option value="ridge">
+								{{::data.lang[data.lang.act].ridge}}
+							</option>
+							<option value="inset">
+								{{::data.lang[data.lang.act].inset}}
+							</option>
+							<option value="outset">
+								{{::data.lang[data.lang.act].outset}}
+							</option>
+						</select>
 					</div>
 				</div>
 				<h4>{{::data.lang[data.lang.act].text}}</h4>
@@ -215,7 +270,7 @@
 						<label>{{::data.lang[data.lang.act].fontColor}}</label>
 					</div>
 					<div class="col-sm-8">
-						<input  type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['color']" placeholder="black" />
+						<input  type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['color']" placeholder="black" colorpicker="rgba"  colorpicker-position="left" colorpicker-with-input="true" />
 					</div>
 				</div>
 				<div class="element-property">

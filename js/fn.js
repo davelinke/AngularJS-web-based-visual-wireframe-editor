@@ -94,6 +94,7 @@ config.fn = {
 			scope.$apply();
 		},
 		cssIncrement:function(val,add){
+			if (!val) val='0px';
 			var numVal = parseInt(val.replace(/[^-\d\.]/g, ''));
 			var nuVal = numVal + add;
 			var unit = val.replace(numVal, '');

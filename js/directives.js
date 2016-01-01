@@ -9,14 +9,6 @@
 
 angular.
 module('gui.directives', ['gui.filters']).
-directive('cssFour',[function(){
-	return {
-		scope:{
-			model:"=ngModel",
-		},
-		template:'<input type="text" ng-model="model" class="form-control" /> <checkbox ng-model="same" label="All" icon-checked="fa fa-check-square-o" icon-unchecked="fa fa-square-o"></checkbox> <input type="text" ng-model="top" class="form-control" /> <input type="text" class="form-control" ng-model="right" ng-disabled="same===true" /> <input type="text" class="form-control" ng-model="bottom" ng-disabled="same===true" /> <input type="text" class="form-control" ng-model="left" ng-disabled="same===true" />'
-	};
-}]).
 directive('checkbox',[function(){
 	return {
 		scope:{
@@ -36,7 +28,7 @@ directive('keyIncrement', [function () {
 		},
 		link:function(scope,t,attrs){
 			t.on('keydown', function (e) {
-				if(!scope.model) scope.model='0px';
+				//if(!scope.model) scope.model='0px';
 					var
 						key = e.keyCode
 					;

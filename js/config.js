@@ -136,7 +136,22 @@ var config = {
 			noWrap:'no wrap',
 			newLayer:'new layer',
 			removeSelectedLayer:'Remove Selected Layer',
-			close:'close'
+			close:'close',
+			border:'border',
+			borderWidth:'border width',
+			borderRadius:'border radius',
+			borderStyle:'border style',
+			borderColor:'border color',
+			valueInPixels:'enter value in pixels',
+			none:'none',
+			solid:'solid',
+			dashed:'dashed',
+			dotted:'dotted',
+			groove:'groove',
+			double:'double',
+			ridge:'ridge',
+			inset:'inset',
+			outset:'outset'
 		}
 	},
 	drawStyle : {
