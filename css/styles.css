@@ -593,6 +593,8 @@ html, body, #mainWrapper {
       #wrapper #sidebar .toolset hr {
         border-top: 2px solid #1c1c1c;
         margin: 0.5em 0.8em 0.8em; }
+      #wrapper #sidebar .toolset checkbox .fa {
+        color: green; }
     #wrapper #sidebar .btn-link {
       color: #B6B6B6; }
     #wrapper #sidebar.collapsed {
@@ -723,5 +725,20 @@ html, body, #mainWrapper {
     background-position: 0px top, 10px bottom, left 0px, right 10px; }
   50% {
     background-position: 10px top, 0px bottom, left 10px, right 0px; } }
+checkbox {
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 0.5em;
+  border-radius: 3px; }
+  checkbox:hover {
+    background-color: rgba(0, 0, 0, 0.4); }
+  checkbox span {
+    display: inline-block; }
+    checkbox span .fa {
+      display: inline-block;
+      min-width: 1em; }
+    checkbox span label {
+      cursor: pointer;
+      margin: 0; }
 
 /*# sourceMappingURL=styles.css.map */

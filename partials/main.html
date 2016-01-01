@@ -24,7 +24,6 @@
 				<div class="{{child.type}} {{child.cursorClass}} {{{true: (data.flags.elementState|statesToClass), false: ''}[child.selected]}}" ng-class="{selected:child.selected}" id="screen_{{child.id}}" tree="child in data.tree.root.children at none" ng-style="child.styles.normal" ob-id="{{child.id}}" ob-type="{{child.type}}">{{child.text}}</div>
 			</div>
 		</div>
-		<!--<div id="actions" style="width:calc({{data.screen.width}} + 10px);" tool-actions></div>-->
 	</div>
 	<div id="sidebar" class="{::{data.config.sidebarClass}}">
 		<div id="elementProperties" class="toolset">
@@ -32,7 +31,7 @@
 			<div class="scroll-y" ng-hide="data.selection.active.typeNum==2">
 				<div class="element-property">
 					<div class="col-sm-12">
-						<input type="checkbox" class="margin-no" ng-model="data.screen.overflow" /> <label>{{::data.lang[data.lang.act].canvasOverflow}}</label>
+						<checkbox ng-model="data.screen.overflow" icon-checked="fa fa-check-square-o" icon-unchecked="fa fa-square-o" label="{{::data.lang[data.lang.act].canvasOverflow}}"></checkbox>
 					</div>
 				</div>
 				<div class="element-property">
@@ -239,6 +238,7 @@
 								<i class="fa fa-caret-down"></i>
 							</span>
 						</button>
+						<checkbox ng-model="child.locked" icon-checked="fa fa-lock" icon-unchecked="fa fa-unlock" label=""></checkbox>
 						{{child.id | nicename}}
 					</div>
 					<ul ng-class="{pregnant:child.children.length}"></ul>

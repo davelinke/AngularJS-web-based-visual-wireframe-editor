@@ -449,6 +449,11 @@ html,body,#mainWrapper{
 				border-top: 2px solid #1c1c1c;
     			margin: 0.5em 0.8em 0.8em;
 			}
+			checkbox{
+				.fa{
+					color:green;
+				}
+			}
 		}
 		.btn-link{
 			color:#B6B6B6;
@@ -606,5 +611,25 @@ html,body,#mainWrapper{
 	}
 	50% {
 		background-position: 10px top, 0px bottom, left 10px, right 0px;
+	}
+}
+checkbox{
+	display:inline-block;
+	cursor: pointer;
+	padding: 0 0.5em;
+    border-radius: 3px;
+	&:hover{
+		background-color: rgba(0,0,0,0.4);
+	}
+	span{
+		display: inline-block;
+		.fa{
+			display: inline-block;
+			min-width: 1em;
+		}
+		label{
+			cursor: pointer;
+			margin: 0;
+		}
 	}
 }

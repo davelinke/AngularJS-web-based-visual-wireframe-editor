@@ -54,10 +54,9 @@ config.keystrokes = {
     },
     '46':{ //delete key
         'keydown':function(a){
-            console.log('delete');
             if($("input:focus,textarea:focus").length===0){
                 a.e.preventDefault();
-                if (a.s.data.selection.active.typeNum==2){
+                if (a.s.data.selection.active.typeNum==2 && a.s.data.selection.active.locked===false){
                     a.s.data.fn.tree.remove(a.s.data.selection.active,a.s.data);
                     a.s.$digest();
                 }

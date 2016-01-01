@@ -13,6 +13,7 @@ var config = {
 			type: 'layer',
 			typeNum:1, // 0 for the root level, 1 for layers and 2 for elments;
 			selected:false,
+			locked:false,
 			styles:{
 				'normal':{top:'0',
 					tPx:0,

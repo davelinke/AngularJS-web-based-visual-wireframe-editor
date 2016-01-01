@@ -9,6 +9,17 @@
 
 angular.
 module('gui.directives', ['gui.filters']).
+directive('checkbox',[function(){
+	return {
+		scope:{
+			model:'=ngModel',
+			label:'@label',
+			iconChecked:'@iconChecked',
+			iconUnchecked:'@iconUnchecked',
+		},
+		template:'<span ng-click="model= !model"><i class="custom-checkbox {{{true:iconChecked,false:iconUnchecked}[model]}}"></i><label>{{::label}}</label></span>'
+	};
+}]).
 directive('keyIncrement', [function () {
 	return {
 		scope:{

@@ -97,50 +97,53 @@ config.tools={
 				s = args.scope.data,
 				dac = s.tools.drawBox.config,
 				e = args.event,
-				canvas = $('#canvas')
+				canvas = $('#canvas'),
+				lockedLayer = (s.selection.active.typeNum==2?s.selection.active.parent:s.selection.active).locked
 			;
-			args.scope.$apply(function(){
-				if(e.target==canvas[0]){
-					dac.areaStyle.left = e.offsetX + 'px';
-					dac.areaStyle.lPx = e.offsetX;
-					dac.areaStyle.top = e.offsetY + 'px';
-					dac.areaStyle.tPx = e.offsetY;
-					dac.initPos = {
-						lPx: e.offsetX,
-						tPx: e.offsetY
-					};
-					dac.areaStyle.width = 0;
-					dac.areaStyle.wPx = 0;
-					dac.areaStyle.height = 0;
-					dac.areaStyle.hPx = 0;
-					s.tools.drawBox.isDrawing = true;
-				} else if (e.target.id=='workarea') {
-					var o = canvas.offset();
-					var x = e.pageX - o.left;
-					var y = e.pageY - o.top;
-					var dw = s.screen.wPx;
-					var dh = s.screen.hPx;
-					var xVal = (s.screen.overflow?x:(x>0?x:0));
-					xVal = Math.floor(xVal>dw?dw:xVal);
-					var yVal = (s.screen.overflow?y:(y>0?y:0));
-					yVal = Math.floor(yVal>dh?dh:yVal);
-					dac.areaStyle.left = xVal + 'px';
-					dac.areaStyle.lPx = xVal;
-					dac.areaStyle.top = yVal + 'px';
-					dac.areaStyle.tPx = yVal;
-					dac.initPos = {
-						lPx: xVal,
-						tPx: yVal
-					};
-					dac.areaStyle.width = 0;
-					dac.areaStyle.wPx = 0;
-					dac.areaStyle.height = 0;
-					dac.areaStyle.hPx = 0;
-					s.tools.drawBox.isDrawing = true;
-				} else if (e.target.id=='drawBoxBox') {
-					s.tools.drawBox.isMoving = true;
-				}
-			});
+			if(lockedLayer===false){
+				args.scope.$apply(function(){
+					if(e.target==canvas[0]){
+						dac.areaStyle.left = e.offsetX + 'px';
+						dac.areaStyle.lPx = e.offsetX;
+						dac.areaStyle.top = e.offsetY + 'px';
+						dac.areaStyle.tPx = e.offsetY;
+						dac.initPos = {
+							lPx: e.offsetX,
+							tPx: e.offsetY
+						};
+						dac.areaStyle.width = 0;
+						dac.areaStyle.wPx = 0;
+						dac.areaStyle.height = 0;
+						dac.areaStyle.hPx = 0;
+						s.tools.drawBox.isDrawing = true;
+					} else if (e.target.id=='workarea') {
+						var o = canvas.offset();
+						var x = e.pageX - o.left;
+						var y = e.pageY - o.top;
+						var dw = s.screen.wPx;
+						var dh = s.screen.hPx;
+						var xVal = (s.screen.overflow?x:(x>0?x:0));
+						xVal = Math.floor(xVal>dw?dw:xVal);
+						var yVal = (s.screen.overflow?y:(y>0?y:0));
+						yVal = Math.floor(yVal>dh?dh:yVal);
+						dac.areaStyle.left = xVal + 'px';
+						dac.areaStyle.lPx = xVal;
+						dac.areaStyle.top = yVal + 'px';
+						dac.areaStyle.tPx = yVal;
+						dac.initPos = {
+							lPx: xVal,
+							tPx: yVal
+						};
+						dac.areaStyle.width = 0;
+						dac.areaStyle.wPx = 0;
+						dac.areaStyle.height = 0;
+						dac.areaStyle.hPx = 0;
+						s.tools.drawBox.isDrawing = true;
+					} else if (e.target.id=='drawBoxBox') {
+						s.tools.drawBox.isMoving = true;
+					}
+				});
+			}
 		},
 		mouseup:function(args){
 			args.scope.data.tools.drawBox.isMoving = false;
@@ -157,10 +160,11 @@ config.tools={
 			var
 				e = args.event,
 				s = args.scope.data,
-				d = s.tools.drawBox
+				d = s.tools.drawBox,
+				downFlag = (s.flags.mouseEvent =='mousedown' || s.flags.mouseEvent=='touchstart')?true:false,
+				lockedLayer = (s.selection.active.typeNum==2?s.selection.active.parent:s.selection.active).locked
 			;
-			var downFlag = (s.flags.mouseEvent =='mousedown' || s.flags.mouseEvent=='touchstart')?true:false;
-			if (!d.isMoving && !downFlag){
+			if (!d.isMoving && !downFlag && lockedLayer===false){
 				if(d.isDrawing){
 					// go draw the box
 					if ((d.config.areaStyle.wPx >0)&&(d.config.areaStyle.hPx >0)){
@@ -182,6 +186,7 @@ config.tools={
 							id:s.fn.tree.newLayerName({pre:args.scope.data.lang[args.scope.data.lang.act].element,data:args.scope.data}),
 							type:'element',
 							cursorClass:'',
+							locked:false,
 							typeNum:2,
 							children:[],
 							styles:{
@@ -217,8 +222,11 @@ config.tools={
 			scope.data.tools.drawBox.move(e,scope);
 		},
 		move:function(e,scope){
-			var downFlag = (scope.data.flags.mouseEvent =='mousedown' || scope.data.flags.mouseEvent=='touchstart')?true:false;
-			if (downFlag){
+			var
+				downFlag = (scope.data.flags.mouseEvent =='mousedown' || scope.data.flags.mouseEvent=='touchstart')?true:false,
+				lockedLayer = (scope.data.selection.active.typeNum==2?scope.data.selection.active.parent:scope.data.selection.active).locked
+			;
+			if (downFlag && lockedLayer===false){
 				var
 					canvas = $('#canvas'),
 					s = scope.data,
@@ -287,11 +295,13 @@ config.tools={
 				var selectedLayer = s.data.fn.tree.selectParentLayer(s.data.tree.root.children);
 				s.data.fn.tree.toggleSelected({child:selectedLayer,data:s.data});
 			} else {
-				s.data.fn.tree.toggleSelected({child:t.element,data:s.data});
-				s.data.flags.resizeLeft = (e.offsetX<5)?true:false;
-				s.data.flags.resizeTop = (e.offsetY<5)?true:false;
-				s.data.flags.resizeRight = (e.offsetX>(t.element.styles.normal.wPx - 5))?true:false;
-				s.data.flags.resizeBottom = (e.offsetY>(t.element.styles.normal.hPx - 5))?true:false;
+				if (t.element.locked === false){
+					s.data.fn.tree.toggleSelected({child:t.element,data:s.data});
+					s.data.flags.resizeLeft = (e.offsetX<5)?true:false;
+					s.data.flags.resizeTop = (e.offsetY<5)?true:false;
+					s.data.flags.resizeRight = (e.offsetX>(t.element.styles.normal.wPx - 5))?true:false;
+					s.data.flags.resizeBottom = (e.offsetY>(t.element.styles.normal.hPx - 5))?true:false;
+				}
 			}
 			s.$apply();
 		},
@@ -332,36 +342,37 @@ config.tools={
 				if (e.offsetX>(c.styles.normal.wPx - 5)) cursorClass +='e';
 				c.cursorClass = cursorClass;
 			}
+			if (c && c.locked===false){
+				//resize or move
+				if ((c.typeNum==2) && downFlag){
+					console.log(e);
+					var
+						leftPx = c.styles.normal.lPx,
+						topPx = c.styles.normal.tPx
+					;
+					if(f.resizeLeft||f.resizeTop||f.resizeRight||f.resizeBottom){
+						if (f.resizeLeft){
+							var lVal = (!s.screen.overflow && e.originalEvent.movementX<0 && leftPx===0)?0:e.originalEvent.movementX;
 
-			//resize or move
-			if ((c) && (c.typeNum==2) && downFlag){
-				console.log(e);
-				var
-					leftPx = c.styles.normal.lPx,
-					topPx = c.styles.normal.tPx
-				;
-				if(f.resizeLeft||f.resizeTop||f.resizeRight||f.resizeBottom){
-					if (f.resizeLeft){
-						var lVal = (!s.screen.overflow && e.originalEvent.movementX<0 && leftPx===0)?0:e.originalEvent.movementX;
+							s.fn.modifiers.modifyElementArea(scope,'left',lVal);
+							s.fn.modifiers.modifyElementArea(scope,'width',(lVal*-1));
+						}
+						if (f.resizeTop){
+							var tVal = (!s.screen.overflow && e.originalEvent.movementY<0 && topPx===0)?0:e.originalEvent.movementY;
 
-						s.fn.modifiers.modifyElementArea(scope,'left',lVal);
-						s.fn.modifiers.modifyElementArea(scope,'width',(lVal*-1));
+							s.fn.modifiers.modifyElementArea(scope,'top',tVal);
+							s.fn.modifiers.modifyElementArea(scope,'height',(tVal*-1));
+						}
+						if (f.resizeRight){
+							s.fn.modifiers.modifyElementArea(scope,'width',e.originalEvent.movementX);
+						}
+						if (f.resizeBottom){
+							s.fn.modifiers.modifyElementArea(scope,'height',e.originalEvent.movementY);
+						}
+					} else {
+						s.fn.modifiers.modifyElementArea(scope,'left',e.originalEvent.movementX);
+						s.fn.modifiers.modifyElementArea(scope,'top',e.originalEvent.movementY);
 					}
-					if (f.resizeTop){
-						var tVal = (!s.screen.overflow && e.originalEvent.movementY<0 && topPx===0)?0:e.originalEvent.movementY;
-
-						s.fn.modifiers.modifyElementArea(scope,'top',tVal);
-						s.fn.modifiers.modifyElementArea(scope,'height',(tVal*-1));
-					}
-					if (f.resizeRight){
-						s.fn.modifiers.modifyElementArea(scope,'width',e.originalEvent.movementX);
-					}
-					if (f.resizeBottom){
-						s.fn.modifiers.modifyElementArea(scope,'height',e.originalEvent.movementY);
-					}
-				} else {
-					s.fn.modifiers.modifyElementArea(scope,'left',e.originalEvent.movementX);
-					s.fn.modifiers.modifyElementArea(scope,'top',e.originalEvent.movementY);
 				}
 			}
 		},
