@@ -98,7 +98,7 @@ config.tools={
 				dac = s.tools.drawBox.config,
 				e = args.event,
 				canvas = $('#canvas'),
-				lockedLayer = (s.selection.active.typeNum==2?s.selection.active.parent:s.selection.active).locked
+				lockedLayer = (s.selection.active.typeNum==2?s.fn.tree.selectParentLayer(s.tree.root.children):s.selection.active).locked
 			;
 			if(lockedLayer===false){
 				args.scope.$apply(function(){
@@ -162,7 +162,7 @@ config.tools={
 				s = args.scope.data,
 				d = s.tools.drawBox,
 				downFlag = (s.flags.mouseEvent =='mousedown' || s.flags.mouseEvent=='touchstart')?true:false,
-				lockedLayer = (s.selection.active.typeNum==2?s.selection.active.parent:s.selection.active).locked
+				lockedLayer = (s.selection.active.typeNum==2?s.fn.tree.selectParentLayer(s.tree.root.children):s.selection.active).locked
 			;
 			if (!d.isMoving && !downFlag && lockedLayer===false){
 				if(d.isDrawing){
@@ -224,7 +224,7 @@ config.tools={
 		move:function(e,scope){
 			var
 				downFlag = (scope.data.flags.mouseEvent =='mousedown' || scope.data.flags.mouseEvent=='touchstart')?true:false,
-				lockedLayer = (scope.data.selection.active.typeNum==2?scope.data.selection.active.parent:scope.data.selection.active).locked
+				lockedLayer = (scope.data.selection.active.typeNum==2?scope.data.fn.tree.selectParentLayer(scope.data.tree.root.children):scope.data.selection.active).locked
 			;
 			if (downFlag && lockedLayer===false){
 				var
