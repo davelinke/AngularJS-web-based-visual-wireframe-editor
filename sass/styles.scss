@@ -398,7 +398,7 @@ html,body,#mainWrapper{
 			    font-size: 1.4rem;
 			    line-height: 1.4rem;
 			}
-			&.active, &:hover{
+			&.active, &:hover, &:focus{
 				background-color: #1c1c1c;
 				color:#a6a6a6;
 			}
@@ -482,6 +482,22 @@ html,body,#mainWrapper{
 		.tree-list{
 			flex-grow:1;
 			overflow-y:auto;
+			checkbox {
+			    background-color: rgba(0, 0, 0, 0.5);
+			    height: 18px;
+			    line-height: 18px;
+			    padding: 0 4px;
+			    width: 18px;
+				&:hover{
+					background-color: rgba(0,0,0,0.75);
+					.fa{
+						color:#bbb;
+					}
+				}
+				.fa{
+					color:#999;
+				}
+			}
 			ul{
 
 			}
@@ -584,7 +600,7 @@ html,body,#mainWrapper{
     flex-direction: column-reverse;
 	li{
 		div{
-			padding: 0.5rem 0;
+			padding: 0.5rem 0 0.5rem 0.5rem;
 			&.selected{
 				background-color:#5E6575;
 			}
@@ -594,12 +610,19 @@ html,body,#mainWrapper{
 				display:none;
 			}
 		}
+		&.locked, &.element-hidden{
+			ul{
+				opacity:0.5;
+			}
+		}
 		ul{
 			list-style-type:none;
 			padding-left: 0;
 			> li > div{
-				padding: 0.2em 0 0.2em 1.5em;
 				background-color: #2e2e2e;
+				.toggle{
+					margin-left: 1.5em;
+				}
 			}
 		}
 	}
@@ -618,6 +641,12 @@ checkbox{
 	cursor: pointer;
 	padding: 0 0.5em;
     border-radius: 3px;
+	&.screen-overflow{
+		.fa{
+			margin-right:0.5em
+			;
+		}
+	}
 	&:hover{
 		background-color: rgba(0,0,0,0.4);
 	}

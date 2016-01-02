@@ -56,7 +56,8 @@ config.keystrokes = {
         'keydown':function(a){
             if($("input:focus,textarea:focus").length===0){
                 a.e.preventDefault();
-                if (a.s.data.selection.active.typeNum==2 && a.s.data.selection.active.locked===false){
+                var el = a.s.data.selection.active;
+                if (el.typeNum==2 && el.locked===false && a.s.data.fn.tree.selectParentLayer(s.data.tree.root.children).locked===false){
                     a.s.data.fn.tree.remove(a.s.data.selection.active,a.s.data);
                     a.s.$digest();
                 }
@@ -70,25 +71,29 @@ config.keystrokes = {
     },
     '38':{ // up arrow
     		'keydown':function(a){
-                a.s.data.fn.modifiers.modifyElementAreaWithKeystroke(a.s,'top',-1);
+                var el = a.s.data.selection.active;
+                if(el.locked===false && a.s.data.fn.tree.selectParentLayer(s.data.tree.root.children).locked===false) a.s.data.fn.modifiers.modifyElementAreaWithKeystroke(a.s,'top',-1);
             },
     		'keyup':function(a){}
     },
     '40':{ // down arrow
     		'keydown':function(a){
-                a.s.data.fn.modifiers.modifyElementAreaWithKeystroke(a.s,'top',1);
+                var el = a.s.data.selection.active;
+                if(el.locked===false && a.s.data.fn.tree.selectParentLayer(s.data.tree.root.children).locked===false) a.s.data.fn.modifiers.modifyElementAreaWithKeystroke(a.s,'top',1);
             },
     		'keyup':function(a){}
     },
     '37':{ // left arrow
     		'keydown':function(a){
-                a.s.data.fn.modifiers.modifyElementAreaWithKeystroke(a.s,'left',-1);
+                var el = a.s.data.selection.active;
+                if(el.locked===false && a.s.data.fn.tree.selectParentLayer(s.data.tree.root.children).locked===false) a.s.data.fn.modifiers.modifyElementAreaWithKeystroke(a.s,'left',-1);
             },
     		'keyup':function(a){}
     },
     '39':{ // right arrow
     		'keydown':function(a){
-                a.s.data.fn.modifiers.modifyElementAreaWithKeystroke(a.s,'left',1);
+                var el = a.s.data.selection.active;
+                if(el.locked===false && a.s.data.fn.tree.selectParentLayer(s.data.tree.root.children).locked===false) a.s.data.fn.modifiers.modifyElementAreaWithKeystroke(a.s,'left',1);
             },
     		'keyup':function(a){}
     },

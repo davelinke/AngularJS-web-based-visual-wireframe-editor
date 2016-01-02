@@ -215,6 +215,8 @@ config.fn = {
 				id : data.fn.tree.newLayerName({pre:null,data:data}),
 				children : [],
 				selected:false,
+				locked:false,
+				visible:true,
 				styles:{
 					normal:{
 						top:'0',

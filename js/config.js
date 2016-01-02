@@ -14,6 +14,7 @@ var config = {
 			typeNum:1, // 0 for the root level, 1 for layers and 2 for elments;
 			selected:false,
 			locked:false,
+			visible:true,
 			styles:{
 				'normal':{top:'0',
 					tPx:0,
@@ -75,6 +76,7 @@ var config = {
 	lang:{
 		act:'en',
 		en:{
+			canvas:'canvas',
 			layer:'layer',
 			element:'element',
 			welcome:'Welcome',

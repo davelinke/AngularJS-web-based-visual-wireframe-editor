@@ -187,6 +187,7 @@ config.tools={
 							type:'element',
 							cursorClass:'',
 							locked:false,
+							visible:true,
 							typeNum:2,
 							children:[],
 							styles:{
@@ -295,7 +296,8 @@ config.tools={
 				var selectedLayer = s.data.fn.tree.selectParentLayer(s.data.tree.root.children);
 				s.data.fn.tree.toggleSelected({child:selectedLayer,data:s.data});
 			} else {
-				if (t.element.locked === false){
+				var lockedLayer = ((t.element.typeNum==2)&&(s.data.fn.tree.selectParentLayer(s.data.tree.root.children).locked)?true:false);
+				if ((t.element.locked === false)&&(lockedLayer===false)){
 					s.data.fn.tree.toggleSelected({child:t.element,data:s.data});
 					s.data.flags.resizeLeft = (e.offsetX<5)?true:false;
 					s.data.flags.resizeTop = (e.offsetY<5)?true:false;

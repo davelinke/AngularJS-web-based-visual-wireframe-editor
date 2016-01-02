@@ -543,7 +543,7 @@ html, body, #mainWrapper {
       #wrapper #sidebar .btn:not(.btn-link) .fa {
         font-size: 1.4rem;
         line-height: 1.4rem; }
-      #wrapper #sidebar .btn:not(.btn-link).active, #wrapper #sidebar .btn:not(.btn-link):hover {
+      #wrapper #sidebar .btn:not(.btn-link).active, #wrapper #sidebar .btn:not(.btn-link):hover, #wrapper #sidebar .btn:not(.btn-link):focus {
         background-color: #1c1c1c;
         color: #a6a6a6; }
     #wrapper #sidebar #elementProperties {
@@ -622,6 +622,18 @@ html, body, #mainWrapper {
     #wrapper #sidebar .tree-list {
       flex-grow: 1;
       overflow-y: auto; }
+      #wrapper #sidebar .tree-list checkbox {
+        background-color: rgba(0, 0, 0, 0.5);
+        height: 18px;
+        line-height: 18px;
+        padding: 0 4px;
+        width: 18px; }
+        #wrapper #sidebar .tree-list checkbox:hover {
+          background-color: rgba(0, 0, 0, 0.75); }
+          #wrapper #sidebar .tree-list checkbox:hover .fa {
+            color: #bbb; }
+        #wrapper #sidebar .tree-list checkbox .fa {
+          color: #999; }
       #wrapper #sidebar .tree-list li {
         border-top: 1px solid #232323; }
       #wrapper #sidebar .tree-list > li {
@@ -711,17 +723,20 @@ html, body, #mainWrapper {
   display: flex;
   flex-direction: column-reverse; }
   .tree-list li div {
-    padding: 0.5rem 0; }
+    padding: 0.5rem 0 0.5rem 0.5rem; }
     .tree-list li div.selected {
       background-color: #5E6575; }
   .tree-list li.minimized ul {
     display: none; }
+  .tree-list li.locked ul, .tree-list li.element-hidden ul {
+    opacity: 0.5; }
   .tree-list li ul {
     list-style-type: none;
     padding-left: 0; }
     .tree-list li ul > li > div {
-      padding: 0.2em 0 0.2em 1.5em;
       background-color: #2e2e2e; }
+      .tree-list li ul > li > div .toggle {
+        margin-left: 1.5em; }
 
 @keyframes border-dance {
   0% {
@@ -733,6 +748,8 @@ checkbox {
   cursor: pointer;
   padding: 0 0.5em;
   border-radius: 3px; }
+  checkbox.screen-overflow .fa {
+    margin-right: 0.5em; }
   checkbox:hover {
     background-color: rgba(0, 0, 0, 0.4); }
   checkbox span {

@@ -19,18 +19,19 @@
 			<div id="screen" class="tr-sq">
 				<div id="guides" class="work-layer"></div>
 				<div id="canvas" class="work-layer {{data.tool}}"></div>
-				<div class="{{child.type}} {{child.cursorClass}} {{{true: (data.flags.elementState|statesToClass), false: ''}[child.selected]}}" ng-class="{selected:child.selected}" id="screen_{{child.id}}" tree="child in data.tree.root.children at none" ng-style="child.styles.normal" ob-id="{{child.id}}" ob-type="{{child.type}}">{{child.text}}</div>
+				<div class="{{child.type}} {{child.cursorClass}} {{{true: (data.flags.elementState|statesToClass), false: ''}[child.selected]}}" ng-show="child.visible" ng-class="{selected:child.selected}" id="screen_{{child.id}}" tree="child in data.tree.root.children at none" ng-style="child.styles.normal" ob-id="{{child.id}}" ob-type="{{child.type}}">{{child.text}}</div>
 			</div>
 		</div>
 	</div>
 	<div id="sidebar" class="{::{data.config.sidebarClass}}">
 		<div id="elementProperties" class="toolset position-relative">
-			<div id="propertiesBlocker" ng-show="data.selection.active.locked===true"></div>
+			<div id="propertiesBlocker" ng-show="(data.selection.active.locked===true)||(data.fn.tree.selectParentLayer(data.tree.root.children).locked===true)"></div>
 			<h3>{{::data.lang[data.lang.act].properties}}</h3>
 			<div class="scroll-y" ng-hide="data.selection.active.typeNum==2">
+				<h4>{{::data.lang[data.lang.act].canvas}}</h4>
 				<div class="element-property">
 					<div class="col-sm-12">
-						<checkbox ng-model="data.screen.overflow" icon-checked="fa fa-check-square-o" icon-unchecked="fa fa-square-o" label="{{::data.lang[data.lang.act].canvasOverflow}}"></checkbox>
+						<checkbox class="screen-overflow" ng-model="data.screen.overflow" icon-checked="fa fa-check-square-o" icon-unchecked="fa fa-square-o" label="{{::data.lang[data.lang.act].canvasOverflow}}"></checkbox>
 					</div>
 				</div>
 				<div class="element-property">
@@ -41,7 +42,7 @@
 						<input type="text" class="form-control w-full" unitless-value="data.screen.wPx" ng-model="data.screen.width" placeholder="XXpx" x-key-increment />
 					</div>
 					<div class="col-sm-2">
-						<label></label>
+						<label>{{::data.lang[data.lang.act].height}}</label>
 					</div>
 					<div class="col-sm-4">
 						<input type="text" class="form-control w-full" unitless-value="data.screen.hPx" ng-model="data.screen.height" placeholder="XXpx" x-key-increment />
@@ -289,8 +290,10 @@
 		<div class="toolset">
 			<h3>{{::data.lang[data.lang.act].layers}}</h3>
 			<ul class="tree-list">
-				<li tree="child in data.tree.root.children at ul" ng-class="{minimized:child.minimized}">
-					<div ng-class="{selected:child.selected}" ng-click="data.fn.tree.toggleSelected({child:child,data:data})">
+				<li tree="child in data.tree.root.children at ul"class="{{{true:'locked',false:''}[child.locked]}} {{{true:'',false:'element-hidden'}[child.visible]}}" ng-class="{minimized:child.minimized}">
+					<div class="tree-item-div" ng-class="{selected:child.selected}" ng-click="data.fn.tree.toggleSelected({child:child,data:data})">
+						<checkbox ng-model="child.visible" icon-checked="fa fa-eye" icon-unchecked="fa fa-eye-slash" label=""></checkbox>
+						<checkbox ng-model="child.locked" icon-checked="fa fa-lock" icon-unchecked="fa fa-unlock" label=""></checkbox>
 						<button class="btn btn-link btn-xs toggle" ng-click="data.fn.tree.toggleMinimized(child)" ng-switch on="child.minimized">
 							<span ng-switch-when="true">
 								<i class="fa fa-caret-right"></i>
@@ -299,7 +302,6 @@
 								<i class="fa fa-caret-down"></i>
 							</span>
 						</button>
-						<checkbox ng-model="child.locked" icon-checked="fa fa-lock" icon-unchecked="fa fa-unlock" label=""></checkbox>
 						{{child.id | nicename}}
 					</div>
 					<ul ng-class="{pregnant:child.children.length}"></ul>
