@@ -299,6 +299,65 @@ div[class^="col-"] {
   padding-left: 0.94em; }
 
 /*elements*/
+/* Webkit */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  input[type=range],
+  input[type=range],
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    border-radius: 8px;
+    height: 7px;
+    border: 1px solid #bdc3c7;
+    background-color: #fff; } }
+input[type='range']::-webkit-slider-thumb,
+input[type='range']::-webkit-slider-thumb,
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  cursor: pointer; }
+
+/* Mozilla */
+input[type=range] {
+  width: 100%; }
+
+input[type=range]::-moz-range-track {
+  border-radius: 8px;
+  height: 7px;
+  border: 1px solid #bdc3c7;
+  background-color: #fff; }
+
+input[type=range]::-moz-range-thumb {
+  background: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  cursor: pointer; }
+
+/* Internet Explorer */
+input[type="range"]::-ms-fill-lower,
+input[type="range"]::-ms-fill-upper {
+  background: transparent; }
+
+input[type="range"]::-ms-track {
+  border-radius: 8px;
+  height: 7px;
+  border: 1px solid #bdc3c7;
+  background-color: #fff; }
+
+input[type="range"]::-ms-thumb {
+  background-color: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  cursor: pointer; }
+
 html, body, #mainWrapper {
   width: 100%;
   height: 100%;

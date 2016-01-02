@@ -153,7 +153,14 @@ var config = {
 			double:'double',
 			ridge:'ridge',
 			inset:'inset',
-			outset:'outset'
+			outset:'outset',
+			style:'style',
+			fill:'fill',
+			blendingMode:'blending mode',
+			opacity:'opacity',
+			blending:'blending',
+			color:'color',
+			fillColor:'fill color'
 		}
 	},
 	drawStyle : {
