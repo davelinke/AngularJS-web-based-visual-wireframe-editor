@@ -157,53 +157,6 @@
 							<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['background-color']" colorpicker="rgba"  colorpicker-position="left" colorpicker-with-input="true" />
 						</div>
 					</div>
-					<div class="element-property">
-						<div class="col-sm-4">
-							<label>{{::data.lang[data.lang.act].blendingMode}}</label>
-						</div>
-						<div class="col-sm-8">
-							<select class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['mix-blend-mode']">
-								<optgroup label=" ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶">
-									<option value="normal">normal</option>
-								</optgroup>
-								<optgroup label=" ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶">
-									<option value="darken">darken</option>
-									<option value="color-burn">color-burn</option>
-								</optgroup>
-								<optgroup label=" ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶">
-									<option value="lighten">lighten</option>
-									<option value="screen">screen</option>
-									<option value="color-dodge">color-dodge</option>
-								</optgroup>
-								<optgroup label=" ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶">
-									<option value="overlay">overlay</option>
-									<option value="soft-light">soft-light</option>
-									<option value="hard-light">hard-light</option>
-								</optgroup>
-								<optgroup label=" ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶">
-									<option value="difference">difference</option>
-									<option value="exclusion">exclusion</option>
-								</optgroup>
-								<optgroup label=" ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶">
-									<option value="hue">hue</option>
-									<option value="saturation">saturation</option>
-									<option value="color">color</option>
-									<option value="luminosity">luminosity</option>
-								</optgroup>
-							</select>
-						</div>
-					</div>
-					<div class="element-property">
-						<div class="col-sm-4">
-							<label>{{::data.lang[data.lang.act].opacity}}</label>
-						</div>
-						<div class="col-sm-3">
-							<input type="text" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['opacity']" />
-						</div>
-						<div class="col-sm-5">
-							<input type="range" step="0.01" min="0" max="1" ng-model="data.selection.active.styles[data.flags.elementState]['opacity']" />
-						</div>
-					</div>
 					<h4>{{::data.lang[data.lang.act].border}}</h4>
 					<div class="element-property">
 						<div class="col-sm-4">
@@ -361,6 +314,35 @@
 		</div>
 		<div class="toolset">
 			<h3>{{::data.lang[data.lang.act].layers}}</h3>
+			<div class="element-property flex-row chrome-heading margin-no pad-v-sm">
+				<div class="margin">
+					<select title="{{::data.lang[data.lang.act].blendingMode}}" class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['mix-blend-mode']">
+						<option value="normal" selected="selected">normal</option>
+						<option value="darken">darken</option>
+						<option value="color-burn">color-burn</option>
+						<option value="lighten">lighten</option>
+						<option value="screen">screen</option>
+						<option value="color-dodge">color-dodge</option>
+						<option value="overlay">overlay</option>
+						<option value="soft-light">soft-light</option>
+						<option value="hard-light">hard-light</option>
+						<option value="difference">difference</option>
+						<option value="exclusion">exclusion</option>
+						<option value="hue">hue</option>
+						<option value="saturation">saturation</option>
+						<option value="color">color</option>
+						<option value="luminosity">luminosity</option>
+					</select>
+				</div>
+
+				<div>
+					<input title="{{::data.lang[data.lang.act].opacity}}" type="text" class="form-control w-35-px" ng-model="data.selection.active.styles[data.flags.elementState]['opacity']" />
+				</div>
+				<div>
+					<input title="{{::data.lang[data.lang.act].opacity}}" type="range" step="0.01" min="0" max="1" ng-model="data.selection.active.styles[data.flags.elementState]['opacity']" />
+				</div>
+
+			</div>
 			<ul class="tree-list">
 				<li tree="child in data.tree.root.children at ul"class="{{{true:'locked',false:''}[child.locked]}} {{{true:'',false:'element-hidden'}[child.visible]}}" ng-class="{minimized:child.minimized}">
 					<div class="tree-item-div" ng-class="{selected:child.selected}" ng-click="data.fn.tree.toggleSelected({child:child,data:data})">

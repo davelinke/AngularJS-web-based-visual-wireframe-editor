@@ -202,7 +202,9 @@ config.tools={
 									height: d.config.areaStyle.height,
 									hPx:d.config.areaStyle.hPx,
 									overflow:'hidden',
-									'white-space':'pre-wrap'
+									'white-space':'pre-wrap',
+									opacity:1,
+									'mix-blend-mode':'normal'
 								},s.drawStyle)
 							}
 						});

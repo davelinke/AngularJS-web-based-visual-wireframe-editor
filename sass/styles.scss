@@ -136,10 +136,9 @@ div[class^="col-"]{
 		-webkit-appearance: none;
 		width: 100%;
 		border-radius: 8px;
-		height: 7px;
-		border: 1px solid #bdc3c7;
-		background-color: #fff;
-	}  
+		height: 7px !important;
+		margin-top:8px;
+	}
 }
 
 
@@ -149,27 +148,30 @@ input[type='range']::-webkit-slider-thumb {
 	-webkit-appearance: none;
 	background-color: #ecf0f1;
 	border: 1px solid #bdc3c7;
-	width: 20px;
-	height: 20px;
-	border-radius: 10px;
+	width: 14px !important;
+	height: 14px !important;
+	border-radius: 7px;
 	cursor: pointer;
 }
-
+input[type=range]:focus {
+	outline: none;
+}
 /* Mozilla */
 input[type=range] {
 	width: 100%;
+	margin-top:8px;
 }
 input[type=range]::-moz-range-track {
 	border-radius: 8px;
-	height: 7px;
+	height: 7px !important;
 	border: 1px solid #bdc3c7;
 	background-color: #fff;
 }
 input[type=range]::-moz-range-thumb {
 	background: #ecf0f1;
 	border: 1px solid #bdc3c7;
-	width: 20px;
-	height: 20px;
+	width: 20px !important;
+	height: 20px !important;
 	border-radius: 10px;
 	cursor: pointer;
 }
@@ -177,19 +179,20 @@ input[type=range]::-moz-range-thumb {
 /* Internet Explorer */
 input[type="range"]::-ms-fill-lower,
 input[type="range"]::-ms-fill-upper {
-	background: transparent;
+	background: transparent !important;
+	margin-top:8px;
 }
 input[type="range"]::-ms-track {
     border-radius: 8px;
-	height: 7px;
+	height: 7px !important;
 	border: 1px solid #bdc3c7;
 	background-color: #fff;
 }
 input[type="range"]::-ms-thumb {
 	background-color: #ecf0f1;
 	border: 1px solid #bdc3c7;
-	width: 20px;
-	height: 20px;
+	width: 20px !important;
+	height: 20px !important;
 	border-radius: 10px;
 	cursor: pointer;
 }
@@ -453,7 +456,21 @@ html,body,#mainWrapper{
 		flex-wrap: nowrap;
 		align-content: stretch;
     	align-items: stretch;
-
+		.chrome-heading{
+			@include chrome-heading();
+		}
+		.flex-row{
+			display:flex;
+			> div{
+				padding: 0 0.5em;
+				&:first-child{
+					padding:0 0.5em 0 1em;
+				}
+				&:last-child{
+					padding:0 1em 0 0.5em;
+				}
+			}
+		}
 		.btn:not(.btn-link) {
 		    background-color: transparent;
 		    border-color: #1c1c1c;
@@ -471,38 +488,38 @@ html,body,#mainWrapper{
 		#elementProperties{
 			color:#828282;
 			height: 65%;
-			.element-property{
-				margin:0.5em 0;
-				text-transform: capitalize;
-				&:after {
-					visibility: hidden;
-					display: block;
-					font-size: 0;
-					content: " ";
-					clear: both;
-					height: 0;
-				}
+		}
+		.element-property{
+			margin:0.5em 0;
+			text-transform: capitalize;
+			&:after {
+				visibility: hidden;
+				display: block;
+				font-size: 0;
+				content: " ";
+				clear: both;
+				height: 0;
 			}
-			h4{
-				text-transform: capitalize;
-			    font-size: 1.1em;
-			    font-weight: 700;
-			    color: #bbb;
-			    margin: 0.6em 0.8em 0.8em 0.5em;
-			    background-color: #1c1c1c;
-			    padding: 0.2em 0.5em;
-			    border-radius: 3px;
-			}
-			label{
-				line-height: 2.1em;
-			 	white-space: nowrap;
-			}
-			input:not([type="checkbox"]),textarea,select{
-				@include darkInput();
-			}
-			textarea{
-				height:50px;
-			}
+		}
+		h4{
+			text-transform: capitalize;
+			font-size: 1.1em;
+			font-weight: 700;
+			color: #bbb;
+			margin: 0.6em 0.8em 0.8em 0.5em;
+			background-color: #1c1c1c;
+			padding: 0.2em 0.5em;
+			border-radius: 3px;
+		}
+		label{
+			line-height: 2.1em;
+			white-space: nowrap;
+		}
+		input:not([type="checkbox"]),textarea,select{
+			@include darkInput();
+		}
+		textarea{
+			height:50px;
 		}
 		.toolset{
 			border:1px solid #202020;

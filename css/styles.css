@@ -173,6 +173,9 @@ colorpicker-preview {
   background-position: 0 100%; }
 
 /*helpers*/
+.pad-v-sm {
+  padding: 0.5em 0; }
+
 .margin-no {
   margin: 0 !important; }
 
@@ -184,6 +187,9 @@ colorpicker-preview {
 
 .margin-right {
   margin-right: 1em !important; }
+
+.margin-right-sm {
+  margin-right: 0.5em !important; }
 
 .margin-right-no {
   margin-right: 0 !important; }
@@ -203,6 +209,12 @@ colorpicker-preview {
 .w-half {
   width: 50%; }
 
+.w-one-third {
+  width: 33.33%; }
+
+.w-two-thirds {
+  width: 66.66%; }
+
 .w-one-quarter {
   width: 25%; }
 
@@ -211,6 +223,12 @@ colorpicker-preview {
 
 .w-one-sixteenth {
   width: 6.25%; }
+
+.w-25-px {
+  width: 25px; }
+
+.w-35-px {
+  width: 35px; }
 
 .w-50-px {
   width: 50px; }
@@ -307,54 +325,58 @@ div[class^="col-"] {
     -webkit-appearance: none;
     width: 100%;
     border-radius: 8px;
-    height: 7px;
-    border: 1px solid #bdc3c7;
-    background-color: #fff; } }
+    height: 7px !important;
+    margin-top: 8px; } }
 input[type='range']::-webkit-slider-thumb,
 input[type='range']::-webkit-slider-thumb,
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   background-color: #ecf0f1;
   border: 1px solid #bdc3c7;
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 7px;
   cursor: pointer; }
+
+input[type=range]:focus {
+  outline: none; }
 
 /* Mozilla */
 input[type=range] {
-  width: 100%; }
+  width: 100%;
+  margin-top: 8px; }
 
 input[type=range]::-moz-range-track {
   border-radius: 8px;
-  height: 7px;
+  height: 7px !important;
   border: 1px solid #bdc3c7;
   background-color: #fff; }
 
 input[type=range]::-moz-range-thumb {
   background: #ecf0f1;
   border: 1px solid #bdc3c7;
-  width: 20px;
-  height: 20px;
+  width: 20px !important;
+  height: 20px !important;
   border-radius: 10px;
   cursor: pointer; }
 
 /* Internet Explorer */
 input[type="range"]::-ms-fill-lower,
 input[type="range"]::-ms-fill-upper {
-  background: transparent; }
+  background: transparent !important;
+  margin-top: 8px; }
 
 input[type="range"]::-ms-track {
   border-radius: 8px;
-  height: 7px;
+  height: 7px !important;
   border: 1px solid #bdc3c7;
   background-color: #fff; }
 
 input[type="range"]::-ms-thumb {
   background-color: #ecf0f1;
   border: 1px solid #bdc3c7;
-  width: 20px;
-  height: 20px;
+  width: 20px !important;
+  height: 20px !important;
   border-radius: 10px;
   cursor: pointer; }
 
@@ -594,6 +616,18 @@ html, body, #mainWrapper {
     flex-wrap: nowrap;
     align-content: stretch;
     align-items: stretch; }
+    #wrapper #sidebar .chrome-heading {
+      background-color: #434343;
+      border-bottom: 1px solid #343434;
+      border-top: 1px solid #575757; }
+    #wrapper #sidebar .flex-row {
+      display: flex; }
+      #wrapper #sidebar .flex-row > div {
+        padding: 0 0.5em; }
+        #wrapper #sidebar .flex-row > div:first-child {
+          padding: 0 0.5em 0 1em; }
+        #wrapper #sidebar .flex-row > div:last-child {
+          padding: 0 1em 0 0.5em; }
     #wrapper #sidebar .btn:not(.btn-link) {
       background-color: transparent;
       border-color: #1c1c1c;
@@ -608,44 +642,44 @@ html, body, #mainWrapper {
     #wrapper #sidebar #elementProperties {
       color: #828282;
       height: 65%; }
-      #wrapper #sidebar #elementProperties .element-property {
-        margin: 0.5em 0;
-        text-transform: capitalize; }
-        #wrapper #sidebar #elementProperties .element-property:after {
-          visibility: hidden;
-          display: block;
-          font-size: 0;
-          content: " ";
-          clear: both;
-          height: 0; }
-      #wrapper #sidebar #elementProperties h4 {
-        text-transform: capitalize;
-        font-size: 1.1em;
-        font-weight: 700;
-        color: #bbb;
-        margin: 0.6em 0.8em 0.8em 0.5em;
-        background-color: #1c1c1c;
-        padding: 0.2em 0.5em;
-        border-radius: 3px; }
-      #wrapper #sidebar #elementProperties label {
-        line-height: 2.1em;
-        white-space: nowrap; }
-      #wrapper #sidebar #elementProperties input:not([type="checkbox"]), #wrapper #sidebar #elementProperties textarea, #wrapper #sidebar #elementProperties select {
-        background-color: #3d3d3d;
-        border-color: #323232;
-        border-radius: 2px;
-        color: #a3a3a3;
-        font-size: 1.1em;
-        height: 23px;
-        line-height: 1.1em;
-        padding: 0 0.3em;
-        /* firefox 19+ */ }
-        #wrapper #sidebar #elementProperties input:not([type="checkbox"])::-webkit-input-placeholder, #wrapper #sidebar #elementProperties textarea::-webkit-input-placeholder, #wrapper #sidebar #elementProperties select::-webkit-input-placeholder {
-          color: #696969; }
-        #wrapper #sidebar #elementProperties input:not([type="checkbox"])::-moz-placeholder, #wrapper #sidebar #elementProperties textarea::-moz-placeholder, #wrapper #sidebar #elementProperties select::-moz-placeholder {
-          color: #696969; }
-      #wrapper #sidebar #elementProperties textarea {
-        height: 50px; }
+    #wrapper #sidebar .element-property {
+      margin: 0.5em 0;
+      text-transform: capitalize; }
+      #wrapper #sidebar .element-property:after {
+        visibility: hidden;
+        display: block;
+        font-size: 0;
+        content: " ";
+        clear: both;
+        height: 0; }
+    #wrapper #sidebar h4 {
+      text-transform: capitalize;
+      font-size: 1.1em;
+      font-weight: 700;
+      color: #bbb;
+      margin: 0.6em 0.8em 0.8em 0.5em;
+      background-color: #1c1c1c;
+      padding: 0.2em 0.5em;
+      border-radius: 3px; }
+    #wrapper #sidebar label {
+      line-height: 2.1em;
+      white-space: nowrap; }
+    #wrapper #sidebar input:not([type="checkbox"]), #wrapper #sidebar textarea, #wrapper #sidebar select {
+      background-color: #3d3d3d;
+      border-color: #323232;
+      border-radius: 2px;
+      color: #a3a3a3;
+      font-size: 1.1em;
+      height: 23px;
+      line-height: 1.1em;
+      padding: 0 0.3em;
+      /* firefox 19+ */ }
+      #wrapper #sidebar input:not([type="checkbox"])::-webkit-input-placeholder, #wrapper #sidebar textarea::-webkit-input-placeholder, #wrapper #sidebar select::-webkit-input-placeholder {
+        color: #696969; }
+      #wrapper #sidebar input:not([type="checkbox"])::-moz-placeholder, #wrapper #sidebar textarea::-moz-placeholder, #wrapper #sidebar select::-moz-placeholder {
+        color: #696969; }
+    #wrapper #sidebar textarea {
+      height: 50px; }
     #wrapper #sidebar .toolset {
       border: 1px solid #202020;
       flex-grow: 1;

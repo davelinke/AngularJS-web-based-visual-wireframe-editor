@@ -26,7 +26,9 @@ var config = {
 					hPx:0,
 					overflow:'visible',
 					'border-width':'0px',
-					bwPx:0
+					bwPx:0,
+					opacity:1,
+					'mix-blend-mode':'normal'
 				}
 			},
 			children : []

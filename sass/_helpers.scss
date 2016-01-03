@@ -1,3 +1,6 @@
+.pad-v-sm{
+	padding: 0.5em 0;
+}
 .margin-no{
 	margin:0 !important;
 }
@@ -9,6 +12,9 @@
 }
 .margin-right{
 	margin-right:1em !important;
+}
+.margin-right-sm{
+	margin-right:0.5em !important;
 }
 .margin-right-no{
 	margin-right:0 !important;
@@ -28,6 +34,12 @@
 .w-half{
 	width:50%;
 }
+.w-one-third{
+	width:33.33%;
+}
+.w-two-thirds{
+	width:66.66%
+}
 .w-one-quarter{
 	width:25%
 }
@@ -36,6 +48,12 @@
 }
 .w-one-sixteenth{
 	width:6.25%;
+}
+.w-25-px{
+	width:25px;
+}
+.w-35-px{
+	width:35px;
 }
 .w-50-px{
 	width:50px;
