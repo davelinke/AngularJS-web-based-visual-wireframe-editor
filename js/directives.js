@@ -417,4 +417,32 @@ directive('inlineStyles', [function () {
 			},true);
 		}
 	};
+}]).
+directive('uploadToModel', [function () {
+	return {
+		scope:{
+			model:'=ngModel',
+			uploadWrapper:"@uploadWrapper",
+		},link:function(scope,t,attrs){
+			//image upload routine
+			var fileInput = t[0];
+			console.log(fileInput);
+			fileInput.addEventListener('change', function(e) {
+				var file = fileInput.files[0];
+				var imageType = /image.*/;
+				if (file.type.match(imageType)) {
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						console.log(scope.uploadWrapper);
+						scope.model = scope.uploadWrapper.replace('file-data',reader.result);
+						//safe apply
+						if (scope.$root.$$phase != '$apply' && scope.$root.$$phase != '$digest') scope.$apply();
+					};
+					reader.readAsDataURL(file);
+				} else {
+					alert("File not supported!");
+				}
+			});
+		}
+	};
 }]);

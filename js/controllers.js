@@ -7,7 +7,6 @@
 
 angular.module('gui.controllers', []).
 controller('main', ['$scope','data','$compile',function ($scope, data, $compile) {
-	$scope.activeProperties = 0;
 	s=$scope;
 	$scope.data = data;
 	if (typeof($scope.data.tree.root)=='undefined') {
@@ -101,4 +100,6 @@ controller('main', ['$scope','data','$compile',function ($scope, data, $compile)
 		}
 	};
 	$scope.documents.documentToOpen = null;
+
+	
 }]);

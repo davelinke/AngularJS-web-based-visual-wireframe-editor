@@ -162,7 +162,22 @@ var config = {
 			opacity:'opacity',
 			blending:'blending',
 			color:'color',
-			fillColor:'fill color'
+			fillColor:'fill color',
+			image:'image',
+			backgroundImage:'background image',
+			imageUrl:'image url',
+			browse:'browse',
+			bottom:'bottom',
+			backgroundPosition:'bg. position',
+			repeat:'repeat',
+			backgroundRepeat:'bg. repeat',
+			repeatHorizontally:'repeat horizontally',
+			repeatVertically:'repeat vertically',
+			dontRepeat:'don\'t repeat',
+			backgroundSize:'bg. size',
+			stretch:'stretch',
+			fitToBoundary:'fit to boundary',
+			contained:'contained within boundary'
 		}
 	},
 	drawStyle : {
@@ -186,6 +201,13 @@ var config = {
 		storage:{
 			canSave:false
 		},
-		elementState:'normal'
+		elementState:'normal',
+		activePanels:{
+			style:true,
+			layout:true,
+			text:true,
+			image:true
+		},
+		activePanel:1
 	}
 };

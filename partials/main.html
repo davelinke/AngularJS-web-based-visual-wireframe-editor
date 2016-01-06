@@ -68,13 +68,20 @@
 				<div class="element-property">
 					<div class="col-sm-12">
 						<div class="btn-group" role="group">
-							<button type="button" class="btn {{{true: 'active', false: ''}[activeProperties===0]}}" ng-click="activeProperties=0" title="{{::data.lang[data.lang.act].layout}}"><i class="fa fa-sliders"></i></button>
-							<button type="button" class="btn {{{true: 'active', false: ''}[activeProperties==1]}}" ng-click="activeProperties=1" title="{{::data.lang[data.lang.act].style}}"><i class="fa fa-paint-brush"></i></button>
-							<button type="button" class="btn {{{true: 'active', false: ''}[activeProperties==2]}}" ng-click="activeProperties=2" title="{{::data.lang[data.lang.act].text}}"><i class="fa fa-font"></i></button>
+							<!--
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.flags.activePanels.layout===true]}}" ng-click="data.flags.activePanels.layout= !data.flags.activePanels.layout" title="{{::data.lang[data.lang.act].layout}}"><i class="fa fa-sliders"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.flags.activePanels.style===true]}}" ng-click="data.flags.activePanels.style = !data.flags.activePanels.style" title="{{::data.lang[data.lang.act].style}}"><i class="fa fa-paint-brush"></i></button>
+							<button type="button" class="btn {{{true: 'active',false:''}[data.flags.activePanels.image===true]}}" ng-click="data.flags.activePanels.image = !data.flags.activePanels.image" title="{{::data.lang[data.lang.act].image}}"><i class="fa fa-picture-o"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.flags.activePanels.text===true]}}" ng-click="data.flags.activePanels.text = !data.flags.activePanels.text" title="{{::data.lang[data.lang.act].text}}"><i class="fa fa-font"></i></button>
+							-->
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.flags.activePanel==1]}}" ng-click="data.flags.activePanel = 1" title="{{::data.lang[data.lang.act].layout}}"><i class="fa fa-sliders"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.flags.activePanel==2]}}" ng-click="data.flags.activePanel = 2" title="{{::data.lang[data.lang.act].style}}"><i class="fa fa-paint-brush"></i></button>
+							<button type="button" class="btn {{{true: 'active',false:''}[data.flags.activePanel==3]}}" ng-click="data.flags.activePanel = 3" title="{{::data.lang[data.lang.act].image}}"><i class="fa fa-picture-o"></i></button>
+							<button type="button" class="btn {{{true: 'active', false: ''}[data.flags.activePanel==4]}}" ng-click="data.flags.activePanel = 4" title="{{::data.lang[data.lang.act].text}}"><i class="fa fa-font"></i></button>
 						</div>
 					</div>
 				</div>
-				<div ng-show="activeProperties===0">
+				<div ng-show="data.flags.activePanel==1">
 					<h4>{{::data.lang[data.lang.act].layout}}</h4>
 					<div class="element-property">
 						<div class="col-sm-2">
@@ -146,8 +153,7 @@
 						</div>
 					</div>
 				</div>
-
-				<div ng-show="activeProperties===1">
+				<div ng-show="data.flags.activePanel==2">
 					<h4>{{::data.lang[data.lang.act].color}}</h4>
 					<div class="element-property">
 						<div class="col-sm-4">
@@ -220,7 +226,79 @@
 						</div>
 					</div>
 				</div>
-				<div ng-show="activeProperties===2">
+				<div ng-show="data.flags.activePanel==3">
+					<h4>{{::data.lang[data.lang.act].backgroundImage}}</h4>
+					<div class="element-property">
+						<div class="col-sm-4">
+							<label>{{::data.lang[data.lang.act].image}}</label>
+						</div>
+						<div class="col-sm-8">
+							<span class="btn btn-default btn-file w-full">
+							    {{::data.lang[data.lang.act].browse}} <input type="file" id="bgInput" upload-to-model ng-model="data.selection.active.styles[data.flags.elementState]['background-image']" upload-wrapper="url(file-data)" />
+							</span>
+
+						</div>
+					</div>
+					<div class="element-property">
+						<div class="col-sm-4">
+							<label>{{::data.lang[data.lang.act].backgroundPosition}}</label>
+						</div>
+						<div class="col-sm-8">
+							<div>
+								<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['background-position']=='top left']}}" ng-click="data.selection.active.styles[data.flags.elementState]['background-position']='top left'" title="{{::data.lang[data.lang.act].top}} {{::data.lang[data.lang.act].left}}"><i class="fa fa-caret-up rotate-45-a"></i></button><button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['background-position']=='top center']}}" ng-click="data.selection.active.styles[data.flags.elementState]['background-position']='top center'" title="{{::data.lang[data.lang.act].top}}"><i class="fa fa-caret-up"></i></button><button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['background-position']=='top right']}}" ng-click="data.selection.active.styles[data.flags.elementState]['background-position']='top right'" title="{{::data.lang[data.lang.act].top}} {{::data.lang[data.lang.act].right}}"><i class="fa fa-caret-up rotate-45-c"></i></button>
+							</div>
+							<div>
+								<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['background-position']=='center left']}}" ng-click="data.selection.active.styles[data.flags.elementState]['background-position']='center left'" title="{{::data.lang[data.lang.act].center}} {{::data.lang[data.lang.act].left}}"><i class="fa fa-caret-left"></i></button><button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['background-position']=='center center']}}" ng-click="data.selection.active.styles[data.flags.elementState]['background-position']='center center'" title="{{::data.lang[data.lang.act].center}}"><i class="fa fa-plus-square-o"></i></button><button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['background-position']=='center right']}}" ng-click="data.selection.active.styles[data.flags.elementState]['background-position']='center right'" title="{{::data.lang[data.lang.act].center}} {{::data.lang[data.lang.act].right}}"><i class="fa fa-caret-right"></i></button>
+							</div>
+							<div>
+								<button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['background-position']=='bottom left']}}" ng-click="data.selection.active.styles[data.flags.elementState]['background-position']='bottom left'" title="{{::data.lang[data.lang.act].bottom}} {{::data.lang[data.lang.act].left}}"><i class="fa fa-caret-down rotate-45-c"></i></button><button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['background-position']=='bottom center']}}" ng-click="data.selection.active.styles[data.flags.elementState]['background-position']='bottom center'" title="{{::data.lang[data.lang.act].bottom}}"><i class="fa fa-caret-down"></i></button><button type="button" class="btn {{{true: 'active', false: ''}[data.selection.active.styles[data.flags.elementState]['background-position']=='bottom right']}}" ng-click="data.selection.active.styles[data.flags.elementState]['background-position']='bottom right'" title="{{::data.lang[data.lang.act].bottom}} {{::data.lang[data.lang.act].right}}"><i class="fa fa-caret-down rotate-45-a"></i></button>
+							</div>
+						</div>
+					</div>
+					<div class="element-property">
+						<div class="col-sm-4">
+							<label>{{::data.lang[data.lang.act].backgroundRepeat}}</label>
+						</div>
+						<div class="col-sm-8">
+							<select class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['background-repeat']">
+								<option value="repeat">
+									{{::data.lang[data.lang.act].repeat}}
+								</option>
+								<option value="repeat-x">
+									{{::data.lang[data.lang.act].repeatHorizontally}}
+								</option>
+								<option value="repeat-y">
+									{{::data.lang[data.lang.act].repeatVertically}}
+								</option>
+								<option value="no-repeat">
+									{{::data.lang[data.lang.act].dontRepeat}}
+								</option>
+							</select>
+						</div>
+					</div>
+					<div class="element-property">
+						<div class="col-sm-4">
+							<label>{{::data.lang[data.lang.act].backgroundSize}}</label>
+						</div>
+						<div class="col-sm-8">
+							<select class="form-control w-full" ng-model="data.selection.active.styles[data.flags.elementState]['background-size']">
+								<option value="normal">
+									{{::data.lang[data.lang.act].normal}}
+								</option>
+								<option value="100% 100%">
+									{{::data.lang[data.lang.act].stretch}}
+								</option>
+								<option value="cover">
+									{{::data.lang[data.lang.act].fitToBoundary}}
+								</option>
+								<option value="contain">
+									{{::data.lang[data.lang.act].contained}}
+								</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div ng-show="data.flags.activePanel==4">
 					<h4>{{::data.lang[data.lang.act].text}}</h4>
 					<div class="element-property">
 						<div class="col-sm-12">
@@ -334,14 +412,12 @@
 						<option value="luminosity">luminosity</option>
 					</select>
 				</div>
-
 				<div>
 					<input title="{{::data.lang[data.lang.act].opacity}}" type="text" class="form-control w-35-px" ng-model="data.selection.active.styles[data.flags.elementState]['opacity']" />
 				</div>
 				<div>
 					<input title="{{::data.lang[data.lang.act].opacity}}" type="range" step="0.01" min="0" max="1" ng-model="data.selection.active.styles[data.flags.elementState]['opacity']" />
 				</div>
-
 			</div>
 			<ul class="tree-list">
 				<li tree="child in data.tree.root.children at ul"class="{{{true:'locked',false:''}[child.locked]}} {{{true:'',false:'element-hidden'}[child.visible]}}" ng-class="{minimized:child.minimized}">
