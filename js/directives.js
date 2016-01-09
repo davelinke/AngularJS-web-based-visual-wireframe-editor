@@ -445,4 +445,12 @@ directive('uploadToModel', [function () {
 			});
 		}
 	};
-}]);
+}]).
+directive('cursorClass',function(){
+	return {
+		scope:{
+			model:'=ngModel'
+		},
+		template:'div.element{cursor:{{model}} !important;}'
+	};
+});

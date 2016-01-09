@@ -1,9 +1,5 @@
 <style type="text/css" inline-styles ng-model="data.tree.root"></style>
-<style type="text/css">
-	div.element{
-		cursor:{{data.tools[data.tool].cursor}};
-	}
-</style>
+<style type="text/css" cursor-class ng-model="data.tools[data.tool].cursor"></style>
 <div id="upperHeader" x-listen-keystrokes>
 	<div id="mainMenuRow" flyout-menu="data.menus"></div>
 	<!--<div id="toolOptions"></div>-->

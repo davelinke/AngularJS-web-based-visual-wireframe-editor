@@ -321,8 +321,6 @@ config.tools={
 	    },
 		touchend:function(){},
 	    mouseleave:function(args){
-			// erase cursor
-			args.s.data.tools.selection.element.cursorClass = '';
 	    },
 	    finishSelect:function(args){
 
