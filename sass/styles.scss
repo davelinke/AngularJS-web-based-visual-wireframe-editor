@@ -413,10 +413,16 @@ html,body,#mainWrapper{
 					}
 				}
 				.element{
-					cursor: default;
+					//cursor: default;
 				}
 				.selected{
-					//@include bg-slashes(#00f);
+					&::before{
+						content:"";
+						position: absolute;
+						width:100%;
+						height:100%;
+						@include bg-slashes(#00f);
+					}
 					&.n, &.s{
 						cursor: ns-resize;
 					}
@@ -430,11 +436,19 @@ html,body,#mainWrapper{
 						cursor:nesw-resize;
 					}
 				}
-				[ob-type="element"]:hover{
-					//@include bg-slashes(#0f0);
+				[ob-type="element"]:hover::before{
+						content:"";
+						position: absolute;
+						width:100%;
+						height:100%;
+						@include bg-slashes(#0f0);
 				}
-				[ob-type="element"]:active{
-					//@include bg-slashes(#00f);
+				[ob-type="element"]:active::before{
+					content:"";
+					position: absolute;
+					width:100%;
+					height:100%;
+					@include bg-slashes(#00f);
 				}
 			}
 		}
