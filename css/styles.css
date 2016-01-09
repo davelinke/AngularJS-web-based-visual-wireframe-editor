@@ -737,7 +737,8 @@ html, body, #mainWrapper {
       text-transform: uppercase; }
     #wrapper #sidebar .tree-list {
       flex-grow: 1;
-      overflow-y: auto; }
+      overflow-y: auto;
+      display: block; }
       #wrapper #sidebar .tree-list checkbox {
         background-color: rgba(0, 0, 0, 0.5);
         height: 18px;

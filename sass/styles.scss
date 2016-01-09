@@ -581,6 +581,7 @@ html,body,#mainWrapper{
 		.tree-list{
 			flex-grow:1;
 			overflow-y:auto;
+			display:block;
 			checkbox {
 			    background-color: rgba(0, 0, 0, 0.5);
 			    height: 18px;
