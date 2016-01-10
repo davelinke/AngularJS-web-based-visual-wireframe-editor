@@ -1,0 +1,7 @@
+<style type="text/css" inline-styles ng-model="data.tree.root" preview></style>
+<div class="preview-wrapper">
+    <button class="btn btn-link close-preview" ng-click="goEdit()"><i class="fa fa-times"></i></button>
+    <div class="preview tr-sq" style="width:{{data.screen.width}};height:{{data.screen.height}}">
+        <div class="{{child.type}} {{child.cursorClass}} {{{true: (data.flags.elementState|statesToClass), false: ''}[child.selected]}}" ng-show="child.visible" ng-class="{selected:child.selected}" id="screen_{{child.id}}" tree="child in data.tree.root.children at none" ng-style="child.styles.normal" ob-id="{{child.id}}" ob-type="{{child.type}}">{{child.text}}</div>
+    </div>
+</div>

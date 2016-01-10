@@ -19,6 +19,10 @@ config(['$routeProvider', function ($routeProvider) {
 			templateUrl : "partials/main.html",
 			controller : "main"
 		}).
+		when("/preview-screen/:id",{
+			templateUrl : "partials/preview-screen.html",
+			controller : "preview"
+		}).
 		otherwise({
 			redirectTo : '/main'
 		})

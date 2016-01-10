@@ -375,7 +375,7 @@ directive('flyoutMenu',[function(){
 		'	<div ng-repeat="(menuName,menu) in menus.menus" id="{{::menuName}}Menu" class="flyout-menu">'+
 		'		<button id="{{::menuName}}MenuButton" type="button" ng-class="::menu.iconClass" ng-click="menus.activeMenu = {true:null,false:menuName}[menus.activeMenu==menuName]" ng-mouseover="menus.activeMenu = {true:null,false:menuName}[menus.activeMenu==null]">{{::menu.label}}</button>'+
 		'		<div class="flyout" ng-show="(menus.activeMenu==menuName)">'+
-		'			<button ng-repeat="action in menu.actions" ng-click="action.fn($parent);menus.activeMenu=null" ng-disabled="action.disabled">{{::action.label}}</button>'+
+		'			<div ng-repeat="action in menu.actions"><button ng-if="!action.separator" ng-click="action.fn($parent);menus.activeMenu=null" ng-disabled="action.disabled">{{::action.label}}</button><hr ng-if="action.separator"/></div>'+
 		'		</div>'+
 		'	</div>'+
 		'</div>'
@@ -384,7 +384,8 @@ directive('flyoutMenu',[function(){
 directive('inlineStyles', [function () {
 	return {
 		scope:{
-			element:'=ngModel'
+			element:'=ngModel',
+			preview:'@preview'
 		},
 		template:'{{styleString}}',
 		link:function(scope,t,attrs){
@@ -396,7 +397,7 @@ directive('inlineStyles', [function () {
 						var id = '#screen_'+element.id;
 						for (var state in styles){
 							if (state!='normal'){
-								scope.styleString += id+(state=='normal'?'':state.replace(':','.colon__'))+'{';
+								scope.styleString += id+(state=='normal'?'':(typeof(scope.preview)!='undefined'?state:state.replace(':','.colon__')))+'{';
 								for (var property in styles[state]){
 									scope.styleString += property +':'+styles[state][property]+' !important;';
 								}

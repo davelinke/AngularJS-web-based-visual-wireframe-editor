@@ -434,5 +434,23 @@ config.fn = {
 		store:function(type,data,name){
 			localStorage.setItem('pinocchio_'+type+'__'+name, data);
 		}
+	},
+	documents:{
+		open:function($scope,docId,callback){
+			console.log(docId);
+			if (docId){
+				var documentData = $scope.data.fn.storage.getDocumentObjectById($scope.documents.documentToOpen);
+				$scope.data.fn.tree.reset($scope.data);
+				$scope.data.flags.storage.canOverwrite = true;
+
+				$scope.data.screen = documentData.screen;
+				$scope.data.tree = documentData.tree;
+				$scope.data.fn.tree.toggleSelected({
+					child:$scope.data.fn.tree.searchElementById('layer_1', $scope.data.tree.root.children),
+					data:$scope.data
+				});
+				callback();
+			}
+		}
 	}
 };

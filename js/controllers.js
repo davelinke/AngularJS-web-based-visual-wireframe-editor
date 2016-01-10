@@ -82,24 +82,20 @@ controller('main', ['$scope','data','$compile',function ($scope, data, $compile)
 	$scope.documents.open=function(){
 		var docId = $scope.documents.documentToOpen;
 		if (docId){
-			var documentData = $scope.data.fn.storage.getDocumentObjectById($scope.documents.documentToOpen);
-			$scope.data.fn.tree.reset($scope.data);
-			$scope.data.flags.storage.canOverwrite = true;
-
-			$scope.data.screen = documentData.screen;
-			$scope.data.tree = documentData.tree;
-			$scope.data.fn.tree.toggleSelected({
-				child:$scope.data.fn.tree.searchElementById('layer_1', $scope.data.tree.root.children),
-				data:$scope.data
+			$scope.data.fn.documents.open($scope,docId,function(){
+				$scope.openDocumentForm.$setPristine();
+				$scope.openDocumentForm.$setUntouched();
+				$('#openDocumentModal').modal('hide');
+				$scope.data.menus.menus.file.actions.save.disabled=false;
+				$scope.documents.documentToOpen = null;
 			});
-			$scope.openDocumentForm.$setPristine();
-			$scope.openDocumentForm.$setUntouched();
-			$('#openDocumentModal').modal('hide');
-			$scope.data.menus.menus.file.actions.save.disabled=false;
-			$scope.documents.documentToOpen = null;
 		}
 	};
 	$scope.documents.documentToOpen = null;
-
-	
+}]).
+controller('preview',['$scope','$routeParams','data',function ($scope, $routeParams, data) {
+	$scope.data = data;
+	$scope.goEdit = function(){
+		window.location.hash = '/main/'
+	};
 }]);

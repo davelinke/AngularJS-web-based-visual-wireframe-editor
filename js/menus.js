@@ -45,6 +45,16 @@ config.menus={
                     fn:function(scope){
                         $('#saveDocumentAsModal').modal('show');
                     }
+                },
+                'separator-1':{
+                    separator:true
+                },
+                'preview':{
+                    label:config.lang[config.lang.act].preview,
+                    disabled:false,
+                    fn:function(scope){
+                        window.location.hash = '/preview-screen/self';
+                    }
                 }
             }
         },

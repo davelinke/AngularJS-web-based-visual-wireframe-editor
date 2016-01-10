@@ -177,7 +177,8 @@ var config = {
 			backgroundSize:'bg. size',
 			stretch:'stretch',
 			fitToBoundary:'fit to boundary',
-			contained:'contained within boundary'
+			contained:'contained within boundary',
+			preview:'preview'
 		}
 	},
 	drawStyle : {
