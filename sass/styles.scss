@@ -40,6 +40,13 @@ $shadowMain:0 2px 5px rgba(0, 0, 0, 0.5);
 }
 @mixin bg-slashes($color){
 
+	content:"";
+	position: absolute;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+
 	background-image:
 		linear-gradient(45deg, transparent calc(50% - 1px), $color 1px, transparent calc(50%)),
 		linear-gradient(45deg, transparent calc(50% - 1px), $color 1px, transparent calc(50%)),
@@ -417,10 +424,6 @@ html,body,#mainWrapper{
 				}
 				.selected{
 					&::before{
-						content:"";
-						position: absolute;
-						width:100%;
-						height:100%;
 						@include bg-slashes(#00f);
 					}
 					&.n, &.s{
@@ -437,17 +440,9 @@ html,body,#mainWrapper{
 					}
 				}
 				[ob-type="element"]:hover::before{
-						content:"";
-						position: absolute;
-						width:100%;
-						height:100%;
 						@include bg-slashes(#0f0);
 				}
 				[ob-type="element"]:active::before{
-					content:"";
-					position: absolute;
-					width:100%;
-					height:100%;
 					@include bg-slashes(#00f);
 				}
 			}
