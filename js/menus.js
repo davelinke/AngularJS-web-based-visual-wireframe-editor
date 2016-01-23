@@ -36,7 +36,9 @@ config.menus={
                     label:config.lang[config.lang.act].save+config.lang[config.lang.act].locally,
                     disabled:true,
                     fn:function(scope){
-                        scope.$parent.$parent.data.fn.storage.saveDocument(scope.$parent.$parent);
+                        var
+                            cScope = config.fn.findControllerScope(scope);
+                        cScope.data.fn.storage.saveDocument(cScope);
                     }
                 },
                 'saveAs':{
@@ -67,7 +69,120 @@ config.menus={
                     label:config.lang[config.lang.act].copy,
                     disabled:false,
                     fn:function(scope){
-                        console.log('copying');
+                        var
+                            cScope = config.fn.findControllerScope(scope),
+                            copy = $.extend(true,{},cScope.data.selection.active)
+                        ;
+                        if (copy.typeNum==2) cScope.clipboard = copy;
+                    }
+                },
+                'paste':{
+                    label:config.lang[config.lang.act].paste,
+                    disabled:false,
+                    fn:function(scope){
+                        var
+                            cScope = config.fn.findControllerScope(scope),
+                            clipboard = cScope.clipboard,
+                            pastingLayer = config.fn.tree.selectParentLayer(cScope.data.tree.root.children)
+                        ;
+                        if (clipboard){
+                            var id = clipboard.id;
+                            var copyArr = id.split('_copy_');
+                            console.log(parseInt(copyArr[copyArr.length-1]));
+                            copyNumber = parseInt(copyArr[copyArr.length-1]);
+                            copyNumber = (isNaN(copyNumber)?1:copyNumber+1);
+
+                            clipboard.id = copyArr[0] + '_copy_' + copyNumber;
+                            config.fn.modifiers.modifyElementArea(cScope,'top',10,clipboard);
+                            config.fn.modifiers.modifyElementArea(cScope,'left',10,clipboard);
+                            clipboard.selected = false;
+                            var paste = $.extend(true,{},clipboard);
+                            pastingLayer.children.push(paste);
+                            config.fn.tree.toggleSelected({
+                        		child:pastingLayer.children[pastingLayer.children.length-1],
+                        		data:cScope.data
+                        	});
+                        }
+                    }
+                },
+                'pasteInPlace':{
+                    label:config.lang[config.lang.act].pasteInPlace,
+                    disabled:false,
+                    fn:function(scope){
+                        var
+                            cScope = config.fn.findControllerScope(scope),
+                            clipboard = cScope.clipboard,
+                            pastingLayer = config.fn.tree.selectParentLayer(cScope.data.tree.root.children)
+                        ;
+                        if (clipboard){
+                            var id = clipboard.id;
+                            var copyArr = id.split('_copy_');
+                            copyNumber = parseInt(copyArr[copyArr.length-1]);
+                            copyNumber = (isNaN(copyNumber)?1:copyNumber+1);
+
+                            clipboard.id = copyArr[0] + '_copy_' + copyNumber;
+                            clipboard.selected = false;
+                            var paste = $.extend(true,{},clipboard);
+                            pastingLayer.children.push(paste);
+                            config.fn.tree.toggleSelected({
+                        		child:pastingLayer.children[pastingLayer.children.length-1],
+                        		data:cScope.data
+                        	});
+                        }
+                    }
+                }
+            }
+        },
+        view:{
+            label:'View',
+            iconClass:'btn menu-item',
+            active:false,
+            actions:{
+                canvasOverflow:{
+                    label:config.lang[config.lang.act].canvasOverflow,
+                    disabled:false,
+                    hasCheck:false,
+                    fn:function(scope){
+                        var cScope = config.fn.findControllerScope(scope);
+                        cScope.data.screen.overflow = !cScope.data.screen.overflow;
+                        cScope.data.menus.menus.view.actions.canvasOverflow.hasCheck = !cScope.data.menus.menus.view.actions.canvasOverflow.hasCheck;
+                    }
+                }
+            }
+        },
+        window:{
+            label:'Window',
+            iconClass:'btn menu-item',
+            active:false,
+            actions:{
+                toolbar:{
+                    label:config.lang[config.lang.act].toolbar,
+                    disabled:false,
+                    hasCheck:true,
+                    fn:function(scope){
+                        var cScope = config.fn.findControllerScope(scope);
+                        cScope.data.menus.menus.window.actions.toolbar.hasCheck = !cScope.data.menus.menus.window.actions.toolbar.hasCheck;
+                    }
+                },
+                'separator-2':{
+                    separator:true
+                },
+                properties:{
+                    label:config.lang[config.lang.act].properties,
+                    disabled:false,
+                    hasCheck:true,
+                    fn:function(scope){
+                        var cScope = config.fn.findControllerScope(scope);
+                        cScope.data.menus.menus.window.actions.properties.hasCheck = !cScope.data.menus.menus.window.actions.properties.hasCheck;
+                    }
+                },
+                layers:{
+                    label:config.lang[config.lang.act].layers,
+                    disabled:false,
+                    hasCheck:true,
+                    fn:function(scope){
+                        var cScope = config.fn.findControllerScope(scope);
+                        cScope.data.menus.menus.window.actions.layers.hasCheck = !cScope.data.menus.menus.window.actions.layers.hasCheck;
                     }
                 }
             }

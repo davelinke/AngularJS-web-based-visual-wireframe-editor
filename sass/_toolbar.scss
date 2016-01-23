@@ -1,0 +1,57 @@
+#mainTools{
+    @include chrome-heading();
+    width: 40px;
+    margin:0.1em;
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    > div {
+        //border-top: 2px solid #000;
+        margin: 0 0.3em;
+        padding: 0.3em 0;
+        width: calc(100% - 0.6em);
+        &::before{
+            content:"";
+            background: linear-gradient(to bottom, #373737 0%,#323232 100%);
+            display:block;
+            height:2px;
+            margin: 0.5em 0;
+        }
+        &:first-child{
+            &::before{
+                display:none;
+            }
+        }
+    }
+    #toolbox{
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        & > button{
+            @include button-well();
+            height: 30px;
+            width: 30px;
+        }
+    }
+    #colorPicker{
+        .swatch {
+            border: none;
+            height: 27px;
+            padding-left: 27px;
+            border-radius: 3px;
+            width: 0;
+            cursor:default;
+            background-color: rgba(0,0,0,0);
+        }
+        .tr-sq{
+            width:27px;
+            height:27px;
+            margin:0 3px;
+            border-radius: 3px;
+        }
+        > div {
+            position: relative;
+        }
+    }
+}

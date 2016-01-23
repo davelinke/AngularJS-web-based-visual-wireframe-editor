@@ -1,0 +1,68 @@
+#upperHeader{
+	display:flex;
+	flex-direction: column;
+	height: $toolOptiosHeight;
+	#mainMenuRow{
+		.flyoutMenuWrapper{
+			display:flex;
+			@include chrome-heading();
+			height:21px;
+
+            /*flyout menu*/
+            .flyout-menu{
+            	width:36px;
+            	padding: 0.1em;
+            	.menu-item{
+            		@include button-well();
+            		font-size:1.1em;
+            		padding:0 0.5em;
+            		&:active{
+            			background-color: #c00;
+            		}
+            	}
+            	.fa-bars{
+            		font-size: 1.7em;
+            		line-height: 1em;
+            		cursor:pointer;
+            	}
+            	.flyout{
+            		position: absolute;
+            		box-shadow: $shadowMain;
+            		min-width: 200px;
+            		z-index: 1;
+            		background-color: $background-color;
+            		hr{
+            			margin: 0 5px;
+            			border-color:#333;
+            		}
+            		button {
+            		    border: none;
+            		    display: block;
+            		    font-size: 1.2em;
+            		    text-align: left;
+            		    width: 100%;
+            			padding: 0.5em;
+            			background-color:$background-color;
+            			text-transform: capitalize;
+            			&:hover{
+            				background:$buttonHover;
+            			}
+            			&[disabled="disabled"],
+            			&[disabled="disabled"]:hover{
+            				background-color: #333;
+            				color: #555;
+            			}
+            		}
+            	}
+            }
+
+			/*&.active{
+				.flyout-menu.active{
+					.flyout{
+						display:block;
+					}
+				}
+			}*/
+		}
+	}
+}

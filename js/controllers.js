@@ -51,51 +51,60 @@ controller('main', ['$scope','data','$compile',function ($scope, data, $compile)
 	$scope.createNew.height="440px";
 
 	//available documents
-	$scope.documents = $scope.data.fn.storage.getDocumentNames();
-	$scope.documents.setDocumentName = function(name){
-		$scope.data.tree.root.name = name;
-	};
-	$scope.documents.saveAs = function(){
-		var checkName = function(name){
-			for (var i=0;i<$scope.documents.length;i++){
-				if (name==$scope.documents[i].name) return true;
-			}
-			return false;
-		};
-		var newName = $('#saveAsName').val();
-		$scope.data.tree.root.name = newName;
-		$scope.data.tree.root.id = 'document__' + $scope.data.fn.storage.sanitizeName(newName);
-		if(!checkName(newName)){
-			$scope.data.fn.storage.storeDocument($scope);
-			$scope.data.menus.menus.file.actions.save.disabled=false;
-			$scope.documents = $scope.data.fn.storage.getDocumentNames();
-		} else {
-			if(confirm($scope.data.lang[$scope.data.lang.act].doYouWantToOverwrite + ' "' + newName + '"?')){
-				$scope.data.fn.storage.storeDocument($scope);
-				$scope.data.menus.menus.file.actions.save.disabled=false;
+	$scope.documents = {
+		names: $scope.data.fn.storage.getDocumentNames(),
+		saveAsName:'New Document',
+		openName:null,
+		fn:{
+			setDocumentName:function(name){
+				$scope.data.tree.root.name = name;
+			},
+			saveAs:function(){
+				var
+					s = $scope,
+					d = s.data,
+					docs = s.documents.names
+				;
+				var checkName = function(name){
+					for (var i=0;i<docs.length;i++){
+						if (name==docs[i].name) return true;
+					}
+					return false;
+				};
+				var newName = s.documents.saveAsName;
+				d.tree.root.name = newName;
+				d.tree.root.id = 'document__' + d.fn.storage.sanitizeName(newName);
+				if(!checkName(newName)){
+					d.fn.storage.storeDocument($scope);
+					d.menus.menus.file.actions.save.disabled=false;
+					docs = d.fn.storage.getDocumentNames();
+				} else {
+					if(confirm(d.lang[d.lang.act].doYouWantToOverwrite + ' "' + newName + '"?')){
+						d.fn.storage.storeDocument($scope);
+						d.menus.menus.file.actions.save.disabled=false;
+					}
+				}
+				$('#saveDocumentAsModal').modal('hide');
+				s.documents.saveAsName = 'New Document';
+				s.documents.names = $scope.data.fn.storage.getDocumentNames();
+			},
+			open:function(){
+				var docId = $scope.documents.openName;
+				if (docId){
+					$scope.data.fn.documents.open($scope,docId,function(){
+						$('#openDocumentModal').modal('hide');
+						$scope.data.menus.menus.file.actions.save.disabled=false;
+						$scope.documents.openName = null;
+					});
+				}
 			}
 		}
-		$scope.saveDocumentAsForm.$setPristine();
-		$scope.saveDocumentAsForm.$setUntouched();
-		$('#saveDocumentAsModal').modal('hide');
 	};
-	$scope.documents.open=function(){
-		var docId = $scope.documents.documentToOpen;
-		if (docId){
-			$scope.data.fn.documents.open($scope,docId,function(){
-				$scope.openDocumentForm.$setPristine();
-				$scope.openDocumentForm.$setUntouched();
-				$('#openDocumentModal').modal('hide');
-				$scope.data.menus.menus.file.actions.save.disabled=false;
-				$scope.documents.documentToOpen = null;
-			});
-		}
-	};
-	$scope.documents.documentToOpen = null;
+	$scope.documents.openName = null;
 }]).
 controller('preview',['$scope','$routeParams','data',function ($scope, $routeParams, data) {
 	$scope.data = data;
 	$scope.goEdit = function(){
-		window.location.hash = '/main/'
+		window.location.hash = '/main/';
 	};
 }]);

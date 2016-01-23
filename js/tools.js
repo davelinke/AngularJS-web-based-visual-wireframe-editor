@@ -63,15 +63,21 @@ config.tools={
 			};
 		},
 		init:function($compile,scope){
-			scope.data.tools.drawBox.resetConfig(scope);
+			var
+				d = scope.data,
+				db = d.tools.drawBox
+			;
+			db.resetConfig(scope);
 			var
 				html = '<div id="drawBoxBox" ng-class="data.tools.drawBox.config.areaClass" ng-style="data.tools.drawBox.config.areaStyle"></div>',
 				elem = $compile(html)(scope),
-				sElem = $compile(scope.data.tools.drawBox.optionsTemplate)(scope)
+				sElem = $compile(db.optionsTemplate)(scope)
 			;
 			$('#canvas').append(elem);
-			scope.data.tools.drawBox.element = elem;
-			scope.data.tools.drawBox.optionsMenu = sElem;
+			db.element = elem;
+			db.optionsMenu = sElem;
+			d.flags.elementState = 'normal';
+			d.flags.screenState = 'base';
 		},
 		destroy:function(scope){
 			var da = scope.data.tools.drawBox;
@@ -103,29 +109,37 @@ config.tools={
 			if(lockedLayer===false){
 				args.scope.$apply(function(){
 					if(e.target==canvas[0]){
-						dac.areaStyle.left = e.offsetX + 'px';
-						dac.areaStyle.lPx = e.offsetX;
-						dac.areaStyle.top = e.offsetY + 'px';
-						dac.areaStyle.tPx = e.offsetY;
+
+						dac.areaStyle.left = s.mouse.offset.down.x + 'px';
+						dac.areaStyle.lPx = s.mouse.offset.down.x;
+						dac.areaStyle.top = s.mouse.offset.down.y + 'px';
+						dac.areaStyle.tPx = s.mouse.offset.down.y;
 						dac.initPos = {
-							lPx: e.offsetX,
-							tPx: e.offsetY
+							lPx: s.mouse.offset.down.x,
+							tPx: s.mouse.offset.down.y
 						};
 						dac.areaStyle.width = 0;
 						dac.areaStyle.wPx = 0;
 						dac.areaStyle.height = 0;
 						dac.areaStyle.hPx = 0;
+
 						s.tools.drawBox.isDrawing = true;
 					} else if (e.target.id=='workarea') {
-						var o = canvas.offset();
-						var x = e.pageX - o.left;
-						var y = e.pageY - o.top;
-						var dw = s.screen.wPx;
-						var dh = s.screen.hPx;
-						var xVal = (s.screen.overflow?x:(x>0?x:0));
-						xVal = Math.floor(xVal>dw?dw:xVal);
-						var yVal = (s.screen.overflow?y:(y>0?y:0));
-						yVal = Math.floor(yVal>dh?dh:yVal);
+						var
+							o = canvas.offset(),
+							x = s.mouse.down.x - o.left,
+							y = s.mouse.down.y - o.top,
+							dw = s.screen.wPx,
+							dh = s.screen.hPx,
+							xVal = (s.screen.overflow?x:(x>0?x:0)),
+							yVal = (s.screen.overflow?y:(y>0?y:0))
+						;
+						if (!s.screen.overflow){
+							xVal = Math.floor(xVal>dw?dw:xVal);
+							yVal = Math.floor(yVal>dh?dh:yVal);
+						}
+
+
 						dac.areaStyle.left = xVal + 'px';
 						dac.areaStyle.lPx = xVal;
 						dac.areaStyle.top = yVal + 'px';
@@ -138,6 +152,7 @@ config.tools={
 						dac.areaStyle.wPx = 0;
 						dac.areaStyle.height = 0;
 						dac.areaStyle.hPx = 0;
+
 						s.tools.drawBox.isDrawing = true;
 					} else if (e.target.id=='drawBoxBox') {
 						s.tools.drawBox.isMoving = true;
@@ -173,13 +188,12 @@ config.tools={
 							selectedLayer = (selectedLayer.type=='layer'?selectedLayer:args.scope.data.fn.tree.selectParentLayer(args.scope.data.tree.root.children));
 							args.scope.data.fn.tree.toggleSelected({child:selectedLayer, data:args.scope.data});
 						}
-						console.log(d);
 						var
 							//determine the position relative to the parent
-							plTop = selectedLayer.styles.normal.tPx,
-							plLeft = selectedLayer.styles.normal.lPx,
-							nlTop = d.config.areaStyle.tPx,
-							nlLeft = d.config.areaStyle.lPx,
+							//plTop = selectedLayer.styles.base.normal.tPx,
+							//plLeft = selectedLayer.styles.base.normal.lPx,
+							//nlTop = d.config.areaStyle.tPx,
+							//nlLeft = d.config.areaStyle.lPx,
 							nlOffset = s.fn.calculateOffset(s,selectedLayer,d.config.areaStyle)
 						;
 						selectedLayer.children.push({
@@ -191,21 +205,23 @@ config.tools={
 							typeNum:2,
 							children:[],
 							styles:{
-								'normal':$.extend({
-									position:'absolute',
-									left:nlOffset.left,
-									lPx:nlOffset.lPx,
-									top:nlOffset.top,
-									tPx:nlOffset.tPx,
-									width: d.config.areaStyle.width,
-									wPx:d.config.areaStyle.wPx,
-									height: d.config.areaStyle.height,
-									hPx:d.config.areaStyle.hPx,
-									overflow:'hidden',
-									'white-space':'pre-wrap',
-									opacity:1,
-									'mix-blend-mode':'normal'
-								},s.drawStyle)
+								base:{
+									'normal':$.extend({
+										position:'absolute',
+										left:nlOffset.left,
+										lPx:nlOffset.lPx,
+										top:nlOffset.top,
+										tPx:nlOffset.tPx,
+										width: d.config.areaStyle.width,
+										wPx:d.config.areaStyle.wPx,
+										height: d.config.areaStyle.height,
+										hPx:d.config.areaStyle.hPx,
+										overflow:'hidden',
+										'white-space':'pre-wrap',
+										opacity:1,
+										'mix-blend-mode':'normal'
+									},s.drawStyle)
+								}
 							}
 						});
 					}
@@ -230,25 +246,29 @@ config.tools={
 				lockedLayer = (scope.data.selection.active.typeNum==2?scope.data.fn.tree.selectParentLayer(scope.data.tree.root.children):scope.data.selection.active).locked
 			;
 			if (downFlag && lockedLayer===false){
+
 				var
 					canvas = $('#canvas'),
 					s = scope.data,
 					c = s.tools.drawBox.config,
 					o = canvas.offset(),
-					x = e.pageX - o.left,
-					y = e.pageY - o.top,
+					x = s.mouse.x - o.left,
+					y = s.mouse.y - o.top,
 					dw = s.screen.wPx,
 					dh = s.screen.hPx,
 					xVal = (s.screen.overflow?x:(x>0?x:0)),
-					yVal = (s.screen.overflow?y:(y>0?y:0))
+					yVal = (s.screen.overflow?y:(y>0?y:0)),
+					xDownPoint,
+					yDownPont
 				;
-				xVal = Math.floor(s.screen.overflow?xVal:(xVal>dw?dw:xVal));
-				yVal = Math.floor(s.screen.overflow?yVal:(yVal>dh?dh:yVal));
+
+				xVal = Math.floor(s.screen.overflow?xVal:(xVal>dw?dw:xVal)); // if no screen overflow and with bigger than screen, then screen height
+				yVal = Math.floor(s.screen.overflow?yVal:(yVal>dh?dh:yVal)); // if no screen overflow and height bigger than screen, then screen height
 				var
-					leftVal = ((c.areaStyle.lPx < xVal)?c.areaStyle.lPx:xVal),
-					topVal = ((c.areaStyle.tPx < yVal)?c.areaStyle.tPx:yVal),
-					widthVal = Math.floor((c.areaStyle.lPx < xVal)?(xVal-c.areaStyle.lPx):(c.initPos.lPx-xVal)),
-					heightVal = Math.floor((c.areaStyle.tPx < yVal)?(yVal-c.areaStyle.tPx):(c.initPos.tPx-yVal))
+					leftVal = ((c.initPos.lPx < xVal)?c.initPos.lPx:xVal),
+					topVal = ((c.initPos.tPx < yVal)?c.initPos.tPx:yVal),
+					widthVal = Math.floor((c.initPos.lPx < xVal)?(xVal-c.initPos.lPx):(c.initPos.lPx-xVal)),
+					heightVal = Math.floor((c.initPos.tPx < yVal)?(yVal-c.initPos.tPx):(c.initPos.tPx-yVal))
 				;
 				scope.$apply(function(){
 					c.areaStyle.lPx = leftVal;
@@ -260,6 +280,7 @@ config.tools={
 					c.areaStyle.hPx = heightVal;
 					c.areaStyle.height = heightVal + 'px';
 				});
+
 			}
 		}
 	},
@@ -279,32 +300,35 @@ config.tools={
 	    destroy:function(scope){
 			$('#canvas,#guides').show();
 	    },
-	    setUndo:function(args){
-
-	    },
+	    setUndo:function(args){},
 		down:function(args){
 			var
 				s = args.scope,
 				e = args.event,
 				c = args.compile,
-				t = s.data.tools.selection
+				t = s.data.tools.selection,
+				es = s.data.flags.elementState,
+				ss = s.data.flags.screenState,
+				gs = s.data.fn.modifiers.getStyle
 			;
 			t.element = s.data.fn.tree.searchElementById($(e.target).attr('ob-id'), s.data.tree.root.children);
-			t.initPos = {
-				lPx:e.offsetX,
-				tPx:e.offsetY
-			};
 			if (!t.element) {
 				var selectedLayer = s.data.fn.tree.selectParentLayer(s.data.tree.root.children);
 				s.data.fn.tree.toggleSelected({child:selectedLayer,data:s.data});
 			} else {
+				t.eInitPos = {
+					lPx:gs(t.element,ss,es,'lPx',true),
+					tPx:gs(t.element,ss,es,'tPx',true),
+					wPx:gs(t.element,ss,es,'wPx',true),
+					hPx:gs(t.element,ss,es,'hPx',true)
+				};
 				var lockedLayer = ((t.element.typeNum==2)&&(s.data.fn.tree.selectParentLayer(s.data.tree.root.children).locked)?true:false);
 				if ((t.element.locked === false)&&(lockedLayer===false)){
 					s.data.fn.tree.toggleSelected({child:t.element,data:s.data});
 					s.data.flags.resizeLeft = (e.offsetX<5)?true:false;
 					s.data.flags.resizeTop = (e.offsetY<5)?true:false;
-					s.data.flags.resizeRight = (e.offsetX>(t.element.styles.normal.wPx - 5))?true:false;
-					s.data.flags.resizeBottom = (e.offsetY>(t.element.styles.normal.hPx - 5))?true:false;
+					s.data.flags.resizeRight = (e.offsetX>(t.element.styles[ss][es].wPx - 5))?true:false;
+					s.data.flags.resizeBottom = (e.offsetY>(t.element.styles[ss][es].hPx - 5))?true:false;
 				}
 			}
 			s.$apply();
@@ -321,13 +345,10 @@ config.tools={
 	    },
 		touchend:function(){},
 	    mouseleave:function(args){
+			if(args.scope.data.tools.selection.element) args.scope.data.tools.selection.element.cursorClass = '';
 	    },
-	    finishSelect:function(args){
-
-	    },
-	    mouseenter:function(args){
-
-	    },
+	    finishSelect:function(args){},
+	    mouseenter:function(args){},
 		move:function(e,scope){
 			var
 				s = scope.data,
@@ -335,46 +356,46 @@ config.tools={
 				c = s.tools.selection.element,
 				cursorClass = '',
 				h={},
-				downFlag = (s.flags.mouseEvent=='mousedown'||s.flags.mouseEvent=='touchstart')?true:false
+				downFlag = (s.flags.mouseEvent=='mousedown'||s.flags.mouseEvent=='touchstart')?true:false,
+				t = s.tools.selection,
+				state = s.flags.elementState,
+				ss = s.flags.screenState,
+				gs = s.fn.modifiers.getStyle,
+				lockedLayer = (c?((c.typeNum==2)&&(s.fn.tree.selectParentLayer(s.tree.root.children).locked)?true:false):null)
 			;
 			// set adequate cursor
-			if (c && c.typeNum==2){
+			if (c && c.typeNum==2 && !downFlag){
 				if (e.offsetY<5) cursorClass +='n';
-				if (e.offsetY>(c.styles.normal.hPx - 5)) cursorClass +='s';
+				if (e.offsetY>(gs(c,ss,state,'hPx',true) - 5)) cursorClass +='s';
 				if (e.offsetX<5) cursorClass +='w';
-				if (e.offsetX>(c.styles.normal.wPx - 5)) cursorClass +='e';
+				if (e.offsetX>(gs(c,ss,state,'wPx',true) - 5)) cursorClass +='e';
 				c.cursorClass = cursorClass;
 			}
-			if (c && c.locked===false){
+			if (c && c.locked===false && lockedLayer===false){
 				//resize or move
 				if ((c.typeNum==2) && downFlag){
-					console.log(e);
 					var
-						leftPx = c.styles.normal.lPx,
-						topPx = c.styles.normal.tPx
+						leftPx = gs(c,ss,state,'lPx',true),
+						topPx = gs(c,ss,state,'tPx',true)
 					;
 					if(f.resizeLeft||f.resizeTop||f.resizeRight||f.resizeBottom){
 						if (f.resizeLeft){
-							var lVal = (!s.screen.overflow && e.originalEvent.movementX<0 && leftPx===0)?0:e.originalEvent.movementX;
-
-							s.fn.modifiers.modifyElementArea(scope,'left',lVal);
-							s.fn.modifiers.modifyElementArea(scope,'width',(lVal*-1));
+							s.fn.modifiers.setElementArea(scope,'left');
+							s.fn.modifiers.setElementArea(scope,'width',true);
 						}
 						if (f.resizeTop){
-							var tVal = (!s.screen.overflow && e.originalEvent.movementY<0 && topPx===0)?0:e.originalEvent.movementY;
-
-							s.fn.modifiers.modifyElementArea(scope,'top',tVal);
-							s.fn.modifiers.modifyElementArea(scope,'height',(tVal*-1));
+							s.fn.modifiers.setElementArea(scope,'top');
+							s.fn.modifiers.setElementArea(scope,'height',true);
 						}
 						if (f.resizeRight){
-							s.fn.modifiers.modifyElementArea(scope,'width',e.originalEvent.movementX);
+							s.fn.modifiers.setElementArea(scope,'width');
 						}
 						if (f.resizeBottom){
-							s.fn.modifiers.modifyElementArea(scope,'height',e.originalEvent.movementY);
+							s.fn.modifiers.setElementArea(scope,'height');
 						}
 					} else {
-						s.fn.modifiers.modifyElementArea(scope,'left',e.originalEvent.movementX);
-						s.fn.modifiers.modifyElementArea(scope,'top',e.originalEvent.movementY);
+						s.fn.modifiers.setElementArea(scope,'left');
+						s.fn.modifiers.setElementArea(scope,'top');
 					}
 				}
 			}
@@ -410,12 +431,14 @@ config.tools={
 				s = args.scope,
 				e = args.event,
 				c = args.compile,
-				t = s.data.tools.eyedropper
+				t = s.data.tools.eyedropper,
+				es = s.data.flags.elementState,
+				ss = s.data.flags.screenState
 			;
 			t.element = s.data.fn.tree.searchElementById($(e.target).attr('ob-id'), s.data.tree.root.children);
 
 			if (t.element.typeNum==2) {
-				var style = angular.extend({}, t.element.styles.normal);
+				var style = angular.extend({}, t.element.styles[ss][es]);
 				delete style.hPx;
 				delete style.height;
 				delete style.lPx;
@@ -427,7 +450,7 @@ config.tools={
 				delete style.width;
 				console.log(style);
 				if(s.data.selection.active.typeNum==2){
-					s.data.selection.active.styles[s.data.flags.elementState] = angular.extend({},s.data.selection.active.styles[s.data.flags.elementState],style);
+					s.data.selection.active.styles[ss][es] = angular.extend({},s.data.selection.active.styles[ss][es],style);
 				} else {
 					s.data.drawStyle['background-color'] = style['background-color'];
 					s.data.drawStyle['border-color'] = style['border-color'];

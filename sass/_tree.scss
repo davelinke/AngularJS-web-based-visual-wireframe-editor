@@ -1,0 +1,56 @@
+/*treecontrol*/
+
+.tree-list{
+	margin:0;
+	padding:0;
+	list-style-type:none;
+	font-size:1.1em;
+	display: flex;
+    flex-direction: column-reverse;
+	li{
+		div{
+			padding: 0.5rem 0 0.5rem 0.5rem;
+			display: flex;
+			&.selected{
+				background-color:#5E6575;
+			}
+			&.tree-item-drop-zone{
+				position: absolute;
+			    background-color: #000;
+			    width: 100%;
+			    height: 6px;
+			    top: -3px;
+			    opacity: 0;
+			    padding: 0;
+			    margin: 0;
+			    display: block;
+				z-index:1;
+				&.drag-over{
+					opacity:1;
+				}
+			}
+		}
+		&.minimized{
+			ul{
+				display:none;
+			}
+		}
+		&.locked, &.element-hidden{
+			ul{
+				opacity:0.5;
+			}
+		}
+		ul{
+			list-style-type:none;
+			padding-left: 0;
+			display: flex;
+			flex-direction: column-reverse;
+			> li > div{
+				background-color: #2e2e2e;
+				.toggle{
+					margin-left: 1.5em;
+				}
+			}
+		}
+	}
+}

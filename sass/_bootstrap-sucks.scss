@@ -1,0 +1,13 @@
+.container-fluid{
+	width: 100%;
+	padding-right:0.94em;
+	padding-left: 0.94em;
+}
+.row{
+	margin-right:0.94em;
+	margin-left:0.94em;
+}
+div[class^="col-"]{
+	padding-right:0.94em;
+	padding-left:0.94em;
+}

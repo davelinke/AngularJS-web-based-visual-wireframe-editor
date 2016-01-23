@@ -1,0 +1,26 @@
+checkbox{
+	display:inline-block;
+	cursor: pointer;
+	padding: 0 0.5em;
+    border-radius: 3px;
+	&.screen-overflow{
+		.fa{
+			margin-right:0.5em
+			;
+		}
+	}
+	&:hover{
+		background-color: rgba(0,0,0,0.4);
+	}
+	span{
+		display: inline-block;
+		.fa{
+			display: inline-block;
+			min-width: 1em;
+		}
+		label{
+			cursor: pointer;
+			margin: 0;
+		}
+	}
+}

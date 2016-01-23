@@ -16,19 +16,21 @@ var config = {
 			locked:false,
 			visible:true,
 			styles:{
-				'normal':{top:'0',
-					tPx:0,
-					left:'0',
-					lPx:0,
-					width:'0',
-					wPx:0,
-					height:'0',
-					hPx:0,
-					overflow:'visible',
-					'border-width':'0px',
-					bwPx:0,
-					opacity:1,
-					'mix-blend-mode':'normal'
+				'base':{
+					'normal':{top:'0',
+						tPx:0,
+						left:'0',
+						lPx:0,
+						width:'0',
+						wPx:0,
+						height:'0',
+						hPx:0,
+						overflow:'visible',
+						'border-width':'0px',
+						bwPx:0,
+						opacity:1,
+						'mix-blend-mode':'normal'
+					}
 				}
 			},
 			children : []
@@ -36,7 +38,9 @@ var config = {
 		type:'root',
 		typeNum:0,
 		styles:{
-			normal:{}
+			base:{
+				normal:{}
+			}
 		}
 	},
 	templates:{
@@ -47,7 +51,31 @@ var config = {
 	},
 	mouse:{
 		left:0,
-		top:0
+		top:0,
+		down:{
+			x:0,
+			y:0
+		},
+		up:{
+			x:0,
+			y:0
+		},
+		dragDelta:{
+			x:0,
+			y:0
+		},
+		offset:{
+			x:0,
+			y:0,
+			down:{
+				x:0,
+				y:0
+			},
+			up:{
+				x:0,
+				y:0
+			}
+		}
 	},
 	tree:{},
 	selection:{
@@ -178,7 +206,11 @@ var config = {
 			stretch:'stretch',
 			fitToBoundary:'fit to boundary',
 			contained:'contained within boundary',
-			preview:'preview'
+			preview:'preview',
+			paste:'paste',
+			duplicateLayer:'duplicate layer',
+			pasteInPlace:'paste in place',
+			toolbar:'toolbar'
 		}
 	},
 	drawStyle : {
@@ -203,12 +235,16 @@ var config = {
 			canSave:false
 		},
 		elementState:'normal',
+		screenState:'base',
 		activePanels:{
 			style:true,
 			layout:true,
 			text:true,
 			image:true
 		},
-		activePanel:1
-	}
+		activePanel:1,
+		dragType:null
+	},
+	clipboard:null,
+	uhaul:null
 };

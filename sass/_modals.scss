@@ -1,0 +1,21 @@
+
+/*save as*/
+.document-names{
+	border: 1px solid #ccc;
+    border-radius: 4px;
+    min-height: 200px;
+    overflow-y: auto;
+	button {
+		border: none;
+		display: block;
+		font-size: 1.2em;
+		text-align: left;
+		width: 100%;
+		padding: 0.5em;
+		background: transparent;
+		&:hover{
+			background:#7777FF;
+			color:#fff;
+		}
+	}
+}

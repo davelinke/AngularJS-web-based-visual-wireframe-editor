@@ -1,0 +1,120 @@
+#workarea{
+    flex-grow:1;
+    display:flex;
+    flex-flow: column nowrap;
+    justify-content:center;
+    align-content:center;
+    background-color: #424242;
+    overflow:auto;
+    #rulers{
+        align-self: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        #horizontalRuler {
+            height: 10px;
+            margin-left: 1em;
+            width:calc(100% - 10px);
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQffCh8PISzYbWUPAAAAHWlUWHRDb21tZW50AAAAAABDcmVhdGVkIHdpdGggR0lNUGQuZQcAAAAoSURBVDhPY9TV1f3PQEXABKWpBkYNpAyYmJgMkAtBNhMLBnukMDAAADRKAtKH9cyEAAAAAElFTkSuQmCC);
+            background-position:1px 0;
+            overflow:hidden;
+            #rulerHGuide{
+                height:10px;
+                background-color:rgba(255,255,255,0.5);
+                width:1px;
+            }
+        }
+        #verticalRuler{
+            width:10px;
+            height:calc(100% - 10px);
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAUCAYAAAC07qxWAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQffCh8PJQ3waLBVAAAAHWlUWHRDb21tZW50AAAAAABDcmVhdGVkIHdpdGggR0lNUGQuZQcAAAAySURBVDhPY9TV1f3PQARggtIEwahCvABvgJuYmEBZBBQig2EVPAOoEGuAI8cIBDAwAAB3twd1cMvEAQAAAABJRU5ErkJggg==);
+            background-position:0 1px;
+            overflow:hidden;
+            #rulerVGuide{
+                width:10px;
+                background-color:rgba(255,255,255,0.5);
+                height:1px;
+            }
+        }
+    }
+    #actions {
+        align-self: center;
+        border:1px solid #ccc;
+        background-color:rgba(0,0,0,0.1);
+        margin-top:1em;
+        padding: 0.5em;
+        text-align:center;
+        button{
+            margin-right:0.5em;
+            &:last-child{
+                margin-right:0;
+            }
+        }
+        display:none;
+    }
+    #screen{
+        align-self:center;
+        position:relative;
+        width:calc(100% - 10px);
+        height:calc(100% - 10px);
+        font-size:1.6rem;
+        color:#000;
+        div{
+            &.work-layer{
+                border:none;
+                position:absolute;
+                width:100%;
+                height:100%;
+                &.drawArea{
+                    cursor:crosshair;
+                }
+                .draw-area{
+                    background-image: linear-gradient(90deg, #000 50%, transparent 50%), linear-gradient(90deg, #000 50%, transparent 50%), linear-gradient(0deg, #000 50%, transparent 50%), linear-gradient(0deg, #000 50%, transparent 50%);
+                    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+                    background-size: 10px 1px, 10px 1px, 1px 10px, 1px 10px;
+                    background-position: left top, 10px bottom, left top, right 10px;
+                    animation: border-dance 1s infinite steps(2);
+
+                    visibility:visible;
+                    opacity:0.5;
+                    position:absolute;
+                    &:hover{
+                        cursor:move;
+                    }
+                }
+                &.drawBox{
+                    cursor:crosshair;
+                }
+                .draw-box{
+                    position:absolute;
+                }
+            }
+            .element{
+                //cursor: default;
+            }
+            .selected{
+                &::before{
+                    @include bg-slashes(#00f);
+                }
+                &.n, &.s{
+                    cursor: ns-resize;
+                }
+                &.e, &.w{
+                    cursor: ew-resize;
+                }
+                &.nw, &.se{
+                    cursor: nwse-resize;
+                }
+                &.ne, &.sw{
+                    cursor:nesw-resize;
+                }
+            }
+            [ob-type="element"]:hover::before{
+                    @include bg-slashes(#0f0);
+            }
+            [ob-type="element"]:active::before{
+                @include bg-slashes(#00f);
+            }
+        }
+    }
+}

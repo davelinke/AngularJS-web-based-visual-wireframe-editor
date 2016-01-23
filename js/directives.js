@@ -112,7 +112,19 @@ directive('trackMouseEvents', ['$compile', function ($compile) {
 						compile:$compile
 					}
 				;
-				if(e.type=='mousedown'||e.type=='touchstart') $(':focus').blur();
+				if(e.type=='mousedown'||e.type=='touchstart'){
+					$(':focus').blur();
+					scope.data.mouse.down.x = e.pageX;
+					scope.data.mouse.down.y = e.pageY;
+					scope.data.mouse.offset.down.x = e.offsetX;
+					scope.data.mouse.offset.down.y = e.offsetY;
+				}
+				if(e.type=='mouseup'||e.type=='touchend'){
+					scope.data.mouse.up.x = e.pageX;
+					scope.data.mouse.up.y = e.pageY;
+					scope.data.mouse.offset.up.x = e.offsetX;
+					scope.data.mouse.offset.up.y = e.offsetY;
+				}
 				scope.data.flags.mouseEvent = e.type;
 				if ((g == hRuler)||(g==hrG)){
 					tools.addGuide.horizontal[e.type](args);
@@ -137,10 +149,16 @@ directive('trackMousePosition', [function () {
 			t.on('mousemove touchmove', function (e) {
 				var so = $('#screen').offset();
 				scope.$apply(function () {
-					scope.data.mouse.y = e.pageX;
-					scope.data.mouse.x = e.pageY;
+					scope.data.mouse.x = e.pageX;
+					scope.data.mouse.y = e.pageY;
+					scope.data.mouse.offset.x = e.pageX;
+					scope.data.mouse.offset.y = e.pageY;
 					scope.data.screen.mouse.x = e.pageX - so.left;
 					scope.data.screen.mouse.y = e.pageY - so.top;
+					if(scope.data.flags.mouseEvent=='mousedown'){
+						scope.data.mouse.dragDelta.x = e.pageX - scope.data.mouse.down.x;
+						scope.data.mouse.dragDelta.y = e.pageY - scope.data.mouse.down.y;
+					}
 				});
 				scope.data.tools[scope.data.tool].mousemove(e, scope);
 			});
@@ -334,7 +352,7 @@ directive('colorPicker',['$compile',function($compile){
 		},
 		template:
 			'<div class="tr-sq" ng-show="$parent.data.selection.active.typeNum==1"><input type="text" class="swatch" style="background-color:{{$parent.data.drawStyle[which]}}" ng-model="$parent.data.drawStyle[which]" colorpicker="rgba"  colorpicker-position="value" colorpicker-position-value="-100,40" colorpicker-parent colorpicker-with-input="true" /></div>' +
-			'<div class="tr-sq" ng-show="$parent.data.selection.active.typeNum==2"><input type="text" class="swatch" style="background-color:{{$parent.data.selection.active.styles[$parent.data.flags.elementState][which]}}" ng-model="$parent.data.selection.active.styles[$parent.data.flags.elementState][which]" colorpicker="rgba"  colorpicker-position="value" colorpicker-position-value="-100,40" colorpicker-parent colorpicker-with-input="true" /></div>'
+			'<div class="tr-sq" ng-show="$parent.data.selection.active.typeNum==2"><input type="text" class="swatch" style="background-color:{{$parent.data.selection.active.styles[$parent.data.flags.screenState][$parent.data.flags.elementState][which]}}" ng-model="$parent.data.selection.active.styles[$parent.data.flags.screenState][$parent.data.flags.elementState][which]" colorpicker="rgba"  colorpicker-position="value" colorpicker-position-value="-100,40" colorpicker-parent colorpicker-with-input="true" /></div>'
 	};
 }]).
 directive('drawstyleSelectionModifier', ['$compile',function ($compile) {
@@ -346,7 +364,7 @@ directive('drawstyleSelectionModifier', ['$compile',function ($compile) {
 		},
 		template:
 			'<input ng-show="$parent.data.selection.active.typeNum==1" type="{{::inputType}}" class="{{::inputClass}}" which="{{::which}}" ng-model="$parent.data.drawStyle[which]" x-key-increment />' +
-			'<input ng-show="$parent.data.selection.active.typeNum==2" type="{{::inputType}}" class="{{::inputClass}}" which="{{::which}}" ng-model="$parent.data.selection.active.styles[$parent.data.flags.elementState][which]" x-key-increment />'
+			'<input ng-show="$parent.data.selection.active.typeNum==2" type="{{::inputType}}" class="{{::inputClass}}" which="{{::which}}" ng-model="$parent.data.selection.active.styles[$parent.data.flags.screenState][$parent.data.flags.elementState][which]" x-key-increment />'
 	};
 }]).
 directive('listenKeystrokes',['$compile',function($compile){
@@ -358,8 +376,10 @@ directive('listenKeystrokes',['$compile',function($compile){
                 s:$scope,
                 c:$compile
             });
-			//safe apply
-			if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') $scope.$apply();
+			try{
+				//safe apply
+				if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') $scope.$apply();
+			} catch(err){}
         });
     };
 }]).
@@ -375,7 +395,7 @@ directive('flyoutMenu',[function(){
 		'	<div ng-repeat="(menuName,menu) in menus.menus" id="{{::menuName}}Menu" class="flyout-menu">'+
 		'		<button id="{{::menuName}}MenuButton" type="button" ng-class="::menu.iconClass" ng-click="menus.activeMenu = {true:null,false:menuName}[menus.activeMenu==menuName]" ng-mouseover="menus.activeMenu = {true:null,false:menuName}[menus.activeMenu==null]">{{::menu.label}}</button>'+
 		'		<div class="flyout" ng-show="(menus.activeMenu==menuName)">'+
-		'			<div ng-repeat="action in menu.actions"><button ng-if="!action.separator" ng-click="action.fn($parent);menus.activeMenu=null" ng-disabled="action.disabled">{{::action.label}}</button><hr ng-if="action.separator"/></div>'+
+		'			<div ng-repeat="action in menu.actions"><button ng-if="!action.separator" ng-click="action.fn($parent);menus.activeMenu=null" ng-disabled="action.disabled">{{::action.label}} <i ng-if="action.hasCheck" class="fa fa-check pull-right"></i></button><hr ng-if="action.separator"/></div>'+
 		'		</div>'+
 		'	</div>'+
 		'</div>'
@@ -395,13 +415,17 @@ directive('inlineStyles', [function () {
 					if (typeof(element.styles)!='undefined'){
 						var styles = element.styles;
 						var id = '#screen_'+element.id;
-						for (var state in styles){
-							if (state!='normal'){
-								scope.styleString += id+(state=='normal'?'':(typeof(scope.preview)!='undefined'?state:state.replace(':','.colon__')))+'{';
-								for (var property in styles[state]){
-									scope.styleString += property +':'+styles[state][property]+' !important;';
+						for (var ss in styles){
+							for (var state in styles[ss]){
+								if (state!='normal'){
+									var pre = (ss=='base'?'':'.'+ss+' ');
+									//scope.styleString += id+(state=='normal'?'':(typeof(scope.preview)!='undefined'?state:state.replace(':','.colon__')))+'{';
+									scope.styleString += pre+id+(typeof(scope.preview)!='undefined'?state:state.replace(':','.colon__'))+'{';
+									for (var property in styles[ss][state]){
+										scope.styleString += property +':'+styles[ss][state][property]+' !important;';
+									}
+									scope.styleString += '}';
 								}
-								scope.styleString += '}';
 							}
 						}
 					}
@@ -427,7 +451,6 @@ directive('uploadToModel', [function () {
 		},link:function(scope,t,attrs){
 			//image upload routine
 			var fileInput = t[0];
-			console.log(fileInput);
 			fileInput.addEventListener('change', function(e) {
 				var file = fileInput.files[0];
 				var imageType = /image.*/;
@@ -453,5 +476,38 @@ directive('cursorClass',function(){
 			model:'=ngModel'
 		},
 		template:'div.element{cursor:{{model}} !important;}'
+	};
+}).
+directive('ngDragstart',function(){
+	return{
+		scope:{
+			dragStart:'=ngDragstart',
+			dataElement:'=ngModel'
+		},
+		link:function(scope,t,attrs){
+			t.on('dragstart',function(e){
+				scope.dragStart(e,scope,t,attrs);
+			});
+		}
+	};
+}).
+directive('ngDrop',function(){
+	return {
+		scope:{
+			dropFunc:'=ngDrop',
+			dragOverFunc:'=ngDragover',
+			dragLeaveFunc:'=ngDragleave',
+			parentElement:'=ngParentElement',
+			child:'=ngChildElement'
+		},
+		link:function(scope,t,attrs){
+			t.on('drop',function(e){
+				scope.dropFunc(e,scope,t,attrs);
+			}).on('dragover',function(e){
+				scope.dragOverFunc(e,scope,t,attrs);
+			}).on('dragleave',function(e){
+				scope.dragLeaveFunc(e,scope,t,attrs);
+			});
+		}
 	};
 });

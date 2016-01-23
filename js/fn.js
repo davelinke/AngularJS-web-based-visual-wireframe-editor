@@ -26,8 +26,8 @@ config.fn = {
 		walk(s.tree.root.children, 0);
 		var ol = 0, ot = 0;
 		for (i=0;i<oa.length;i++){
-	        ol += oa[i].styles.normal.lPx + oa[i].styles.normal.bwPx;
-	        ot += oa[i].styles.normal.tPx + oa[i].styles.normal.bwPx;
+	        ol += oa[i].styles[s.flags.screenState][s.flags.elementState].lPx + oa[i].styles[s.flags.screenState][s.flags.elementState].bwPx;
+	        ot += oa[i].styles[s.flags.screenState][s.flags.elementState].tPx + oa[i].styles[s.flags.screenState][s.flags.elementState].bwPx;
 		}
 	    var
 	        nll = nl.lPx,
@@ -50,7 +50,7 @@ config.fn = {
 		if (s.$parent.$parent===null){
 			return s;
 		} else {
-			 return findControllerScope(s.$parent);
+			 return config.fn.findControllerScope(s.$parent);
 		}
 	},
 	modifiers:{
@@ -59,39 +59,128 @@ config.fn = {
 				scope.data.fn.modifiers.modifyElementArea(scope,attribute,value);
 			}
 		},
-		modifyElementArea:function(scope,attribute,value){
-			//console.log(scope,attribute,value);
+		setElementArea:function(scope,attribute,abs){
+			if (typeof(abs)=='undefined') abs = false;
 			var
 				canvasOverflow = scope.data.screen.overflow,
-				nuVal = scope.data.fn.modifiers.cssIncrement(scope.data.selection.active.styles.normal[attribute],value)
+				es = scope.data.flags.elementState,
+				ss = scope.data.flags.screenState,
+				sel = scope.data.tools.selection,
+				element = sel.element,
+				eInitPos = sel.eInitPos,
+				nuVal,
+				pxAttr,
+				delta,
+				maxDelta
+			;
+
+
+			switch (attribute) {
+				case 'top':
+					delta = (abs===true?scope.data.mouse.dragDelta.y*-1:scope.data.mouse.dragDelta.y);
+					nuVal = (eInitPos.tPx + delta);
+					pxAttr = 'tPx';
+					if(!canvasOverflow){
+						var maxTop = scope.data.screen.hPx-element.styles[ss][es].hPx;
+						if(nuVal < 0) nuVal = 0;
+						if(nuVal > maxTop) nuVal = maxTop;
+					}
+					break;
+				case 'left':
+					delta = (abs===true?scope.data.mouse.dragDelta.x*-1:scope.data.mouse.dragDelta.x);
+					nuVal = (eInitPos.lPx + delta);
+					pxAttr = 'lPx';
+					if(!canvasOverflow){
+						var maxLeft = scope.data.screen.wPx - element.styles[ss][es].wPx;
+						if(nuVal < 0)  nuVal = 0;
+						if(nuVal > maxLeft) nuVal = maxLeft;
+					}
+					break;
+				case 'height':
+					delta = scope.data.mouse.dragDelta.y;
+					if (abs) {
+						minDelta = eInitPos.tPx;
+						delta = delta*-1;
+					}
+					pxAttr = 'hPx';
+					nuVal = (eInitPos.hPx + delta);
+					if(!canvasOverflow){
+						var tVal = element.styles[ss][es].tPx;
+						if (abs===true && delta>minDelta) {
+							nuVal = element.styles[ss][es].hPx;
+						} else {
+							var maxheight = scope.data.screen.hPx - tVal;
+							if(nuVal > maxheight) nuVal = maxheight;
+						}
+					}
+					break;
+				case 'width':
+					delta = scope.data.mouse.dragDelta.x;
+					if (abs) {
+						minDelta = eInitPos.lPx;
+						delta = delta*-1;
+					}
+					pxAttr = 'wPx';
+					nuVal = (eInitPos.wPx + delta);
+					if(!canvasOverflow){
+						var lVal = element.styles[ss][es].lPx;
+						if (abs===true && delta>minDelta){
+							nuVal = element.styles[ss][es].wPx;
+						} else {
+							var maxwidth = scope.data.screen.wPx-lVal;
+							if(nuVal > maxwidth) nuVal = maxwidth;
+						}
+					}
+					break;
+				default:
+			}
+			element.styles[ss][es][pxAttr] = nuVal;
+			element.styles[ss][es][attribute] = nuVal + 'px';
+
+			if (scope.$root.$$phase != '$apply' && scope.$root.$$phase != '$digest') scope.$apply();
+		},
+		modifyElementArea:function(scope,attribute,value,element){
+			//console.log(scope,attribute,value);
+			if (typeof(element)=='undefined') element = scope.data.selection.active;
+			var
+				canvasOverflow = scope.data.screen.overflow,
+				es = scope.data.flags.elementState,
+				ss = scope.data.flags.screenState,
+				nuVal = scope.data.fn.modifiers.cssIncrement(element.styles[ss][es][attribute],value)
 			;
 			if(!canvasOverflow){
 				switch (attribute) {
 					case 'top':
-						var maxTop = scope.data.screen.hPx-scope.data.selection.active.styles.normal.hPx;
+						var maxTop = scope.data.screen.hPx-element.styles[ss][es].hPx;
 						if(nuVal.unitLess < 0) nuVal = {val:'0px',unitLess:0};
 						if(nuVal.unitLess > maxTop) nuVal = {val:maxTop+'px',unitLess:maxTop};
 						break;
 					case 'left':
-						var maxLeft = scope.data.screen.wPx-scope.data.selection.active.styles.normal.wPx;
+						var maxLeft = scope.data.screen.wPx-element.styles[ss][es].wPx;
 						if(nuVal.unitLess < 0)  nuVal = {val:'0px',unitLess:0};
 						if(nuVal.unitLess > maxLeft) nuVal = {val:maxLeft+'px',unitLess:maxLeft};
 						break;
 					case 'height':
-						var maxheight = scope.data.screen.hPx-scope.data.selection.active.styles.normal.tPx;
+						var maxheight = scope.data.screen.hPx-element.styles[ss][es].tPx;
 						if(nuVal.unitLess > maxheight) nuVal = {val:maxheight+'px',unitLess:maxheight};
 						break;
 					case 'width':
-						var maxwidth = scope.data.screen.wPx-scope.data.selection.active.styles.normal.lPx;
+						var maxwidth = scope.data.screen.wPx-element.styles[ss][es].lPx;
 						if(nuVal.unitLess > maxwidth) nuVal = {val:maxwidth+'px',unitLess:maxwidth};
 						break;
 					default:
 						//nazzin
 				}
 			}
-			scope.data.selection.active.styles.normal[attribute] = nuVal.val;
-			if (typeof(scope.data.selection.active.styles.normal[attribute.substr(0,1)+'Px'])!='undefined') scope.data.selection.active.styles.normal[attribute.substr(0,1)+'Px'] = nuVal.unitLess;
-			scope.$apply();
+			element.styles[ss][es][attribute] = nuVal.val;
+			if (typeof(element.styles[ss][es][attribute.substr(0,1)+'Px'])!='undefined') element.styles[ss][es][attribute.substr(0,1)+'Px'] = nuVal.unitLess;
+			if (scope.$root.$$phase != '$apply' && scope.$root.$$phase != '$digest') scope.$apply();
+		},
+		movementDelta:function(initVal,currentVal){
+			return {
+				xPx: (initVal.lPx - currentVal.lPx),
+				yPx: (initVal.tPx -currentVal.tPx)
+			};
 		},
 		cssIncrement:function(val,add){
 			if (!val) val='0px';
@@ -103,20 +192,21 @@ config.fn = {
 				unitLess:nuVal
 			};
 		},
-		setStyle:function(element,state,style,value){
-			if (typeof(element[state])=='undefined'){
-				element.styles[state]={};
+		setStyle:function(element,ss,state,style,value){
+			if (typeof(element[ss][state])=='undefined'){
+				element.styles[ss][state]={};
 			}
-			element.styles[state][style] = value;
+			element.styles[ss][state][style] = value;
 		},
-		getStyle:function(element,state,style,value){
-			if (typeof(element.styles[state])=='undefined'){
-				element.styles[state]={};
+		getStyle:function(element,ss,state,style,cloneNormal){
+			if (typeof(cloneNormal)=='undefined') cloneNormal = false;
+			if (typeof(element.styles[ss][state])=='undefined'){
+				element.styles[ss][state]={};
 			}
-			if (typeof(element.styles[state][style])=='undefined'){
-				element.styles[state][style]='';
+			if (typeof(element.styles[ss][state][style])=='undefined'){
+				element.styles[ss][state][style]=(cloneNormal?element.styles.base.normal[style]:'');
 			}
-			return element.styles[state][style];
+			return element.styles[ss][state][style];
 		}
 	},
     fireModal:function(scope,$compile){
@@ -147,14 +237,90 @@ config.fn = {
         ts[scope.data.tool].init($compile, scope);
         ts[scope.data.tool].isActive = true;
         //$('#canvas').addClass(scope.data.tool);
-		//safe apply
-		if (scope.$root.$$phase != '$apply' && scope.$root.$$phase != '$digest') scope.$apply();
+		try{
+			//safe apply
+			if (scope.$root.$$phase != '$apply' && scope.$root.$$phase != '$digest') scope.$apply();
+		} catch(err){}
     },
 	varHider:function(value){
 		console.log(value);
 		value = false;
 	},
 	tree:{
+		dragLeave:function(e,scope,t,attrs){
+			e.preventDefault();
+			t.removeClass('drag-over');
+		},
+		dragOver:function(e,scope,t,attrs){
+			e.preventDefault();
+			t.addClass('drag-over');
+		},
+		dropLayer:function(e,scope,t,attrs){
+			var cs = config.fn.findControllerScope(scope);
+			var pa = cs.data.tree.root;
+			var lPos =  pa.children.indexOf(scope.child);
+			var insertion = $.extend(true,{},cs.data.uhaul);
+			pa.children.splice(pa.children.indexOf(cs.data.uhaul),1);
+			pa.children.splice(lPos, 0, insertion);
+
+			cs.data.flags.dragType = null;
+			//safe apply
+			if (scope.$root.$$phase != '$apply' && scope.$root.$$phase != '$digest') scope.$apply();
+		},
+		drop:function(e,scope,t,attrs){
+			var cs = config.fn.findControllerScope(scope);
+			var pa = cs.data.fn.tree.selectParentLayer(cs.data.tree.root.children, scope.child);
+			var paPos = pa.children.indexOf(scope.child);
+			var insertion = $.extend(true,{},cs.data.uhaul);
+			var spa = cs.data.fn.tree.selectParentLayer(cs.data.tree.root.children, cs.data.uhaul);
+			spa.children.splice(spa.children.indexOf(cs.data.uhaul),1);
+			pa.children.splice(paPos, 0, insertion);
+			cs.data.flags.dragType = null;
+			//safe apply
+			if (scope.$root.$$phase != '$apply' && scope.$root.$$phase != '$digest') scope.$apply();
+		},
+		startDrag:function(e,scope,t,attrs){
+			var cs = config.fn.findControllerScope(scope);
+			cs.data.flags.dragType = scope.dataElement.typeNum;
+			cs.data.uhaul = scope.dataElement;
+			cs.data.fn.tree.toggleSelected({
+				child:scope.dataElement,
+				data:cs.data
+			});
+			//safe apply
+			if (scope.$root.$$phase != '$apply' && scope.$root.$$phase != '$digest') scope.$apply();
+		},
+		duplicateActive: function(data){
+			var
+				child = data.selection.active,
+				pastingLayer = ((child.typeNum==2)?data.fn.tree.selectParentLayer(data.tree.root.children):data.tree.root)
+			;
+			if (child){
+				childCopy = $.extend(true,{},child);
+				var fixCopy = function(zeCopy){
+					var copyName = function(id){
+						var copyArr = id.split('_copy_');
+						copyNumber = parseInt(copyArr[copyArr.length-1]);
+						copyNumber = (isNaN(copyNumber)?1:copyNumber+1);
+						return copyArr[0] + '_copy_' + copyNumber;
+					};
+					zeCopy.id = copyName(zeCopy.id);
+					zeCopy.selected = false;
+					if(zeCopy.children.length > 0){
+						for (var i=0;i<zeCopy.children.length;i++){
+							fixCopy(zeCopy.children[i]);
+						}
+					}
+				};
+				fixCopy(childCopy);
+
+				pastingLayer.children.push(childCopy);
+				config.fn.tree.toggleSelected({
+					child:pastingLayer.children[pastingLayer.children.length-1],
+					data:data
+				});
+			}
+		},
 		reset : function(data){
 			data.tree.root = angular.merge({},data.baseObject);
 		},
@@ -218,20 +384,22 @@ config.fn = {
 				locked:false,
 				visible:true,
 				styles:{
-					normal:{
-						top:'0',
-						tPx:0,
-						left:'0',
-						lPx:0,
-						width:'0',
-						wPx:0,
-						height:'0',
-						hPx:0,
-						overflow:'visible',
-						'border-width':'0px',
-						bwPx:0,
-						opacity:1,
-						'mix-blend-mode':'normal'
+					base:{
+						normal:{
+							top:'0',
+							tPx:0,
+							left:'0',
+							lPx:0,
+							width:'0',
+							wPx:0,
+							height:'0',
+							hPx:0,
+							overflow:'visible',
+							'border-width':'0px',
+							bwPx:0,
+							opacity:1,
+							'mix-blend-mode':'normal'
+						}
 					}
 				},
 				type:(child.type=='root'?'layer':'element'),
@@ -239,7 +407,7 @@ config.fn = {
 			});
 			data.fn.tree.toggleSelected({child:child.children[child.children.length-1],data:data});
 		},
-		selectParentLayer:function(where){
+		selectParentLayer:function(where, element){
 			var
 				couldBe = null,
 				checkSelected = function(so){
@@ -249,12 +417,13 @@ config.fn = {
 							//console.log(io);
 							couldBe = io;
 						}
-						if (io.selected===true){
-							return couldBe;
+						if (typeof(element)=='undefined'){
+							if (io.selected===true) return couldBe;
 						} else {
-							if (io.children.length > 0) {
-								if (checkSelected(io.children))  return couldBe;
-							}
+							if (io===element) return couldBe;
+						}
+						if (io.children.length > 0) {
+							if (checkSelected(io.children))  return couldBe;
 						}
 					}
 					return false;
@@ -402,7 +571,6 @@ config.fn = {
 		},
 		checkName:function(name){
 			var documents = config.fn.storage.getDocuments();
-			console.log(documents);
 			for (var i = 0; i< documents.length;i++){
 				if(documents[i].tree.root.name==name) return true;
 			}
@@ -424,11 +592,9 @@ config.fn = {
 			config.fn.storage.store('document',obJson, config.fn.storage.sanitizeName(docName));
 		},
 		retrieveDocument:function(id){
-			console.log(id);
 			return localStorage[id];
 		},
 		getDocumentObjectById:function(id){
-			console.log(id);
 			return angular.fromJson(config.fn.storage.retrieveDocument('pinocchio_'+id));
 		},
 		store:function(type,data,name){
@@ -437,9 +603,8 @@ config.fn = {
 	},
 	documents:{
 		open:function($scope,docId,callback){
-			console.log(docId);
 			if (docId){
-				var documentData = $scope.data.fn.storage.getDocumentObjectById($scope.documents.documentToOpen);
+				var documentData = $scope.data.fn.storage.getDocumentObjectById(docId);
 				$scope.data.fn.tree.reset($scope.data);
 				$scope.data.flags.storage.canOverwrite = true;
 
